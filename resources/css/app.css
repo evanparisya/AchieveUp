@@ -1,0 +1,30 @@
+@import "tailwindcss";
+@source "../views";
+
+@keyframes ripple-animation {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.6);
+    animation: ripple-animation 0.6s linear;
+}
+
+.button-primary {
+    @apply relative px-6 py-3 bg-[#03045E] text-white font-semibold rounded-lg transform transition-all duration-300 ease-in-out hover:bg-[#023E8A] hover:translate-y-1 hover:shadow-lg;
+    overflow: hidden; 
+}
+
+.button-secondary {
+    @apply relative px-6 py-3 bg-[#FB8500] text-white font-semibold rounded-lg transform transition-all duration-300 ease-in-out hover:bg-[#C86A00] hover:translate-y-1 hover:shadow-lg;
+    overflow: hidden;
+}
