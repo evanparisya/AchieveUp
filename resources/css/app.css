@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @source "../views";
 
+@theme {
+    --font-primary: "Poppins", sans-serif;
+  }
+
 @keyframes ripple-animation {
     0% {
         transform: scale(0);
@@ -20,11 +24,29 @@
 }
 
 .button-primary {
-    @apply relative px-6 py-3 bg-[#03045E] text-white font-semibold rounded-lg transform transition-all duration-300 ease-in-out hover:bg-[#023E8A] hover:translate-y-1 hover:shadow-lg;
+    @apply w-full relative px-6 py-3 bg-[#6041CE] text-white font-semibold rounded-lg transform transition-all duration-300 ease-in-out hover:bg-[#023E8A] hover:translate-y-1 hover:shadow-lg;
     overflow: hidden; 
 }
 
 .button-secondary {
-    @apply relative px-6 py-3 bg-[#FB8500] text-white font-semibold rounded-lg transform transition-all duration-300 ease-in-out hover:bg-[#C86A00] hover:translate-y-1 hover:shadow-lg;
+    @apply w-full relative px-6 py-3 bg-[#FB8500] text-white font-semibold rounded-lg transform transition-all duration-300 ease-in-out hover:bg-[#C86A00] hover:translate-y-1 hover:shadow-lg;
     overflow: hidden;
+}
+
+.input {
+    @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6041CE] focus:outline-none bg-white/70;
+}
+
+.sidebar-menu-button {
+    @apply flex items-center py-4 px-4 rounded rounded-2xl hover:bg-[#DFD9F5] text-sm text-gray-800;
+}
+
+.sidebar-menu-button.sidebar-active:hover {
+    @apply bg-none; 
+    cursor: default; 
+    @apply bg-[#6041CE] text-white font-semibold;
+}
+
+.sidebar-active {
+    @apply bg-[#6041CE] text-white font-semibold;
 }

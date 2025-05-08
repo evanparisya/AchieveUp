@@ -8,15 +8,18 @@
     @vite('resources/css/app.css')
 
 </head>
-<body class="bg-landing flex justify-center items-center h-screen bg-gray-100">
-    <button class="button-primary">
-        Klik Saya
-    </button>
+<body class="bg-gray-100 text-gray-800">
+    <div class="flex min-h-screen">
+        @include('layouts.sidebar')
 
-    <button class="button-secondary">
-        Klik Saya
-    </button>
+        <div class="flex-1 flex flex-col">
+            @include('layouts.header')
 
+            <main class="p-8">
+                @yield('content')
+            </main>
+        </div>
+    </div>
     @vite('resources/js/app.js')
 </body>
 </html>

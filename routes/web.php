@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,10 +16,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('login', [AuthController::class, 'login'])->name('login');
 
-Route::get('/test', function () {
-    return view('test');
-});
+Route::get('/', [WelcomeController::class, 'index']);
+
+Route::get('/users', [UserController::class, 'index']);
