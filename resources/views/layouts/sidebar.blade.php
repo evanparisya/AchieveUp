@@ -1,10 +1,11 @@
-<aside class="w-64 bg-white h-screen">
+<aside class="w-64 bg-white h-screen border-r border-gray-200 flex flex-col">
+    {{-- Logo --}}
     <div class="p-4">
         <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10 w-auto">
     </div>
 
     <nav class="mt-4">
-        {{-- Menu Utama --}}
+    {{-- Menu Utama --}}
     <div class="px-4 text-xs font-semibold text-gray-500 uppercase mb-2">Menu Utama</div>
     <ul class="space-y-1 px-4">
         <li class="nav-item">
