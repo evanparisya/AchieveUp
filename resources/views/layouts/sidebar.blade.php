@@ -1,4 +1,4 @@
-<aside class="w-64 bg-white shadow-md h-screen">
+<aside class="w-64 bg-white h-screen">
     <div class="p-4">
         <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10 w-auto">
     </div>

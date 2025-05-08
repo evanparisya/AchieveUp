@@ -8,7 +8,7 @@
     @vite('resources/css/app.css')
 
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-[#EFECFB] text-gray-800">
     <div class="flex min-h-screen">
         @include('layouts.sidebar')
 
@@ -16,6 +16,7 @@
             @include('layouts.header')
 
             <main class="p-8">
+                @include('layouts.breadcrumb') 
                 @yield('content')
             </main>
         </div>
