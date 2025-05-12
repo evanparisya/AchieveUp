@@ -3,6 +3,14 @@
 
 @theme {
     --font-primary: "Poppins", sans-serif;
+
+    --color-primary: #6041CE;
+    --color-secondary: #FB8500;
+    --color-ternary: #03045E;
+
+    --color-dark-text: #333333;
+    --color-primary-text: #6041CE;
+    --color-secondary-text: #FB8500;
   }
 
 @keyframes ripple-animation {
@@ -24,12 +32,12 @@
 }
 
 .button-primary {
-    @apply w-full relative px-6 py-3 bg-[#6041CE] text-white font-semibold rounded-lg transform transition-all duration-300 ease-in-out hover:bg-[#023E8A] hover:translate-y-1 hover:shadow-lg;
-    overflow: hidden; 
+    @apply relative px-[16px] py-2 h-[40px] text-sm bg-primary text-white font-semibold rounded-[8px] transform transition-all duration-300 ease-in-out hover:bg-[#4B30AA] hover:scale-105 hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer sm:px-[24px] sm:py-3 sm:h-[48px] sm:text-base sm:rounded-[12px];
+    overflow: hidden;
 }
 
 .button-secondary {
-    @apply w-full relative px-6 py-3 bg-[#FB8500] text-white font-semibold rounded-lg transform transition-all duration-300 ease-in-out hover:bg-[#C86A00] hover:translate-y-1 hover:shadow-lg;
+    @apply relative px-[16px] py-2 h-[40px] text-sm bg-secondary text-white font-semibold rounded-[8px] transform transition-all duration-300 ease-in-out hover:bg-[#C86A00] hover:scale-105 hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer sm:px-[24px] sm:py-3 sm:h-[48px] sm:text-base sm:rounded-[12px];
     overflow: hidden;
 }
 

@@ -33,7 +33,7 @@
             </div>
 
             <button type="submit"
-                class="button-primary">
+                class="button-primary w-full">
                 Login
             </button>
         </form>

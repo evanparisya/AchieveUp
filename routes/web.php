@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('login', [AuthController::class, 'login'])->name('login');
 
-Route::get('/', [WelcomeController::class, 'index']);
+Route::get('/', [LandingController::class, 'index']);
+Route::get('/welcome', [WelcomeController::class, 'index']);
 
 Route::get('/users', [UserController::class, 'index']);
