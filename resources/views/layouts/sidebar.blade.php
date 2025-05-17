@@ -9,7 +9,7 @@
     <div class="px-4 text-xs font-semibold text-gray-500 uppercase mb-2">Menu Utama</div>
     <ul class="space-y-1 px-4">
         <li class="nav-item">
-            <a href="{{ url('/') }}"
+            <a href="{{ url('/dashboard') }}"
                 class="sidebar-menu-button {{ $activeMenu == 'dashboard' ? 'sidebar-active' : '' }}">
                 <x-heroicon-o-home class="w-5 h-5 mr-2 {{ $activeMenu == 'dashboard' ? 'text-white' : 'text-gray-400' }}" />
                 Dashboard
