@@ -58,3 +58,42 @@
 .sidebar-active {
     @apply bg-[#6041CE] text-white font-semibold;
 }
+
+
+/* TABLE */
+table.dataTable thead th {
+  @apply px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50;
+}
+
+/* Styling row */
+table.dataTable tbody tr {
+  @apply bg-white divide-y divide-gray-200;
+}
+
+table.dataTable tbody td {
+  @apply px-6 py-4 whitespace-nowrap text-sm text-gray-900;
+}
+
+/* Hover effect */
+table.dataTable tbody tr:hover {
+  @apply bg-gray-100;
+}
+
+/* Pagination and info */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  @apply px-3 py-1 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200 cursor-pointer;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+  @apply bg-blue-600 text-white border-blue-600;
+}
+
+.dataTables_length label, 
+.dataTables_filter label {
+  @apply flex items-center space-x-2 text-gray-700 font-semibold text-sm;
+}
+
+.dataTables_length select,
+.dataTables_filter input {
+  @apply border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500;
+}
