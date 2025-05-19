@@ -12,7 +12,7 @@
     <div class="flex items-center justify-center relative">
         <div class="absolute w-[400px] h-[400px] bg-[#FEFEFE] rounded-full blur-3xl opacity-30 -z-10 top-1 left-2"></div>
 
-        <form method="POST" action=""
+        <form method="POST" action="{{url('/login')}}"
             class="w-3/4 max-w-md bg-white/30 backdrop-blur-md border border-white/20 rounded-2xl p-8">
             @csrf
             <div class="flex justify-center mb-4">

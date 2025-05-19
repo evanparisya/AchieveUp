@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\UserController;
+use App\Models\Mahasiswa;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('login', [AuthController::class, 'login'])->name('login');
+Route::post('login', [AuthController::class, 'postLogin']);
+Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/', [LandingController::class, 'index']);
 
@@ -31,3 +34,19 @@ Route::group(['prefix' => 'users'], function () {
     Route::get('/create', [UserController::class, 'create']);
     Route::post('/store', [UserController::class, 'store']);
 });
+
+// Route::middleware(['mahasiswa'])->group(function () {
+//     Route::get('/mahasiswa/dashboard', [MahasiswaController::class, 'dashboard']);
+// });
+
+// Route::middleware(['dosen'])->group(function () {
+//     Route::get('/dosen/dashboard', [DosenController::class, 'dashboard']);
+// });
+
+// Route::middleware(['admin.dosen'])->group(function () {
+//     Route::get('/admin/panel', [AdminController::class, 'index']);
+// });
+
+// Route::middleware(['pembimbing.dosen'])->group(function () {
+//     Route::get('/bimbingan', [PembimbingController::class, 'index']);
+// });
