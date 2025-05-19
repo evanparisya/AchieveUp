@@ -24,7 +24,7 @@
     <div class="hidden lg:flex items-center gap-[24px]">
         <a href="{{ url('/login') }}">
         <div class="button-primary flex items-center gap-2">
-            <x-uiw-login class="h-[24px]" />
+            
             <p class="text-base font-semibold leading-[28px]">Login ke Sistem</p>
         </div>
     </a>
@@ -55,7 +55,7 @@
                 Contact
             </a>
             <div class="button-primary flex items-center gap-2">
-                <x-uiw-login class="h-[24px]" />
+                
                 <p class="text-base font-semibold leading-[28px]">Login ke Sistem</p>
             </div>
         </div>

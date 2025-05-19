@@ -24,7 +24,10 @@ Route::get('/', [LandingController::class, 'index']);
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::group(['prefix' => 'users'], function () {
-    Route::get('/', [UserController::class, 'index']);
+    Route::get('/', [UserController::class, 'index'])->name('users.index');
     Route::get('/mahasiswa/getdata', [UserController::class, 'getMahasiswaData']);
     Route::get('/dosen/getdata', [UserController::class, 'getDosenData']);
+
+    Route::get('/create', [UserController::class, 'create']);
+    Route::post('/store', [UserController::class, 'store']);
 });

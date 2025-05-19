@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\DosenModel;
 use App\Models\MahasiswaModel;
+use App\Models\ProgramStudiModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -48,6 +50,117 @@ class UserController extends Controller
 
         return response()->json($data);
     }
+
+    public function create(Request $request)
+    {
+        $type = $request->query('type', 'mahasiswa'); // default ke mahasiswa
+
+        $breadcrumb = (object)[
+            'title' => 'Tambah User',
+            'list' => ['Home', 'User', 'Tambah User']
+        ];
+
+        $page = (object)[
+            'title' => 'Tambah user baru'
+        ];
+
+        $programStudis = ProgramStudiModel::all(); // data program studi sebagai opsi
+
+        $activeMenu = 'users';
+
+        return view('users.create', [
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'programStudis' => $programStudis,
+            'activeMenu' => $activeMenu,
+            'type' => $type,
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $type = $request->input('type');
+
+        if ($type == 'mahasiswa') {
+            $request->validate([
+                'nim' => 'required|unique:mahasiswa,nim',
+                'nama_mhs' => 'required|string|max:255',
+                'username_mhs' => 'required|string|max:100',
+                'email_mhs' => 'required|email|unique:mahasiswa,email_mhs',
+                'password_mhs' => 'required|min:6|confirmed',
+                'program_studi' => 'required|exists:program_studi,id_prodi',
+                'foto_mhs' => 'nullable|image|max:2048',
+            ]);
+
+            $password_mhs = Hash::make($request->password_mhs);
+
+            $fotoPath = null;
+            if ($request->hasFile('foto_mhs')) {
+                $file = $request->file('foto_mhs');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('foto_mahasiswa'), $filename);
+                $fotoPath = 'foto_mahasiswa/' . $filename;
+            }
+
+            $fotoPath = null;
+            if ($request->hasFile('foto_dsn')) {
+                $file = $request->file('foto_dsn');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('foto_dosen'), $filename);
+                $fotoPath = 'foto_dosen/' . $filename;
+            }
+
+            MahasiswaModel::create([
+                'nim' => $request->nim,
+                'nama_mhs' => $request->nama_mhs,
+                'username_mhs' => $request->username_mhs,
+                'email_mhs' => $request->email_mhs,
+                'password_mhs' => $password_mhs,
+                'program_studi' => $request->program_studi,
+                'foto_mhs' => $fotoPath,
+            ]);
+
+            return redirect()->route('users.index')->with('success', 'Data mahasiswa berhasil ditambahkan!');
+        }
+
+        if ($type == 'dosen') {
+            $request->validate([
+                'nidn' => 'required|unique:dosen,nidn',
+                'username' => 'required|string|max:100',
+                'nama_dsn' => 'required|string|max:255',
+                'email_dsn' => 'required|email|unique:dosen,email_dsn',
+                'password_dsn' => 'required|min:6|confirmed',
+                'role_dsn' => 'required|in:admin,kajur',
+                'foto_dsn' => 'nullable|image|max:2048',
+            ]);
+
+            $password_dsn = Hash::make($request->password_dsn);
+
+            $fotoPath = null;
+            if ($request->hasFile('foto_dsn')) {
+                $file = $request->file('foto_dsn');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('foto_dosen'), $filename);
+                $fotoPath = 'foto_dosen/' . $filename;
+            }
+
+            DosenModel::create([
+                'nidn' => $request->nidn,
+                'username' => $request->username,
+                'nama_dsn' => $request->nama_dsn,
+                'email_dsn' => $request->email_dsn,
+                'password_dsn' => $password_dsn,
+                'foto_dsn' => $fotoPath,
+                'role_dsn' => $request->role_dsn,
+            ]);
+
+            return redirect()->route('users.index')->with('success', 'Data dosen berhasil ditambahkan!');
+        }
+
+        // ❗ Tempatkan ini di paling akhir, hanya jika tipe tidak valid
+        return back()->with('error', 'Tipe user tidak valid')->withInput();
+    }
+
 
     public function getDosenData()
     {

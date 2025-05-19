@@ -15,7 +15,6 @@
     </div>
 
     <div class="button-secondary flex items-center gap-3 mt-6 lg:mt-0">
-        <x-uiw-login class="h-[24px]" />
         <p class="text-base font-semibold leading-[28px] text-white">Login ke Sistem</p>
     </div>
 </div>
