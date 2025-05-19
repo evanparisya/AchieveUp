@@ -53,7 +53,7 @@ class UserController extends Controller
 
     public function create(Request $request)
     {
-        $type = $request->query('type', 'mahasiswa'); // default ke mahasiswa
+        $type = $request->query('type', 'mahasiswa'); 
 
         $breadcrumb = (object)[
             'title' => 'Tambah User',
@@ -64,7 +64,7 @@ class UserController extends Controller
             'title' => 'Tambah user baru'
         ];
 
-        $programStudis = ProgramStudiModel::all(); // data program studi sebagai opsi
+        $programStudis = ProgramStudiModel::all(); 
 
         $activeMenu = 'users';
 
@@ -157,7 +157,6 @@ class UserController extends Controller
             return redirect()->route('users.index')->with('success', 'Data dosen berhasil ditambahkan!');
         }
 
-        // ❗ Tempatkan ini di paling akhir, hanya jika tipe tidak valid
         return back()->with('error', 'Tipe user tidak valid')->withInput();
     }
 

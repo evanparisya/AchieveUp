@@ -14,9 +14,24 @@ class ProgramStudiSeeder extends Seeder
     public function run(): void
     {
         DB::table('program_studi')->insert([
-            ['nama_prodi' => 'D2 Pengembangan Piranti Lunak Situs', 'created_at' => now(), 'updated_at' => now()],
-            ['nama_prodi' => 'D4 Teknik Informatika', 'created_at' => now(), 'updated_at' => now()],
-            ['nama_prodi' => 'D4 Sistem Informasi Bisnis', 'created_at' => now(), 'updated_at' => now()],
+            [
+                'kode' => 'D2-PPLS',
+                'nama' => 'D2 Pengembangan Piranti Lunak Situs',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'kode' => 'D4-TI',
+                'nama' => 'D4 Teknik Informatika',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'kode' => 'D4-SIB',
+                'nama' => 'D4 Sistem Informasi Bisnis',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
     }
 }
