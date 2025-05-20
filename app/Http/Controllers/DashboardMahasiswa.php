@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class DashboardController extends Controller
+class DashboardMahasiswa extends Controller
 {
     public function index()
     {
@@ -21,7 +21,7 @@ class DashboardController extends Controller
 
         $activeMenu = 'dashboard';
 
-        return view('dashboard.index', [
+        return view('mahasiswa.dashboard.index', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu

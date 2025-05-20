@@ -1,10 +1,14 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DashboardAdmin;
+use App\Http\Controllers\DashboardDosen;
+use App\Http\Controllers\DashboardMahasiswa;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\PeriodeController;
+use App\Http\Controllers\PrestasiMahasiswaController;
 use App\Http\Controllers\UserController;
-use App\Models\Mahasiswa;
+use App\Http\Controllers\VerifikasiPrestasiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,39 +26,36 @@ Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::post('login', [AuthController::class, 'postLogin']);
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/', [LandingController::class, 'index']);
+Route::get('/landing', [LandingController::class, 'index']);
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::middleware(['admin.dosen'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [DashboardAdmin::class, 'index'])->name('dashboard.index');
 
-Route::group(['prefix' => 'users'], function () {
-    Route::get('/', [UserController::class, 'index'])->name('users.index');
-    Route::get('/mahasiswa/getdata', [UserController::class, 'getMahasiswaData']);
-    Route::get('/dosen/getdata', [UserController::class, 'getDosenData']);
+    Route::prefix('users')->name('users.')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('index');
+        Route::get('/mahasiswa/getdata', [UserController::class, 'getMahasiswaData'])->name('mahasiswa.getdata');
+        Route::get('/dosen/getdata', [UserController::class, 'getDosenData'])->name('dosen.data');
+        Route::get('/create', [UserController::class, 'create'])->name('create');
+        Route::post('/store', [UserController::class, 'store'])->name('store');
+    });
 
-    Route::get('/create', [UserController::class, 'create']);
-    Route::post('/store', [UserController::class, 'store']);
-});
+    Route::prefix('prestasi')->name('prestasi.')->group(function () {
+        Route::get('/', [VerifikasiPrestasiController::class, 'index'])->name('index');
+    });
 
-Route::middleware(['mahasiswa'])->group(function () {
-    Route::get('/mahasiswa/dashboard', function(){
-        return dd('login mahasiswa');
+    Route::prefix('periode')->name('periode.')->group(function () {
+        Route::get('/', [PeriodeController::class, 'index'])->name('index');
     });
 });
 
-Route::middleware(['dosen'])->group(function () {
-    Route::get('/dosen/dashboard', function(){
-        return dd('login dosen');
-    });
+Route::middleware(['dosen'])->prefix('dosen')->name('dosen.')->group(function () {
+    Route::get('/dashboard', [DashboardDosen::class, 'index'])->name('dashboard.index');
 });
 
-Route::middleware(['admin.dosen'])->group(function () {
-    Route::get('/admin/panel', function(){
-        return dd('login admin dosen');
-    });
-});
+Route::middleware(['mahasiswa'])->prefix('mahasiswa')->name('mahasiswa.')->group(function () {
+    Route::get('/dashboard', [DashboardMahasiswa::class, 'index'])->name('dashboard.index');
 
-Route::middleware(['pembimbing.dosen'])->group(function () {
-    Route::get('/bimbingan', function(){
-        return dd('login dosen pembimbing');
+    Route::prefix('prestasi')->name('prestasi.')->group(function () {
+        Route::get('/', [PrestasiMahasiswaController::class, 'index'])->name('index');
     });
 });

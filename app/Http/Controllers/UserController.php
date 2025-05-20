@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dosen;
 use App\Models\DosenModel;
+use App\Models\Mahasiswa;
 use App\Models\MahasiswaModel;
+use App\Models\ProgramStudi;
 use App\Models\ProgramStudiModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -12,8 +15,15 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $mahasiswas = MahasiswaModel::all();
-        $dosens = DosenModel::all();
+        if ($request->ajax()) {
+            if ($request->type === 'mahasiswa') {
+                $mahasiswas = Mahasiswa::all();
+                return response()->json(['data' => $mahasiswas]);
+            } elseif ($request->type === 'dosen') {
+                $dosens = Dosen::all();
+                return response()->json(['data' => $dosens]);
+            }
+        }
 
         $breadcrumb = (object)[
             'title' => 'Daftar User',
@@ -26,16 +36,12 @@ class UserController extends Controller
 
         $activeMenu = 'users';
 
-        if ($request->ajax()) {
-            return view('users.partial-index', compact('mahasiswas', 'dosens', 'breadcrumb', 'page', 'activeMenu'));
-        }
-
-        return view('users.index', compact('mahasiswas', 'dosens', 'breadcrumb', 'page', 'activeMenu'));
+        return view('admin.users.index', compact('breadcrumb', 'page', 'activeMenu'));
     }
 
     public function getMahasiswaData()
     {
-        $mahasiswas = MahasiswaModel::with('programStudi')->get();
+        $mahasiswas = Mahasiswa::with('programStudi')->get();
 
         $data = $mahasiswas->map(function ($mhs) {
             return [
@@ -53,7 +59,7 @@ class UserController extends Controller
 
     public function create(Request $request)
     {
-        $type = $request->query('type', 'mahasiswa'); 
+        $type = $request->query('type', 'mahasiswa');
 
         $breadcrumb = (object)[
             'title' => 'Tambah User',
@@ -64,7 +70,7 @@ class UserController extends Controller
             'title' => 'Tambah user baru'
         ];
 
-        $programStudis = ProgramStudiModel::all(); 
+        $programStudis = ProgramStudi::all();
 
         $activeMenu = 'users';
 
@@ -110,7 +116,7 @@ class UserController extends Controller
                 $fotoPath = 'foto_dosen/' . $filename;
             }
 
-            MahasiswaModel::create([
+            Mahasiswa::create([
                 'nim' => $request->nim,
                 'nama_mhs' => $request->nama_mhs,
                 'username_mhs' => $request->username_mhs,
@@ -120,7 +126,7 @@ class UserController extends Controller
                 'foto_mhs' => $fotoPath,
             ]);
 
-            return redirect()->route('users.index')->with('success', 'Data mahasiswa berhasil ditambahkan!');
+            return redirect()->route('admin.users.index')->with('success', 'Data mahasiswa berhasil ditambahkan!');
         }
 
         if ($type == 'dosen') {
@@ -144,7 +150,7 @@ class UserController extends Controller
                 $fotoPath = 'foto_dosen/' . $filename;
             }
 
-            DosenModel::create([
+            Dosen::create([
                 'nidn' => $request->nidn,
                 'username' => $request->username,
                 'nama_dsn' => $request->nama_dsn,
@@ -154,7 +160,7 @@ class UserController extends Controller
                 'role_dsn' => $request->role_dsn,
             ]);
 
-            return redirect()->route('users.index')->with('success', 'Data dosen berhasil ditambahkan!');
+            return redirect()->route('admin.users.index')->with('success', 'Data dosen berhasil ditambahkan!');
         }
 
         return back()->with('error', 'Tipe user tidak valid')->withInput();
@@ -163,7 +169,7 @@ class UserController extends Controller
 
     public function getDosenData()
     {
-        $dosens = DosenModel::all();
+        $dosens = Dosen::all();
 
         $data = $dosens->map(function ($dsn) {
             return [

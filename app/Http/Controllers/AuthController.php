@@ -17,38 +17,43 @@ class AuthController extends Controller
 
     public function postLogin(Request $request)
     {
-        // dd($request->all());
-        $credentials = $request->only('username', 'password');
+        $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ]);
 
-        // Coba login sebagai mahasiswa
-        if (Auth::guard('mahasiswa')->attempt($credentials)) {
+        $username = $request->input('username');
+        $password = $request->input('password');
+
+        if (
+            Auth::guard('mahasiswa')->attempt(['NIM' => $username, 'password' => $password]) ||
+            Auth::guard('mahasiswa')->attempt(['username' => $username, 'password' => $password])
+        ) {
             $request->session()->regenerate();
-            // dd('login mahasiswa');
-            return redirect()->intended('/mahasiswa/dashboard');
-            // return redirect()->intended('/mahasiswa/dashboard');
+            return redirect()->route('mahasiswa.dashboard.index')
+                ->with('success', 'Selamat datang, Mahasiswa!');
         }
 
-        // Coba login sebagai dosen
-        if (Auth::guard('dosen')->attempt($credentials)) {
+        if (
+            Auth::guard('dosen')->attempt(['NIDN' => $username, 'password' => $password]) ||
+            Auth::guard('dosen')->attempt(['username' => $username, 'password' => $password])
+        ) {
             $request->session()->regenerate();
-
             $user = Auth::guard('dosen')->user();
+
             if ($user->role === 'admin') {
-                return redirect()->intended('/admin/panel');
-                // dd('login admin dosen');
-                // return redirect()->intended('/admin/panel');
-            } elseif ($user->role === 'dosen pembimbing') {
-                // dd('login dosen pembimbing');
-                return redirect()->intended('/bimbingan');
-                // return redirect()->intended('/bimbingan');
+                return redirect()->route('admin.dashboard.index')
+                    ->with('success', 'Selamat datang, Admin!');
+            } elseif (in_array($user->role, ['dosen', 'dosen pembimbing'])) {
+                return redirect()->route('dosen.dashboard.index')
+                    ->with('success', 'Selamat datang, Dosen!');
             } else {
                 Auth::guard('dosen')->logout();
-                return back()->withErrors(['login' => 'Role dosen tidak valid.']);
+                return back()->with('error', 'Role dosen tidak valid.');
             }
         }
 
-        // Jika gagal login semua
-        return back()->withErrors(['login' => 'Username atau password tidak cocok.']);
+        return back()->with('error', 'Username atau password tidak cocok.');
     }
 
     public function logout(Request $request)

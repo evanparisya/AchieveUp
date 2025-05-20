@@ -62,7 +62,7 @@ $(document).ready(function () {
 
     function loadDosen() {
         $.ajax({
-            url: '/users/dosen/getdata',
+            url: 'users/dosen/getdata',
             method: "GET",
             dataType: "json",
             success: function (response) {

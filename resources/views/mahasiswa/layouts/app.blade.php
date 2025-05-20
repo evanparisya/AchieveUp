@@ -16,14 +16,14 @@
 </head>
 <body class="bg-[#fdfcff] text-gray-800">
     <div class="flex min-h-screen">
-        @include('layouts.sidebar')
+        @include('mahasiswa.layouts.sidebar')
 
         <div class="flex-1 flex flex-col">
-            @include('layouts.header')
+            @include('mahasiswa.layouts.header')
 
             <main class="p-8">
                 <div class="breadcrumb">
-                    @include('layouts.breadcrumb')
+                    @include('mahasiswa.layouts.breadcrumb')
                 </div>
                 <div id="main-content">
                     @yield('content')

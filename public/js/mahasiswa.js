@@ -61,7 +61,7 @@ $(document).ready(function () {
 
     function loadMahasiswa() {
         $.ajax({
-            url: '/users/mahasiswa/getdata',
+            url: '/admin/users/mahasiswa/getdata',      
             type: 'GET',
             dataType: 'json',
             success: function (response) {
