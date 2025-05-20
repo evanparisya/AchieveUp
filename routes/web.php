@@ -35,18 +35,26 @@ Route::group(['prefix' => 'users'], function () {
     Route::post('/store', [UserController::class, 'store']);
 });
 
-// Route::middleware(['mahasiswa'])->group(function () {
-//     Route::get('/mahasiswa/dashboard', [MahasiswaController::class, 'dashboard']);
-// });
+Route::middleware(['mahasiswa'])->group(function () {
+    Route::get('/mahasiswa/dashboard', function(){
+        return dd('login mahasiswa');
+    });
+});
 
-// Route::middleware(['dosen'])->group(function () {
-//     Route::get('/dosen/dashboard', [DosenController::class, 'dashboard']);
-// });
+Route::middleware(['dosen'])->group(function () {
+    Route::get('/dosen/dashboard', function(){
+        return dd('login dosen');
+    });
+});
 
-// Route::middleware(['admin.dosen'])->group(function () {
-//     Route::get('/admin/panel', [AdminController::class, 'index']);
-// });
+Route::middleware(['admin.dosen'])->group(function () {
+    Route::get('/admin/panel', function(){
+        return dd('login admin dosen');
+    });
+});
 
-// Route::middleware(['pembimbing.dosen'])->group(function () {
-//     Route::get('/bimbingan', [PembimbingController::class, 'index']);
-// });
+Route::middleware(['pembimbing.dosen'])->group(function () {
+    Route::get('/bimbingan', function(){
+        return dd('login dosen pembimbing');
+    });
+});

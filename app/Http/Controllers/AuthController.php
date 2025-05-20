@@ -23,7 +23,8 @@ class AuthController extends Controller
         // Coba login sebagai mahasiswa
         if (Auth::guard('mahasiswa')->attempt($credentials)) {
             $request->session()->regenerate();
-            dd('login mahasiswa');
+            // dd('login mahasiswa');
+            return redirect()->intended('/mahasiswa/dashboard');
             // return redirect()->intended('/mahasiswa/dashboard');
         }
 
@@ -33,10 +34,12 @@ class AuthController extends Controller
 
             $user = Auth::guard('dosen')->user();
             if ($user->role === 'admin') {
-                dd('login admin dosen');
+                return redirect()->intended('/admin/panel');
+                // dd('login admin dosen');
                 // return redirect()->intended('/admin/panel');
             } elseif ($user->role === 'dosen pembimbing') {
-                dd('login dosen pembimbing');
+                // dd('login dosen pembimbing');
+                return redirect()->intended('/bimbingan');
                 // return redirect()->intended('/bimbingan');
             } else {
                 Auth::guard('dosen')->logout();
