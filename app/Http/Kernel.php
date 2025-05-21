@@ -67,7 +67,5 @@ class Kernel extends HttpKernel
         // Custom Middleware
         'mahasiswa' => \App\Http\Middleware\MahasiswaMiddleware::class,
         'dosen' => \App\Http\Middleware\DosenMiddleware::class,
-        'admin.dosen' => \App\Http\Middleware\AdminDosenMiddleware::class,
-        'pembimbing.dosen' => \App\Http\Middleware\DosenPembimbingMiddleware::class,
     ];
 }

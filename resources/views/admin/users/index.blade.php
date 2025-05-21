@@ -144,12 +144,12 @@
                 let row = `
                     <tr>
                         <td class="px-6 py-4 text-sm text-gray-900">${item.nim}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">${item.nama_mhs}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">${item.username_mhs}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">${item.email_mhs}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">${item.nama}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">${item.username}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">${item.email}</td>
                         <td class="px-6 py-4 text-sm text-gray-900">${item.program_studi ?? '-'}</td>
                         <td class="px-6 py-4 text-sm text-gray-900">
-                            ${actionButtonsMahasiswa(item.id_mhs)}
+                            ${actionButtonsMahasiswa(item.id)}
                         </td>
                     </tr>
                 `;
@@ -229,12 +229,12 @@
             let row = `
                 <tr>
                     <td class="px-6 py-4 text-sm text-gray-900">${item.nidn}</td>
-                    <td class="px-6 py-4 text-sm text-gray-900">${item.nama_dsn}</td>
+                    <td class="px-6 py-4 text-sm text-gray-900">${item.nama}</td>
                     <td class="px-6 py-4 text-sm text-gray-900">${item.username}</td>
                     <td class="px-6 py-4 text-sm text-gray-900">${item.email}</td>
                     <td class="px-6 py-4 text-sm text-gray-900">${item.role}</td>
                     <td class="px-6 py-4 text-sm text-gray-900">
-                        ${actionButtonsDosen(item.id_dsn)}
+                        ${actionButtonsDosen(item.id)}
                     </td>
                 </tr>
             `;

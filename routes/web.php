@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardAdmin;
 use App\Http\Controllers\DashboardDosen;
 use App\Http\Controllers\DashboardMahasiswa;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\LombaController;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\PrestasiMahasiswaController;
 use App\Http\Controllers\UserController;
@@ -28,7 +29,7 @@ Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/landing', [LandingController::class, 'index']);
 
-Route::middleware(['admin.dosen'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardAdmin::class, 'index'])->name('dashboard.index');
 
     Route::prefix('users')->name('users.')->group(function () {
@@ -46,10 +47,24 @@ Route::middleware(['admin.dosen'])->prefix('admin')->name('admin.')->group(funct
     Route::prefix('periode')->name('periode.')->group(function () {
         Route::get('/', [PeriodeController::class, 'index'])->name('index');
     });
+
+    Route::prefix('lomba')->name('lomba.')->group(function () {
+        Route::get('/', [LombaController::class, 'index'])->name('index');
+        Route::get('/getdata', [LombaController::class, 'getLombaData'])->name('getdata');
+        Route::get('/create', [LombaController::class, 'create'])->name('create');
+        Route::post('/store', [LombaController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [LombaController::class, 'edit'])->name('edit');
+        Route::put('/update/{id}', [LombaController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [LombaController::class, 'destroy'])->name('delete');
+
+    });
+
 });
 
-Route::middleware(['dosen'])->prefix('dosen')->name('dosen.')->group(function () {
-    Route::get('/dashboard', [DashboardDosen::class, 'index'])->name('dashboard.index');
+Route::middleware(['dosen:dosen pembimbing'])->prefix('dosen_pembimbing')->name('dosen.')->group(function () {
+    Route::get('/bimbingan', function(){
+        return dd('login dosen pembimbing');
+    });
 });
 
 Route::middleware(['mahasiswa'])->prefix('mahasiswa')->name('mahasiswa.')->group(function () {
