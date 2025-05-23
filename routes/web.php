@@ -31,7 +31,13 @@ Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/landing', [LandingController::class, 'index']);
 
 Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', [DashboardAdmin::class, 'index'])->name('dashboard.index');
+    // Route pemeringkatan
+    Route::prefix('dashboard')->name('dashboard.')->group(function () {
+        Route::get('/', [DashboardAdmin::class, 'index'])->name('index');
+        Route::get('entropy', [DashboardAdmin::class, 'entropy'])->name('entropy');
+        Route::get('electre', [DashboardAdmin::class, 'electre'])->name('electre');
+        Route::get('getAllScorelombamahasiswa', [DashboardAdmin::class, 'getScoreLombaMahasiswa'])->name('getAllScorelombamahasiswa');
+    });
 
     Route::prefix('users')->name('users.')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('index');
@@ -57,7 +63,6 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
         Route::get('/edit/{id}', [LombaController::class, 'edit'])->name('edit');
         Route::put('/update/{id}', [LombaController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [LombaController::class, 'destroy'])->name('delete');
-
     });
 
     Route::prefix('prodi')->name('prodi.')->group(function () {
@@ -68,13 +73,11 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
         Route::get('/edit/{id}', [ProdiController::class, 'edit'])->name('edit');
         Route::put('/update/{id}', [ProdiController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [ProdiController::class, 'destroy'])->name('delete');
-
     });
-
 });
 
 Route::middleware(['dosen:dosen pembimbing'])->prefix('dosen_pembimbing')->name('dosen.')->group(function () {
-    Route::get('/bimbingan', function(){
+    Route::get('/bimbingan', function () {
         return dd('login dosen pembimbing');
     });
 });

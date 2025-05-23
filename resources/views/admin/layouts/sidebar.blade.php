@@ -100,7 +100,7 @@
         </ul>
     </nav>
     {{-- Tombol Logout --}}
-    <div class="mt-auto px-4">
+    <div class="mt-auto px-4 fixed bottom-0">
         <a href="{{ route('logout') }}"
             class="sidebar-menu-button text-red-600 hover:bg-red-100 hover:text-red-700">
             <div class="w-5 h-5 mr-2 inline-block align-middle text-red-600">
