@@ -64,7 +64,7 @@ class UserController extends Controller
 
         $activeMenu = 'users';
 
-        return view('users.create', [
+        return view('admin.users.create', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'programStudis' => $programStudis,
