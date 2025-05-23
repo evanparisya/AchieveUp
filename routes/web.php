@@ -84,5 +84,6 @@ Route::middleware(['mahasiswa'])->prefix('mahasiswa')->name('mahasiswa.')->group
 
     Route::prefix('prestasi')->name('prestasi.')->group(function () {
         Route::get('/', [PrestasiMahasiswaController::class, 'index'])->name('index');
+        Route::get('/getdata', [PrestasiMahasiswaController::class, 'getData'])->name('getdata');
     });
 });

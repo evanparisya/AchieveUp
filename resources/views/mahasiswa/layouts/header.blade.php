@@ -4,8 +4,8 @@
         </div>
         <div class="flex items-center space-x-3 justify-end">
             <div class="flex flex-col text-right leading-tight">
-                <span class="text-sm font-medium text-gray-800">{{ Auth::user()->name ?? 'Nama Pengguna' }}</span>
-                <span class="text-sm text-gray-500">NIM/NIDN</span>
+                <span class="text-sm font-medium text-gray-800">{{ Auth::guard('mahasiswa')->user()->nama ?? 'Nama Pengguna' }}</span>
+                <span class="text-sm text-gray-500">{{ Auth::guard('mahasiswa')->user()->nim ?? '-' }}</span>
             </div>
             <img src="{{ Auth::user()->foto ?? asset('images/default-user.png') }}"
                 onerror="this.onerror=null;this.src='{{ asset('images/default-user.png') }}';"

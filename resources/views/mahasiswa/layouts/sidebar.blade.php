@@ -34,7 +34,7 @@
                                 d="M3 12l2-2m0 0l7-7 7 7m-9 2v6m0 0h4m-4 0a2 2 0 01-2-2v-4a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4z" />
                         </svg>
                     </div>
-                    Management Pengguna
+                    Prestasi Mahasiswa
                 </a>
             </li>         
         </ul>

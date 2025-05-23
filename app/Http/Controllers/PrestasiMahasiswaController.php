@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PrestasiMahasiswa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PrestasiMahasiswaController extends Controller
 {
@@ -19,10 +21,20 @@ class PrestasiMahasiswaController extends Controller
 
         $activeMenu = 'prestasi';
 
-        if ($request->ajax()) {
-            return view('prestasi.partial-index', compact('breadcrumb', 'page', 'activeMenu'));
-        }
-
         return view('mahasiswa.prestasi.index', compact('breadcrumb', 'page', 'activeMenu'));
+    }
+
+    public function getData()
+    {
+        $mahasiswa = Auth::guard('mahasiswa')->user();
+
+        $prestasi = PrestasiMahasiswa::whereHas('mahasiswas', function ($q) use ($mahasiswa) {
+            $q->where('mahasiswa_id', $mahasiswa->id);
+        })
+            ->select('id', 'judul', 'tingkat', 'juara', 'status', 'tanggal_pengajuan')
+            ->latest()
+            ->get();
+
+        return response()->json($prestasi);
     }
 }
