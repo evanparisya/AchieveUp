@@ -15,16 +15,6 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        if ($request->ajax()) {
-            if ($request->type === 'mahasiswa') {
-                $mahasiswas = Mahasiswa::all();
-                return response()->json(['data' => $mahasiswas]);
-            } elseif ($request->type === 'dosen') {
-                $dosens = Dosen::all();
-                return response()->json(['data' => $dosens]);
-            }
-        }
-
         $breadcrumb = (object)[
             'title' => 'Daftar User',
             'list' => ['Home', 'User']

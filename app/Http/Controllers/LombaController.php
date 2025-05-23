@@ -13,11 +13,6 @@ class LombaController extends Controller
 {
     public function index(Request $request)
     {
-        if ($request->ajax()) {
-            $lombas = Lomba::all();
-            return response()->json(['data' => $lombas]);
-        }
-
         $breadcrumb = (object)[
             'title' => 'Daftar Lomba',
             'list' => ['Home', 'Lomba']
@@ -32,7 +27,7 @@ class LombaController extends Controller
         return view('admin.lomba.index', compact('breadcrumb', 'page', 'activeMenu'));
     }
 
-    public function getLombaData()
+    public function getAll()
     {
         $lombas = Lomba::with('bidang')->get();
 

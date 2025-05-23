@@ -8,6 +8,7 @@ use App\Http\Controllers\LandingController;
 use App\Http\Controllers\LombaController;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\PrestasiMahasiswaController;
+use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerifikasiPrestasiController;
 use Illuminate\Support\Facades\Route;
@@ -50,12 +51,23 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
 
     Route::prefix('lomba')->name('lomba.')->group(function () {
         Route::get('/', [LombaController::class, 'index'])->name('index');
-        Route::get('/getdata', [LombaController::class, 'getLombaData'])->name('getdata');
+        Route::get('/getall', [LombaController::class, 'getAll'])->name('getall');
         Route::get('/create', [LombaController::class, 'create'])->name('create');
         Route::post('/store', [LombaController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [LombaController::class, 'edit'])->name('edit');
         Route::put('/update/{id}', [LombaController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [LombaController::class, 'destroy'])->name('delete');
+
+    });
+
+    Route::prefix('prodi')->name('prodi.')->group(function () {
+        Route::get('/', [ProdiController::class, 'index'])->name('index');
+        Route::get('/getall', [ProdiController::class, 'getall'])->name('getall');
+        Route::get('/create', [ProdiController::class, 'create'])->name('create');
+        Route::post('/store', [ProdiController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [ProdiController::class, 'edit'])->name('edit');
+        Route::put('/update/{id}', [ProdiController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [ProdiController::class, 'destroy'])->name('delete');
 
     });
 

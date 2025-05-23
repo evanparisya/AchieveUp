@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Lomba')
+@section('title', 'Prodi')
 
 @section('content')
     <div class="flex flex-wrap items-center justify-between mb-4 gap-2">
@@ -16,7 +16,7 @@
         </div>
         <div class="flex items-center gap-2">
             <input id="search-bar" type="text" placeholder="Search..." class="border rounded px-2 py-1 text-sm" />
-            <button id="btn-add-user" onclick="window.location.href='{{ url('admin/lomba/create') }}'"
+            <button id="btn-add-user" onclick="window.location.href='{{ url('admin/prodi/create') }}'"
                 class="bg-blue-600 text-white px-4 py-1 rounded text-sm hover:bg-blue-700">
                 + Add
             </button>
@@ -27,27 +27,21 @@
 
     <!-- Table Wrapper -->
     <div class="overflow-x-auto bg-white shadow rounded-b-[12px] border-t-0 border border-gray-200">
-        <!-- Tab Lomba -->
-        <table id="table_lomba" class="min-w-full divide-y divide-gray-200">
+        <!-- Tab Prodi -->
+        <table id="table_prodi" class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Judul</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tingkat</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Periode
-                        Pendaftaran
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Link</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bidang</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action
-                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kode</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
 
             </tbody>
         </table>
-        <p id="lomba_info" class="text-sm text-gray-500 mt-2"></p>
-        <div id="lomba_pagination" class="mt-2 flex flex-wrap gap-2"></div>
+        <p id="prodi_info" class="text-sm text-gray-500 mt-2"></p>
+        <div id="prodi_pagination" class="mt-2 flex flex-wrap gap-2"></div>
     </div>
 
 
@@ -57,24 +51,24 @@
 
     <script>
         $(document).ready(function() {
-            let lombaData = [];
+            let prodiData = [];
             let currentPage = 1;
 
-            function actionButtonsLomba(id) {
-                console.log("Lomba ID:", id);
+            function actionButtonsProdi(id) {
+                console.log("Prodi ID:", id);
                 return `
-                <a href="/lomba/${id}" class="text-blue-600 hover:underline mr-2">Detail</a>
-                <a href="/admin/lomba/edit/${id}" class="text-yellow-600 hover:underline mr-2">Edit</a>
-                <button type="button" class="text-red-600 hover:underline btn-hapus" data-id="${id}" data-type="lomba">Hapus</button>
+                <a href="/prodi/${id}" class="text-blue-600 hover:underline mr-2">Detail</a>
+                <a href="/admin/prodi/edit/${id}" class="text-yellow-600 hover:underline mr-2">Edit</a>
+                <button type="button" class="text-red-600 hover:underline btn-hapus" data-id="${id}" data-type="prodi">Hapus</button>
             `;
             }
 
-            function renderLombaTable() {
+            function renderProdiTable() {
                 let searchQuery = $('#search-bar').val().toLowerCase();
                 let entriesToShow = parseInt($('#show-entry').val());
-                let tbody = $('#table_lomba tbody');
+                let tbody = $('#table_prodi tbody');
 
-                let filtered = lombaData.filter(item =>
+                let filtered = prodiData.filter(item =>
                     Object.values(item).some(val => val && val.toString().toLowerCase().includes(searchQuery))
                 );
 
@@ -89,15 +83,11 @@
                 $.each(paginated, function(index, item) {
                     let row = `
                     <tr>
-                        <td class="px-6 py-4 text-sm text-gray-900">${item.judul}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900"><span class="px-1 py-1 rounded text-xs font-semibold ${item.tingkat_warna}">
-                            ${item.tingkat.charAt(0).toUpperCase() + item.tingkat.slice(1)}
-                        </span></td>
-                        <td class="px-6 py-4 text-sm text-gray-900">${item.periode_pendaftaran}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900"><a href="${item.link}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">${item.link}</a></td>
-                        <td class="px-6 py-4 text-sm text-gray-900">${item.bidang.map(b => `<span class="inline-block bg-blue-100 text-blue-800 text-xs font-medium mr-1 px-1 py-0.5 rounded">${b.nama}</span>`).join(' ')}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">${item.id}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">${item.kode}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">${item.nama}</td>
                         <td class="px-6 py-4 text-sm text-gray-900">
-                            ${actionButtonsLomba(item.id)}
+                            ${actionButtonsProdi(item.id)}
                         </td>
                     </tr>
                 `;
@@ -105,7 +95,7 @@
                 });
 
                 // Info total
-                $("#lomba_info").text(`Menampilkan ${paginated.length} dari ${totalData} data lomba`);
+                $("#prodi_info").text(`Menampilkan ${paginated.length} dari ${totalData} data prodi`);
 
                 // Pagination
                 let paginationHtml = '';
@@ -113,34 +103,34 @@
                     paginationHtml +=
                         `<button class="px-2 py-1 rounded ${i === currentPage ? 'bg-blue-500 text-white' : 'bg-gray-200'} page-btn-mhs" data-page="${i}">${i}</button> `;
                 }
-                $("#lomba_pagination").html(paginationHtml);
+                $("#prodi_pagination").html(paginationHtml);
 
-                $(".page-btn-lomba").on("click", function() {
+                $(".page-btn-prodi").on("click", function() {
                     currentPage = parseInt($(this).data("page"));
-                    renderLombaTable();
+                    renderProdiTable();
                 });
             }
 
-            function loadLomba() {
+            function loadProdi() {
                 $.ajax({
-                    url: '/admin/lomba/getall',
+                    url: '/admin/prodi/getall',
                     type: 'GET',
                     dataType: 'json',
                     success: function(response) {
-                        lombaData = response;
+                        prodiData = response;
                         currentPage = 1;
-                        renderLombaTable();
+                        renderProdiTable();
                     }
                 });
             }
 
             $('#search-bar, #show-entry').on('input change', function() {
                 currentPage = 1;
-                renderLombaTable();
+                renderProdiTable();
             });
 
-            window.loadLomba = loadLomba;
-            loadLomba();
+            window.loadProdi = loadProdi;
+            loadProdi();
         });
     </script>
 
@@ -162,7 +152,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: `/admin/lomba/delete/${id}`,
+                            url: `/admin/prodi/delete/${id}`,
                             type: 'DELETE',
                             data: {
                                 _token: '{{ csrf_token() }}'
@@ -174,9 +164,11 @@
                                     });
                             },
                             error: function(xhr) {
-                                Swal.fire('Gagal!',
-                                    'Terjadi kesalahan saat menghapus data.',
-                                    'error');
+                                let errorMsg = 'Terjadi kesalahan saat menghapus data.';
+                                if (xhr.responseJSON && xhr.responseJSON.message) {
+                                    errorMsg = xhr.responseJSON.message;
+                                }
+                                Swal.fire('Gagal!', errorMsg, 'error');
                             }
                         });
                     }
@@ -190,7 +182,7 @@
         $(document).ready(function() {
             $('#show-entry, #search-bar').on('input change', function() {
                 let activeTab = window.tab;
-                window.loadLomba();
+                window.loadProdi();
             });
         });
     </script>
