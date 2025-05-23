@@ -16,10 +16,6 @@ class ProgramStudi extends Model
         'kode',
         'nama',
     ];
-
-    /**
-     * Relasi ke tabel mahasiswa (one-to-many).
-     */
     public function mahasiswa(): HasMany
     {
         return $this->hasMany(Mahasiswa::class, 'program_studi_id');
