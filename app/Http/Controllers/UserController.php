@@ -15,16 +15,6 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        if ($request->ajax()) {
-            if ($request->type === 'mahasiswa') {
-                $mahasiswas = Mahasiswa::all();
-                return response()->json(['data' => $mahasiswas]);
-            } elseif ($request->type === 'dosen') {
-                $dosens = Dosen::all();
-                return response()->json(['data' => $dosens]);
-            }
-        }
-
         $breadcrumb = (object)[
             'title' => 'Daftar User',
             'list' => ['Home', 'User']
@@ -92,7 +82,7 @@ class UserController extends Controller
                 'nim' => 'required|unique:mahasiswa,nim',
                 'nama' => 'required|string|max:255',
                 'username' => 'required|string|max:100',
-                'email' => 'required|email|unique:mahasiswa,email_mhs',
+                'email' => 'required|email|unique:mahasiswa,email',
                 'password' => 'required|min:6|confirmed',
                 'program_studi' => 'required|exists:program_studi,id_prodi',
                 'foto' => 'nullable|image|max:2048',
@@ -133,18 +123,18 @@ class UserController extends Controller
             $request->validate([
                 'nidn' => 'required|unique:dosen,nidn',
                 'username' => 'required|string|max:100',
-                'nama_dsn' => 'required|string|max:255',
-                'email_dsn' => 'required|email|unique:dosen,email_dsn',
-                'password_dsn' => 'required|min:6|confirmed',
-                'role_dsn' => 'required|in:admin,kajur',
-                'foto_dsn' => 'nullable|image|max:2048',
+                'nama' => 'required|string|max:255',
+                'email' => 'required|email|unique:dosen,email',
+                'password' => 'required|min:6|confirmed',
+                'role' => 'required|in:admin,kajur',
+                'foto' => 'nullable|image|max:2048',
             ]);
 
-            $password_dsn = Hash::make($request->password_dsn);
+            $password = Hash::make($request->password);
 
             $fotoPath = null;
-            if ($request->hasFile('foto_dsn')) {
-                $file = $request->file('foto_dsn');
+            if ($request->hasFile('foto')) {
+                $file = $request->file('foto');
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $file->move(public_path('foto_dosen'), $filename);
                 $fotoPath = 'foto_dosen/' . $filename;
@@ -153,11 +143,11 @@ class UserController extends Controller
             Dosen::create([
                 'nidn' => $request->nidn,
                 'username' => $request->username,
-                'nama_dsn' => $request->nama_dsn,
-                'email_dsn' => $request->email_dsn,
-                'password_dsn' => $password_dsn,
-                'foto_dsn' => $fotoPath,
-                'role_dsn' => $request->role_dsn,
+                'nama' => $request->nama,
+                'email' => $request->email,
+                'password' => $password,
+                'foto' => $fotoPath,
+                'role' => $request->role,
             ]);
 
             return redirect()->route('admin.users.index')->with('success', 'Data dosen berhasil ditambahkan!');
@@ -173,7 +163,7 @@ class UserController extends Controller
 
         $data = $dosens->map(function ($dsn) {
             return [
-                'id_dsn' => $dsn->id,
+                'id' => $dsn->id,
                 'nidn' => $dsn->nidn,
                 'nama' => $dsn->nama,
                 'username' => $dsn->username,

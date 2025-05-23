@@ -7,10 +7,12 @@ use Illuminate\Support\Facades\Auth;
 
 class DosenMiddleware
 {
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, ...$roles)
     {
-        if (!Auth::guard('dosen')->check()) {
-            return redirect()->route('dosen.login'); 
+        $user = Auth::guard('dosen')->user();
+
+        if (!$user || !in_array($user->role, $roles)) {
+            abort(403, 'Akses ditolak. Anda tidak memiliki izin.');
         }
 
         return $next($request);

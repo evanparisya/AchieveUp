@@ -149,7 +149,7 @@
                         <td class="px-6 py-4 text-sm text-gray-900">${item.email}</td>
                         <td class="px-6 py-4 text-sm text-gray-900">${item.program_studi ?? '-'}</td>
                         <td class="px-6 py-4 text-sm text-gray-900">
-                            ${actionButtonsMahasiswa(item.id_mhs)}
+                            ${actionButtonsMahasiswa(item.id)}
                         </td>
                     </tr>
                 `;
@@ -234,7 +234,7 @@
                     <td class="px-6 py-4 text-sm text-gray-900">${item.email}</td>
                     <td class="px-6 py-4 text-sm text-gray-900">${item.role}</td>
                     <td class="px-6 py-4 text-sm text-gray-900">
-                        ${actionButtonsDosen(item.id_dsn)}
+                        ${actionButtonsDosen(item.id)}
                     </td>
                 </tr>
             `;
