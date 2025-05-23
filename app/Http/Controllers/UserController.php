@@ -36,7 +36,7 @@ class UserController extends Controller
 
         $activeMenu = 'users';
 
-        return view('admin.create.index', compact('breadcrumb', 'page', 'activeMenu'));
+        return view('admin.users.index', compact('breadcrumb', 'page', 'activeMenu'));
     }
 
     public function getMahasiswaData()

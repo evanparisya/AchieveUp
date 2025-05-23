@@ -307,9 +307,9 @@
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = "{{ url('admin/create?type=mahasiswa') }}";
+                window.location.href = "{{ url('admin/users/create?type=mahasiswa') }}";
             } else if (result.dismiss === Swal.DismissReason.cancel) {
-                window.location.href = "{{ url('admin/create?type=dosen') }}";
+                window.location.href = "{{ url('admin/users/create?type=dosen') }}";
             }
             // Jika ditutup pakai tombol X
             else if (result.dismiss === Swal.DismissReason.close) {
