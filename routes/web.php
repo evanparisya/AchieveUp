@@ -37,7 +37,7 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
         Route::get('/', [UserController::class, 'index'])->name('index');
         Route::get('/mahasiswa/getdata', [UserController::class, 'getMahasiswaData'])->name('mahasiswa.getdata');
         Route::get('/dosen/getdata', [UserController::class, 'getDosenData'])->name('dosen.data');
-        Route::get('/create', [UserController::class, 'create'])->name('create');
+        Route::get('/create', [UserController::class, 'create'])->name('users.create');
         Route::post('/store', [UserController::class, 'store'])->name('store');
     });
 
