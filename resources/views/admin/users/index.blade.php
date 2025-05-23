@@ -144,9 +144,9 @@
                 let row = `
                     <tr>
                         <td class="px-6 py-4 text-sm text-gray-900">${item.nim}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">${item.nama_mhs}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">${item.username_mhs}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">${item.email_mhs}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">${item.nama}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">${item.username}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">${item.email}</td>
                         <td class="px-6 py-4 text-sm text-gray-900">${item.program_studi ?? '-'}</td>
                         <td class="px-6 py-4 text-sm text-gray-900">
                             ${actionButtonsMahasiswa(item.id_mhs)}
@@ -229,7 +229,7 @@
             let row = `
                 <tr>
                     <td class="px-6 py-4 text-sm text-gray-900">${item.nidn}</td>
-                    <td class="px-6 py-4 text-sm text-gray-900">${item.nama_dsn}</td>
+                    <td class="px-6 py-4 text-sm text-gray-900">${item.nama}</td>
                     <td class="px-6 py-4 text-sm text-gray-900">${item.username}</td>
                     <td class="px-6 py-4 text-sm text-gray-900">${item.email}</td>
                     <td class="px-6 py-4 text-sm text-gray-900">${item.role}</td>
@@ -307,9 +307,9 @@
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = "{{ url('users/create?type=mahasiswa') }}";
+                window.location.href = "{{ url('admin/create?type=mahasiswa') }}";
             } else if (result.dismiss === Swal.DismissReason.cancel) {
-                window.location.href = "{{ url('users/create?type=dosen') }}";
+                window.location.href = "{{ url('admin/create?type=dosen') }}";
             }
             // Jika ditutup pakai tombol X
             else if (result.dismiss === Swal.DismissReason.close) {

@@ -36,7 +36,7 @@ class UserController extends Controller
 
         $activeMenu = 'users';
 
-        return view('admin.users.index', compact('breadcrumb', 'page', 'activeMenu'));
+        return view('admin.create.index', compact('breadcrumb', 'page', 'activeMenu'));
     }
 
     public function getMahasiswaData()
@@ -45,12 +45,12 @@ class UserController extends Controller
 
         $data = $mahasiswas->map(function ($mhs) {
             return [
-                'id_mhs' => $mhs->id_mhs,
+                'id' => $mhs->id,
                 'nim' => $mhs->nim,
-                'nama_mhs' => $mhs->nama_mhs,
-                'username_mhs' => $mhs->username_mhs,
-                'email_mhs' => $mhs->email_mhs,
-                'program_studi' => $mhs->programStudi->nama_prodi ?? '-',
+                'nama' => $mhs->nama,
+                'username' => $mhs->username,
+                'email' => $mhs->email,
+                'program_studi' => $mhs->programStudi->nama ?? '-',
             ];
         });
 
@@ -74,7 +74,7 @@ class UserController extends Controller
 
         $activeMenu = 'users';
 
-        return view('users.create', [
+        return view('admin.users.create', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'programStudis' => $programStudis,
@@ -90,27 +90,27 @@ class UserController extends Controller
         if ($type == 'mahasiswa') {
             $request->validate([
                 'nim' => 'required|unique:mahasiswa,nim',
-                'nama_mhs' => 'required|string|max:255',
-                'username_mhs' => 'required|string|max:100',
-                'email_mhs' => 'required|email|unique:mahasiswa,email_mhs',
-                'password_mhs' => 'required|min:6|confirmed',
+                'nama' => 'required|string|max:255',
+                'username' => 'required|string|max:100',
+                'email' => 'required|email|unique:mahasiswa,email_mhs',
+                'password' => 'required|min:6|confirmed',
                 'program_studi' => 'required|exists:program_studi,id_prodi',
-                'foto_mhs' => 'nullable|image|max:2048',
+                'foto' => 'nullable|image|max:2048',
             ]);
 
-            $password_mhs = Hash::make($request->password_mhs);
+            $password = Hash::make($request->password);
 
             $fotoPath = null;
-            if ($request->hasFile('foto_mhs')) {
-                $file = $request->file('foto_mhs');
+            if ($request->hasFile('foto')) {
+                $file = $request->file('foto');
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $file->move(public_path('foto_mahasiswa'), $filename);
                 $fotoPath = 'foto_mahasiswa/' . $filename;
             }
 
             $fotoPath = null;
-            if ($request->hasFile('foto_dsn')) {
-                $file = $request->file('foto_dsn');
+            if ($request->hasFile('foto')) {
+                $file = $request->file('foto');
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $file->move(public_path('foto_dosen'), $filename);
                 $fotoPath = 'foto_dosen/' . $filename;
@@ -118,12 +118,12 @@ class UserController extends Controller
 
             Mahasiswa::create([
                 'nim' => $request->nim,
-                'nama_mhs' => $request->nama_mhs,
-                'username_mhs' => $request->username_mhs,
-                'email_mhs' => $request->email_mhs,
-                'password_mhs' => $password_mhs,
+                'nama' => $request->nama,
+                'username' => $request->username,
+                'email' => $request->email,
+                'password' => $password,
                 'program_studi' => $request->program_studi,
-                'foto_mhs' => $fotoPath,
+                'foto' => $fotoPath,
             ]);
 
             return redirect()->route('admin.users.index')->with('success', 'Data mahasiswa berhasil ditambahkan!');
@@ -173,12 +173,12 @@ class UserController extends Controller
 
         $data = $dosens->map(function ($dsn) {
             return [
-                'id_dsn' => $dsn->id_dsn,
+                'id_dsn' => $dsn->id,
                 'nidn' => $dsn->nidn,
-                'nama_dsn' => $dsn->nama_dsn,
+                'nama' => $dsn->nama,
                 'username' => $dsn->username,
-                'email' => $dsn->email_dsn,
-                'role' => $dsn->role_dsn,
+                'email' => $dsn->email,
+                'role' => $dsn->role,
             ];
         });
 
