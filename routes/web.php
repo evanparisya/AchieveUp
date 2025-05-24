@@ -9,6 +9,7 @@ use App\Http\Controllers\LombaController;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\PrestasiMahasiswaController;
 use App\Http\Controllers\ProdiController;
+use App\Http\Controllers\ProfilDosenController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerifikasiPrestasiController;
 use Illuminate\Support\Facades\Route;
@@ -73,6 +74,17 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
         Route::get('/edit/{id}', [ProdiController::class, 'edit'])->name('edit');
         Route::put('/update/{id}', [ProdiController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [ProdiController::class, 'destroy'])->name('delete');
+    });
+
+    Route::prefix('profil')->name('profil.')->group(function(){
+        Route::get('/', [ProfilDosenController::class, 'index'])->name('index');
+        Route::get('/edit', [ProfilDosenController::class, 'edit'])->name('edit');
+        Route::put('/update/{id}', [ProfilDosenController::class, 'update'])->name('update');
+        // Route::prefix('/update')->name('update.')->group(function(){
+        //     Route::get('/', [ProfilDosenController::class, 'update'])->name('update');
+        //     Route::put('/image/{id}', [ProfilDosenController::class, 'image'])->name('image');
+        //     Route::put('/profile/{id}', [ProfilDosenController::class, 'profil'])->name('profil');
+        // });
     });
 });
 
