@@ -9,7 +9,9 @@ use App\Http\Controllers\LombaController;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\PrestasiMahasiswaController;
 use App\Http\Controllers\ProdiController;
-use App\Http\Controllers\ProfilDosenController;
+use App\Http\Controllers\ProfilAdminController;
+use App\Http\Controllers\ProfilDosenPembimbingController;
+use App\Http\Controllers\ProfilMahasiswaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerifikasiPrestasiController;
 use Illuminate\Support\Facades\Route;
@@ -77,14 +79,9 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
     });
 
     Route::prefix('profil')->name('profil.')->group(function(){
-        Route::get('/', [ProfilDosenController::class, 'index'])->name('index');
-        Route::get('/edit', [ProfilDosenController::class, 'edit'])->name('edit');
-        Route::put('/update/{id}', [ProfilDosenController::class, 'update'])->name('update');
-        // Route::prefix('/update')->name('update.')->group(function(){
-        //     Route::get('/', [ProfilDosenController::class, 'update'])->name('update');
-        //     Route::put('/image/{id}', [ProfilDosenController::class, 'image'])->name('image');
-        //     Route::put('/profile/{id}', [ProfilDosenController::class, 'profil'])->name('profil');
-        // });
+        Route::get('/', [ProfilAdminController::class, 'index'])->name('index');
+        Route::get('/edit', [ProfilAdminController::class, 'edit'])->name('edit');
+        Route::put('/update/{id}', [ProfilAdminController::class, 'update'])->name('update');
     });
 });
 
@@ -92,6 +89,16 @@ Route::middleware(['dosen:dosen pembimbing'])->prefix('dosen_pembimbing')->name(
     Route::get('/bimbingan', function () {
         return dd('login dosen pembimbing');
     });
+    Route::prefix('dashboard')->name('dashboard.')->group(function () {
+        Route::get('/', [DashboardDosen::class, 'index'])->name('index');
+    });
+
+    Route::prefix('profil')->name('profil.')->group(function(){
+        Route::get('/', [ProfilDosenPembimbingController::class, 'index'])->name('index');
+        Route::get('/edit', [ProfilDosenPembimbingController::class, 'edit'])->name('edit');
+        Route::put('/update/{id}', [ProfilDosenPembimbingController::class, 'update'])->name('update');
+    });
+    
 });
 
 Route::middleware(['mahasiswa'])->prefix('mahasiswa')->name('mahasiswa.')->group(function () {
@@ -101,4 +108,11 @@ Route::middleware(['mahasiswa'])->prefix('mahasiswa')->name('mahasiswa.')->group
         Route::get('/', [PrestasiMahasiswaController::class, 'index'])->name('index');
         Route::get('/getdata', [PrestasiMahasiswaController::class, 'getData'])->name('getdata');
     });
+
+    Route::prefix('profil')->name('profil.')->group(function(){
+        Route::get('/', [ProfilMahasiswaController::class, 'index'])->name('index');
+        Route::get('/edit', [ProfilMahasiswaController::class, 'edit'])->name('edit');
+        Route::put('/update/{id}', [ProfilMahasiswaController::class, 'update'])->name('update');
+    });
+
 });

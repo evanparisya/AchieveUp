@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('dosen.layouts.app')
 
 @section('title', 'Profil')
 
@@ -14,7 +14,7 @@
             </h1>
             {{-- Tombol Edit Profil --}}
             <div class="flex justify-end mb-4">
-                <a href="{{ route('admin.profil.edit') }}"
+                <a href="{{ route('dosen.profil.edit') }}"
                     class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition duration-200">
                     <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" stroke-width="2"
                         viewBox="0 0 24 24">
@@ -27,7 +27,7 @@
             <div class="flex items-center gap-6">
                 <div
                     class="w-28 h-28 rounded-full border-4 border-indigo-300 shadow-md overflow-hidden bg-white flex items-center justify-center">
-                    <img src="{{ $admin['foto'] ?? asset('images/default-user.png') }}"
+                    <img src="{{ $dosen['foto'] ?? asset('images/default-user.png') }}"
                         onerror="this.onerror=null;this.src='{{ asset('images/default-user.png') }}';" alt="User Image"
                         class="w-full h-full object-cover">
                 </div>
@@ -38,20 +38,20 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 01-8 0 4 4 0 018 0z" />
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                         </svg>
-                        {{ $admin['username'] ?? 'Username' }}
+                        {{ $dosen['username'] ?? 'Username' }}
                     </h2>
-                    <h2 class="text-xl font-bold text-gray-800">{{ $admin['nama'] ?? 'Nama Pengguna' }}</h2>
+                    <h2 class="text-xl font-bold text-gray-800">{{ $dosen['nama'] ?? 'Nama Pengguna' }}</h2>
                     <p class="text-gray-600 flex items-center gap-2">
                         <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" stroke-width="2"
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M16 12a4 4 0 01-8 0m8 0a4 4 0 01-8 0m8 0V8a4 4 0 00-8 0v4m8 0v4a4 4 0 01-8 0v-4" />
                         </svg>
-                        {{ $admin['email'] ?? 'Email Pengguna' }}
+                        {{ $dosen['email'] ?? 'Email Pengguna' }}
                     </p>
                     <span
                         class="inline-block px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-xs font-semibold mt-1">
-                        {{ $admin['role'] ?? 'Role Pengguna' }}
+                        {{ $dosen['role'] ?? 'Role Pengguna' }}
                     </span>
                 </div>
             </div>

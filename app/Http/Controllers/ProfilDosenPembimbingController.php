@@ -7,24 +7,22 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Dosen;
 
-class ProfilDosenController extends Controller
+class ProfilDosenPembimbingController extends Controller
 {
-    public function index(){
-        $breadcrumb = (object)
-        [
-            'title' => 'Profil Dosen',
+    public function index()
+    {
+        $breadcrumb = (object)[
+            'title' => 'Profil Dosen Pembimbing',
             'list' => ['Profil']
         ];
-        
 
-        $page = (object)
-        [
-            'title' => 'Halaman Profil Dosen'
+        $page = (object)[
+            'title' => 'Halaman Profil Dosen Pembimbing'
         ];
 
-        $activeMenu = 'dashboard';
+        $activeMenu = '';
 
-        return view('admin.profil.index', [
+        return view('dosen.profil.index', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,
@@ -48,21 +46,18 @@ class ProfilDosenController extends Controller
         return $data;
     }
 
-    public function edit(){
-        $breadcrumb = (object)
-        [
-            'title' => 'Edit Profil Dosen',
+    public function edit()
+    {
+        $breadcrumb = (object)[
+            'title' => 'Edit Profil Dosen Pembimbing',
             'list' => ['Profil', 'Edit']
         ];
 
-        $page = (object)
-        [
-            'title' => 'Halaman Edit Profil Dosen'
+        $page = (object)[
+            'title' => 'Halaman Edit Profil Dosen Pembimbing'
         ];
-
-        $activeMenu = 'dashboard';
-
-        return view('admin.profil.edit', [
+        $activeMenu = '';
+        return view('dosen.profil.edit', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,
@@ -73,33 +68,29 @@ class ProfilDosenController extends Controller
     public function update(Request $request, $id)
     {
         $dosen = Dosen::findOrFail($id);
-
-        // Validasi input
-        $validated = $request->validate([
+        $request->validate([
             'nama' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:dosen,username,' . $dosen->id,
             'email' => 'required|email|max:255|unique:dosen,email,' . $dosen->id,
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Update data dosen
-        $dosen->nama = $validated['nama'];
-        $dosen->username = $validated['username'];
-        $dosen->email = $validated['email'];
+        $dosen->nama = $request->input('nama');
+        $dosen->username = $request->input('username');
+        $dosen->email = $request->input('email');
 
-        // Upload foto jika ada
         if ($request->hasFile('foto')) {
             if ($dosen->foto) {
-                Storage::disk('public')->delete($dosen->foto);
+                Storage::delete($dosen->foto);
             }
-            $dosen->foto = $request->file('foto')->store('foto_dosen', 'public');
+            $path = $request->file('foto')->store('foto_dosen_pembimbing', 'public');
+            $dosen->foto = $path;
         }
 
         $dosen->save();
 
-        return redirect()->route('admin.profil.index')->with('success', 'Profil berhasil diperbarui.');
+        return redirect()->route('dosen.profil.index')
+            ->with('success', 'Profil berhasil diperbarui.');
     }
-
     
-        
 }
