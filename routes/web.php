@@ -9,6 +9,9 @@ use App\Http\Controllers\LombaController;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\PrestasiMahasiswaController;
 use App\Http\Controllers\ProdiController;
+use App\Http\Controllers\ProfilAdminController;
+use App\Http\Controllers\ProfilDosenPembimbingController;
+use App\Http\Controllers\ProfilMahasiswaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerifikasiPrestasiController;
 use Illuminate\Support\Facades\Route;
@@ -31,7 +34,13 @@ Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/landing', [LandingController::class, 'index']);
 
 Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', [DashboardAdmin::class, 'index'])->name('dashboard.index');
+    // Route pemeringkatan
+    Route::prefix('dashboard')->name('dashboard.')->group(function () {
+        Route::get('/', [DashboardAdmin::class, 'index'])->name('index');
+        Route::get('entropy', [DashboardAdmin::class, 'entropy'])->name('entropy');
+        Route::get('electre', [DashboardAdmin::class, 'electre'])->name('electre');
+        Route::get('getAllScorelombamahasiswa', [DashboardAdmin::class, 'getScoreLombaMahasiswa'])->name('getAllScorelombamahasiswa');
+    });
 
     Route::prefix('users')->name('users.')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('index');
@@ -81,10 +90,13 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
         Route::put('/update/{id}', [ProdiController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [ProdiController::class, 'destroy'])->name('delete');
     });
+
 });
 
 Route::middleware(['dosen:dosen pembimbing'])->prefix('dosen_pembimbing')->name('dosen.')->group(function () {
-    Route::get('/dashboard', [DashboardMahasiswa::class, 'index'])->name('dashboard.index');
+    Route::get('/bimbingan', function(){
+        return dd('login dosen pembimbing');
+    });
 });
 
 Route::middleware(['mahasiswa'])->prefix('mahasiswa')->name('mahasiswa.')->group(function () {
@@ -94,4 +106,11 @@ Route::middleware(['mahasiswa'])->prefix('mahasiswa')->name('mahasiswa.')->group
         Route::get('/', [PrestasiMahasiswaController::class, 'index'])->name('index');
         Route::get('/getdata', [PrestasiMahasiswaController::class, 'getData'])->name('getdata');
     });
+
+    Route::prefix('profil')->name('profil.')->group(function(){
+        Route::get('/', [ProfilMahasiswaController::class, 'index'])->name('index');
+        Route::get('/edit', [ProfilMahasiswaController::class, 'edit'])->name('edit');
+        Route::put('/update/{id}', [ProfilMahasiswaController::class, 'update'])->name('update');
+    });
+
 });
