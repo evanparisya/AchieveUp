@@ -31,28 +31,22 @@
     animation: ripple-animation 0.6s linear;
 }
 
-/* Base button styles */
-.button-base {
-    @apply relative inline-flex items-center justify-center font-semibold rounded-[12px] transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden text-white bg-white/90 cursor-pointer;
-}
-
-/* Primary Button */
 .button-primary {
-    @apply button-base bg-primary hover:bg-[#4B30AA] px-4 py-2 h-10 text-sm sm:px-6 sm:py-3 sm:h-12 sm:text-base rounded-[8px];
+    @apply relative inline-flex items-center justify-center font-semibold rounded-[12px] transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden text-white bg-primary hover:bg-[#4B30AA] px-4 py-2 h-10 text-sm sm:px-6 sm:py-3 sm:h-12 sm:text-base rounded-[8px];
 }
 
 /* Secondary Button */
 .button-secondary {
-    @apply button-base bg-secondary hover:bg-[#C86A00] px-4 py-2 h-10 text-sm sm:px-6 sm:py-3 sm:h-12 sm:text-base rounded-[8px];
+    @apply relative inline-flex items-center justify-center font-semibold rounded-[12px] transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden text-white bg-secondary hover:bg-[#C86A00] px-4 py-2 h-10 text-sm sm:px-6 sm:py-3 sm:h-12 sm:text-base rounded-[8px];
 }
 
 /* Medium-sized variations */
 .button-primary-medium {
-    @apply button-base bg-primary hover:bg-[#4B30AA] px-4 py-2 h-10 text-sm sm:px-6 sm:py-2 sm:h-10 sm:text-sm rounded-[12px];
+    @apply relative inline-flex items-center justify-center font-semibold rounded-[12px] transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden text-white bg-primary hover:bg-[#4B30AA] px-4 py-2 h-10 text-sm sm:px-6 sm:py-2 sm:h-10 sm:text-sm rounded-[12px];
 }
 
 .button-secondary-medium {
-    @apply button-base bg-secondary hover:bg-[#C86A00] px-4 py-2 h-10 text-sm sm:px-6 sm:py-2 sm:h-10 sm:text-sm rounded-[12px];
+    @apply relative inline-flex items-center justify-center font-semibold rounded-[12px] transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden text-white bg-secondary hover:bg-[#C86A00] px-4 py-2 h-10 text-sm sm:px-6 sm:py-2 sm:h-10 sm:text-sm rounded-[12px];
 }
 
 /* Action Buttons (Detail, Edit, Delete) */
