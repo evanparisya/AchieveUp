@@ -15,13 +15,13 @@
 
 </head>
 <body class="bg-[#fdfcff] text-gray-800">
-    <div class="flex min-h-screen">
+     <div class="flex min-h-screen">
         @include('mahasiswa.layouts.sidebar')
 
-        <div class="flex-1 flex flex-col">
+         <div class="flex-1 flex flex-col ml-64">  
             @include('mahasiswa.layouts.header')
 
-            <main class="p-8">
+            <main class="p-8 mt-16 overflow-auto"> 
                 <div class="breadcrumb">
                     @include('mahasiswa.layouts.breadcrumb')
                 </div>
@@ -31,6 +31,8 @@
             </main>
         </div>
     </div>
+    <script src="//unpkg.com/alpinejs" defer></script>
+
     @vite('resources/js/app.js')
 
     <script>

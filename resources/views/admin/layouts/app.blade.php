@@ -8,7 +8,7 @@
     <title>@yield('title')</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css ">
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -27,10 +27,10 @@
     <div class="flex min-h-screen">
         @include('admin.layouts.sidebar')
 
-        <div class="flex-1 flex flex-col">
+        <div class="flex-1 flex flex-col ml-64"> 
             @include('admin.layouts.header')
 
-            <main class="p-8">
+            <main class="p-8 mt-16 overflow-auto"> 
                 <div class="breadcrumb">
                     @include('admin.layouts.breadcrumb')
                 </div>
@@ -40,8 +40,9 @@
             </main>
         </div>
     </div>
-    @vite('resources/js/app.js')
+    <script src="//unpkg.com/alpinejs" defer></script>
 
+    @vite('resources/js/app.js')
     <script>
         $.ajaxSetup({
             headers: {
@@ -50,7 +51,7 @@
         });
     </script>
 
-    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js "></script>
     @stack('js')
 </body>
 

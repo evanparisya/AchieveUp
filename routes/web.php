@@ -35,10 +35,23 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
 
     Route::prefix('users')->name('users.')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('index');
+
         Route::get('/mahasiswa/getdata', [UserController::class, 'getMahasiswaData'])->name('mahasiswa.getdata');
+        Route::delete('/mahasiswa/{id}', [UserController::class, 'destroyMahasiswa'])->name('admin.users.mahasiswa.delete');
+
         Route::get('/dosen/getdata', [UserController::class, 'getDosenData'])->name('dosen.data');
+        Route::delete('/dosen/{id}', [UserController::class, 'destroyDosen'])->name('admin.users.dosen.delete');
+
         Route::get('/create', [UserController::class, 'create'])->name('users.create');
-        Route::post('/store', [UserController::class, 'store'])->name('store');
+        Route::post('/store', [UserController::class, 'store'])->name('users.store');
+
+        Route::get('/mahasiswa/{id}/update', [UserController::class, 'showUpdateMahasiswaForm'])->name('admin.users.mahasiswa.update.form');
+        Route::put('/mahasiswa/{id}/update', [UserController::class, 'updateMahasiswa'])->name('admin.users.mahasiswa.update');
+
+        Route::get('/dosen/{id}/update', [UserController::class, 'showUpdateDosenForm'])->name('admin.users.dosen.update.form');
+        Route::put('/dosen/{id}/update', [UserController::class, 'updateDosen'])->name('admin.users.dosen.update');
+
+        Route::get('/{id}', [UserController::class, 'show'])->name('admin.users.show');
     });
 
     Route::prefix('prestasi')->name('prestasi.')->group(function () {
@@ -57,7 +70,6 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
         Route::get('/edit/{id}', [LombaController::class, 'edit'])->name('edit');
         Route::put('/update/{id}', [LombaController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [LombaController::class, 'destroy'])->name('delete');
-
     });
 
     Route::prefix('prodi')->name('prodi.')->group(function () {
@@ -68,15 +80,11 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
         Route::get('/edit/{id}', [ProdiController::class, 'edit'])->name('edit');
         Route::put('/update/{id}', [ProdiController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [ProdiController::class, 'destroy'])->name('delete');
-
     });
-
 });
 
 Route::middleware(['dosen:dosen pembimbing'])->prefix('dosen_pembimbing')->name('dosen.')->group(function () {
-    Route::get('/bimbingan', function(){
-        return dd('login dosen pembimbing');
-    });
+    Route::get('/dashboard', [DashboardMahasiswa::class, 'index'])->name('dashboard.index');
 });
 
 Route::middleware(['mahasiswa'])->prefix('mahasiswa')->name('mahasiswa.')->group(function () {
