@@ -95,7 +95,7 @@ class LombaController extends Controller
             'is_akademik' => $request->has('is_akademik'),
             'is_active' => $request->has('is_active'),
         ]);
-        // Validasi input
+        
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
             'tempat' => 'required|string|max:255',
@@ -106,18 +106,16 @@ class LombaController extends Controller
             'is_individu' => 'required|boolean',
             'is_active' => 'required|boolean',
             'is_akademik' => 'required|boolean',
-            'file_poster' => 'nullable|image|max:2048', // max 2MB
+            'file_poster' => 'nullable|image|max:2048',  
             'bidang' => 'required|array|min:1',
             'bidang.*' => 'exists:bidang,id',
         ]);
 
-        // Upload file poster jika ada
         $posterPath = null;
         if ($request->hasFile('file_poster')) {
             $posterPath = $request->file('file_poster')->store('posters', 'public');
         }
 
-        // Simpan data lomba
         $lomba = Lomba::create([
             'judul' => $validated['judul'],
             'tempat' => $validated['tempat'],
@@ -131,7 +129,6 @@ class LombaController extends Controller
             'file_poster' => $posterPath,
         ]);
 
-        // Sync bidang (many-to-many)
         $lomba->bidang()->sync($validated['bidang']);
 
         return redirect()->route('admin.lomba.index')->with('success', 'Data lomba berhasil disimpan.');
@@ -166,7 +163,6 @@ class LombaController extends Controller
             'is_active' => $request->has('is_active'),
         ]);
 
-        // Validasi input
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
             'tempat' => 'required|string|max:255',
@@ -177,12 +173,11 @@ class LombaController extends Controller
             'is_individu' => 'required|boolean',
             'is_active' => 'required|boolean',
             'is_akademik' => 'required|boolean',
-            'file_poster' => 'nullable|image|max:2048', // max 2MB
+            'file_poster' => 'nullable|image|max:2048', 
             'bidang' => 'required|array|min:1',
             'bidang.*' => 'exists:bidang,id',
         ]);
 
-        // Upload file poster jika ada
         if ($request->hasFile('file_poster')) {
             if ($lomba->file_poster) {
                 Storage::disk('public')->delete($lomba->file_poster);
@@ -192,7 +187,6 @@ class LombaController extends Controller
             $posterPath = $lomba->file_poster;
         }
 
-        // Update data lomba
         $lomba->update([
             'judul' => $validated['judul'],
             'tempat' => $validated['tempat'],
@@ -206,7 +200,6 @@ class LombaController extends Controller
             'file_poster' => $posterPath,
         ]);
 
-        // Sync bidang (many-to-many)
         $lomba->bidang()->sync($validated['bidang']);
 
         return redirect()->route('admin.lomba.index')->with('success', 'Data lomba berhasil diperbarui.');

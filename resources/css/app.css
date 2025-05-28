@@ -32,21 +32,47 @@
 }
 
 .button-primary {
-    @apply relative px-[16px] py-2 h-[40px] text-sm bg-primary text-white font-semibold rounded-[8px] transform transition-all duration-300 ease-in-out hover:bg-[#4B30AA] hover:scale-105 hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer sm:px-[24px] sm:py-3 sm:h-[48px] sm:text-base sm:rounded-[12px];
-    overflow: hidden;
+    @apply relative inline-flex items-center justify-center font-semibold rounded-[12px] transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden text-white bg-primary hover:bg-[#4B30AA] px-4 py-2 h-10 text-sm sm:px-6 sm:py-3 sm:h-12 sm:text-base rounded-[8px];
 }
 
+/* Secondary Button */
 .button-secondary {
-    @apply relative px-[16px] py-2 h-[40px] text-sm bg-secondary text-white font-semibold rounded-[8px] transform transition-all duration-300 ease-in-out hover:bg-[#C86A00] hover:scale-105 hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer sm:px-[24px] sm:py-3 sm:h-[48px] sm:text-base sm:rounded-[12px];
-    overflow: hidden;
+    @apply relative inline-flex items-center justify-center font-semibold rounded-[12px] transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden text-white bg-secondary hover:bg-[#C86A00] px-4 py-2 h-10 text-sm sm:px-6 sm:py-3 sm:h-12 sm:text-base rounded-[8px];
 }
 
+/* Medium-sized variations */
+.button-primary-medium {
+    @apply relative inline-flex items-center justify-center font-semibold rounded-[12px] transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden text-white bg-primary hover:bg-[#4B30AA] px-4 py-2 h-10 text-sm sm:px-6 sm:py-2 sm:h-10 sm:text-sm rounded-[12px];
+}
+
+.button-secondary-medium {
+    @apply relative inline-flex items-center justify-center font-semibold rounded-[12px] transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden text-white bg-secondary hover:bg-[#C86A00] px-4 py-2 h-10 text-sm sm:px-6 sm:py-2 sm:h-10 sm:text-sm rounded-[12px];
+}
+
+/* Action Buttons (Detail, Edit, Delete) */
+.action-button {
+    @apply w-10 h-10 flex items-center justify-center border rounded-[12px] transition-all duration-200 ease-in-out;
+}
+
+.detail-button {
+    @apply border-blue-500 text-blue-600 hover:bg-blue-50;
+}
+
+.edit-button {
+    @apply border-yellow-500 text-yellow-600 hover:bg-yellow-50;
+}
+
+.delete-button {
+    @apply border-red-500 text-red-600 hover:bg-red-50 cursor-pointer;
+}
+
+/* Input Field */
 .input {
-    @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6041CE] focus:outline-none bg-white/70;
+    @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6041CE] focus:outline-none focus:border-transparent bg-white/70 transition-all duration-300;
 }
 
 .sidebar-menu-button {
-    @apply flex items-center py-4 px-4 rounded rounded-2xl hover:bg-[#DFD9F5] text-sm text-gray-800;
+    @apply flex items-center py-4 px-4 rounded-[8px] hover:bg-[#DFD9F5] text-sm text-gray-800;
 }
 
 .sidebar-menu-button.sidebar-active:hover {
@@ -65,7 +91,6 @@ table.dataTable thead th {
   @apply px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50;
 }
 
-/* Styling row */
 table.dataTable tbody tr {
   @apply bg-white divide-y divide-gray-200;
 }
@@ -74,7 +99,6 @@ table.dataTable tbody td {
   @apply px-6 py-4 whitespace-nowrap text-sm text-gray-900;
 }
 
-/* Hover effect */
 table.dataTable tbody tr:hover {
   @apply bg-gray-100;
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\PrestasiMahasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class PrestasiMahasiswaController extends Controller
 {
@@ -24,14 +25,16 @@ class PrestasiMahasiswaController extends Controller
         return view('mahasiswa.prestasi.index', compact('breadcrumb', 'page', 'activeMenu'));
     }
 
-    public function getData()
+    public function getData(Request $request)
     {
-        $mahasiswa = Auth::guard('mahasiswa')->user();
+        $mahasiswaId = Auth::guard('mahasiswa')->id();
+        if (!$mahasiswaId) {
+            return response()->json([], 401);
+        }
 
-        $prestasi = PrestasiMahasiswa::whereHas('mahasiswas', function ($q) use ($mahasiswa) {
-            $q->where('mahasiswa_id', $mahasiswa->id);
-        })
-            ->select('id', 'judul', 'tingkat', 'juara', 'status', 'tanggal_pengajuan')
+        $prestasi = PrestasiMahasiswa::whereHas('mahasiswas', function ($query) use ($mahasiswaId) {
+            $query->where('mahasiswa_id', $mahasiswaId);
+        })->select('id', 'judul', 'tingkat', 'juara', 'status', 'tanggal_pengajuan')
             ->latest()
             ->get();
 

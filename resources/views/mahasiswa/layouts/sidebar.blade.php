@@ -1,4 +1,4 @@
-<aside class="w-64 bg-white h-screen border-r border-gray-200 flex flex-col flex-shrink-0">
+<aside class="fixed top-0 left-0 h-screen w-64 bg-white shadow z-100">
     {{-- Logo --}}
     <div class="p-4 justify-center flex items-center">
         <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10 w-auto">
