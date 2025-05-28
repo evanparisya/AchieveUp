@@ -50,6 +50,10 @@
                                 |
                                 <a href="{{ route('admin.dashboard.electre') }}"
                                     class="text-blue-600 hover:underline">Langkah-langkah Electre</a>
+                                |
+                                    <a href="{{ route('admin.dashboard.aras') }}"
+                                    class="text-blue-600 hover:underline">Langkah-langkah Aras</a>
+                                
                             </td>
                         </tr>
 

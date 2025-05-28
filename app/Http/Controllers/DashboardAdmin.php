@@ -2,12 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Mahasiswa;
-use App\Models\PrestasiMahasiswa;
-use Illuminate\Http\Request;
+use App\Services\Entrophy;
+use App\Services\Electre;
+use App\Services\Aras;
+
 
 class DashboardAdmin extends Controller
 {
+
+    protected $entrophy;
+    protected $electre;
+    protected $aras;
+    public function __construct(Entrophy $entrophy, Electre $electre, Aras $aras)
+    {
+        $this->entrophy = $entrophy;
+        $this->electre = $electre;
+        $this->aras = $aras;
+    }
+
     public function index()
     {
         $breadcrumb = (object)
@@ -22,94 +34,19 @@ class DashboardAdmin extends Controller
         ];
 
         $activeMenu = 'dashboard';
+        $rankingElectre = $this->electre->getRanking();
+        $rankingAras = $this->aras->getRanking();
 
         return view('admin.dashboard.index', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
-            'activeMenu' => $activeMenu
+            'activeMenu' => $activeMenu,
+            'rankingElectre' => $rankingElectre,
+            'rankingAras' => $rankingAras
         ]);
     }
 
-    public function getScoreLombaMahasiswa()
-    {
-        $mahasiswa = Mahasiswa::with('prestasi')->get();
-        $data = [];
-        $counter = 1;
 
-        foreach ($mahasiswa as $mhs) {
-            // Inisialisasi default values (termasuk untuk mahasiswa tanpa prestasi)
-            $counts = [
-                'internasional_akademik' => 0,
-                'internasional_nonakademik' => 0,
-                'nasional_akademik' => 0,
-                'nasional_nonakademik' => 0,
-                'regional_akademik' => 0,
-                'regional_nonakademik' => 0,
-                'provinsi_akademik' => 0,
-                'provinsi_nonakademik' => 0,
-            ];
-
-            $totals = [
-                'internasional' => 0,
-                'nasional' => 0,
-                'regional' => 0,
-                'provinsi' => 0,
-                'score' => 0
-            ];
-
-            // Hitung hanya jika ada prestasi
-            foreach ($mhs->prestasi as $prestasi) {
-                $type = $prestasi->is_akademik ? 'akademik' : 'nonakademik';
-                $bobot = $prestasi->is_akademik ? 0.1 : 0.05;
-                $key = $prestasi->tingkat . '_' . $type;
-
-                $tingkatMap = [
-                    'internasional' => 'inter',
-                    'nasional' => 'nasional',
-                    'regional' => 'regional',
-                    'provinsi' => 'provinsi'
-                ];
-
-                $tingkat = $prestasi->tingkat;
-                $type = $prestasi->is_akademik ? 'akademik' : 'nonakademik';
-                $bobot = $prestasi->is_akademik ? 0.1 : 0.05;
-
-                if (!isset($tingkatMap[$tingkat])) {
-                    continue; // Lewati jika tingkat tidak valid
-                }
-
-                $key = $tingkatMap[$tingkat] . '_' . $type;
-
-
-                $counts[$key]++;
-                $totals[$prestasi->tingkat] += $bobot;
-                $totals['score'] += $bobot;
-            }
-
-            // Masukkan data mahasiswa (DENGAN atau TANPA prestasi)
-            $data[] = [
-                'alternatif' => 'A' . $counter++,
-                'nim' => $mhs->nim,
-                'nama' => $mhs->nama,
-                ...$counts,
-                'total_internasional' => $totals['internasional'],
-                'total_nasional' => $totals['nasional'],
-                'total_regional' => $totals['regional'],
-                'total_provinsi' => $totals['provinsi'],
-                'totalScore' => $totals['score'],
-                'internasional_akademik_bobot' => $counts['internasional_akademik'] * 0.1,
-                'internasional_nonakademik_bobot' => $counts['internasional_nonakademik'] * 0.05,
-                'nasional_akademik_bobot' => $counts['nasional_akademik'] * 0.1,
-                'nasional_nonakademik_bobot' => $counts['nasional_nonakademik'] * 0.05,
-                'regional_akademik_bobot' => $counts['regional_akademik'] * 0.1,
-                'regional_nonakademik_bobot' => $counts['regional_nonakademik'] * 0.05,
-                'provinsi_akademik_bobot' => $counts['provinsi_akademik'] * 0.1,
-                'provinsi_nonakademik_bobot' => $counts['provinsi_nonakademik'] * 0.05,
-            ];
-        }
-
-        return response()->json($data);
-    }
 
     public function entropy()
     {
@@ -124,8 +61,6 @@ class DashboardAdmin extends Controller
             'title' => 'Entropy'
         ];
 
-        $getScoreLombaMahasiswa = $this->getScoreLombaMahasiswa();
-        $getScoreLombaMahasiswa = json_decode($getScoreLombaMahasiswa->getContent(), true);
 
         $activeMenu = 'dashboard';
 
@@ -133,7 +68,21 @@ class DashboardAdmin extends Controller
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,
-            'getScoreLombaMahasiswa' => $getScoreLombaMahasiswa,
+            'getSampleData' => $this->entrophy->getSampleData(),
+            'getScoreLomba' => $this->entrophy->getScoreLomba(),
+            'getDataAlternatif' => $this->entrophy->getDataAlternatif(),
+            'getNormalisasi' => $this->entrophy->getNormalisasi(),
+            'getMaxMin' => $this->entrophy->getMaxMin(),
+            'getTotalKriteria' => $this->entrophy->getTotalKriteria(),
+            'getNilaiProporsional' => $this->entrophy->getNilaiProporsional(),
+            'getNilaiLn' => $this->entrophy->getNilaiLn(),
+            'getNilaiProporsionalKaliLn' => $this->entrophy->getNilaiProporsionalKaliLn(),
+            'getTotalPLn' => $this->entrophy->getTotalPLn(),
+            'getNilaiEj' => $this->entrophy->getNilaiEj(),
+            'getNilaiEntrophy' => $this->entrophy->getNilaiEntrophy(),
+            'getNilaiDispersi' => $this->entrophy->getNilaiDispersi(),
+            'getTotalNilaiDispersi' => $this->entrophy->getTotalNilaiDispersi(),
+            'getBobotKriteria' => $this->entrophy->getBobotKriteria(),
         ]);
     }
 
@@ -156,7 +105,76 @@ class DashboardAdmin extends Controller
         return view('admin.dashboard.electre', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
-            'activeMenu' => $activeMenu
+            'activeMenu' => $activeMenu,
+            'getDataAlternatif' => $this->entrophy->getDataAlternatif(),
+            'getPenyebut' => $this->electre->getPenyebut(),
+            'getMatriksNormalisasiTerbobot' => $this->electre->getMatriksNormalisasiTerbobot(),
+            'getBobotKriteria' => $this->entrophy->getBobotKriteria(),
+            'getHasilPembobotanMatriks' => $this->electre->getHasilPembobotanMatriks(),
+            'getNilaiCorcondace' => $this->electre->getNilaiCorcondace(),
+            'getCorcondace' => $this->electre->getCorcondace(),
+            'getNilaiC' => $this->electre->getNilaiC(),
+            'getTresholdC' => $this->electre->getTresholdC(),
+            'getMatriksDominanC' => $this->electre->getMatriksDominanC(),
+            'getNilaiDiscordance' => $this->electre->getNilaiDiscordance(),
+            'getDiscordance' => $this->electre->getDiscordance(),
+            'getNilaiD' => $this->electre->getNilaiD(),
+            'getTresholdD' => $this->electre->getTresholdD(),
+            'getMatriksDominanD' => $this->electre->getMatriksDominanD(),
+            'getAgregatDominanMatriks' => $this->electre->getAgregatDominanMatriks(),
+            'getRanking' => $this->electre->getRanking()
         ]);
     }
+
+    public function aras()
+    {
+        $breadcrumb = (object)
+        [
+            'title' => 'Aras',
+            'list' => ['Home', 'Dashboard', 'Aras']
+        ];
+
+        $page = (object)
+        [
+            'title' => 'Aras'
+        ];
+
+        $activeMenu = 'dashboard';
+
+        return view('admin.dashboard.aras', [
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'activeMenu' => $activeMenu,
+            'getBobotKriteria' => $this->entrophy->getBobotKriteria(),
+            'getDataAlternatif' => $this->entrophy->getDataAlternatif(),
+            'getAlternatif' => $this->aras->getAlternatif(),
+            'getDataBaru' => $this->aras->getDataBaru(),
+            'getTotalKriteria' => $this->aras->getTotalKriteria(),
+            'getNormalisasi' => $this->aras->getNormalisasi(),
+            'getNilaiUtilitas' => $this->aras->getNilaiUtilitas(),
+            'getRanking' => $this->aras->getRanking(),
+        ]);
+    }
+
+    public function test()
+    {
+        $entrophy = $this->entrophy;
+        $electre = $this->electre;
+        $aras = $this->aras;
+        $data = 
+        [
+            // 'getAllFungsiEntrophy' => $entrophy->getAllFunction(),
+            // 'getAllFungsiElectre' => $electre->getAllFunction(),
+            // 'matriksNormalisasiTerbobot' => $electre->getMatriksNormalisasiTerbobot(),
+            // 'getAllFungsiAras' =>     $aras->getAllFunction(),
+            'getRankingElectre' => $electre->getRanking(),
+            // 'getNilaiCorcondace' => $electre->getNilaiCorcondace(),
+            // 'getCorcondace' => $electre->getCorcondace(),
+        ];
+        dd($data);
+
+        return $data;
+    }
+
+    
 }

@@ -36,7 +36,11 @@ class Mahasiswa extends Authenticatable
         return $this->belongsTo(ProgramStudi::class, 'program_studi_id');
     }
     public function prestasi()
-{
-    return $this->belongsToMany(Prestasi::class, 'prestasi_mahasiswa', 'mahasiswa_id', 'prestasi_id');
-}
+    {
+        return $this->belongsToMany(Prestasi::class, 'prestasi_mahasiswa', 'mahasiswa_id', 'prestasi_id');
+    }
+    public function profil()
+    {
+        return $this->hasOne(ProfilMahasiswa::class, 'mahasiswa_id');
+    }
 }

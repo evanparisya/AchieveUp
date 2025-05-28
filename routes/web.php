@@ -39,7 +39,8 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
         Route::get('/', [DashboardAdmin::class, 'index'])->name('index');
         Route::get('entropy', [DashboardAdmin::class, 'entropy'])->name('entropy');
         Route::get('electre', [DashboardAdmin::class, 'electre'])->name('electre');
-        Route::get('getAllScorelombamahasiswa', [DashboardAdmin::class, 'getScoreLombaMahasiswa'])->name('getAllScorelombamahasiswa');
+        Route::get('aras', [DashboardAdmin::class, 'aras'])->name('aras');
+        Route::get('test', [DashboardAdmin::class, 'test'])->name('test');
     });
 
     Route::prefix('users')->name('users.')->group(function () {
@@ -98,7 +99,7 @@ Route::middleware(['dosen:dosen pembimbing'])->prefix('dosen_pembimbing')->name(
         Route::get('/edit', [ProfilDosenPembimbingController::class, 'edit'])->name('edit');
         Route::put('/update/{id}', [ProfilDosenPembimbingController::class, 'update'])->name('update');
     });
-    
+
 });
 
 Route::middleware(['mahasiswa'])->prefix('mahasiswa')->name('mahasiswa.')->group(function () {
