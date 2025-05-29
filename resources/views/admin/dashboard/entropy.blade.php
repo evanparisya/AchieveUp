@@ -314,6 +314,41 @@
             <div id="semester_pagination" class="mt-2 flex flex-wrap gap-2"></div>
         </div>
 
+        {{-- Tabel Sampel Data --}}
+        <h1 class="text-lg font-bold mb-2">Sample Data</h1>
+
+        <div class="data-alternatif">
+            <table class="table-auto w-full border border-black rounded shadow">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="border border-black px-4 py-2 text-center">Alternatif</th>
+                        <th class="border border-black px-4 py-2 text-center">Bobot IPK</th>
+                        <th class="border border-black px-4 py-2 text-center">Jumlah Lomba Akademik (IA, NA, RE, PR)</th>
+                        <th class="border border-black px-4 py-2 text-center">Jumlah Lomba Non-Akademik (IA, NA, RE, PR)</th>
+                        <th class="border border-black px-4 py-2 text-center">Pengalaman Organisasi</th>
+                        <th class="border border-black px-4 py-2 text-center">Skor Bahasa Inggris</th>
+                        <th class="border border-black px-4 py-2 text-center">Prestasi Kemenangan</th>
+                        <th class="border border-black px-4 py-2 text-center">Semester</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php 
+                foreach ($getSampleData as $data): ?>
+                    <tr>
+                        <td class="border border-black px-4 py-2 text-center"><?= htmlspecialchars($data['alternatif']) ?></td>
+                        <td class="border border-black px-4 py-2 text-center"><?= number_format($data['ipk'], 2) ?></td>
+                        <td class="border border-black px-4 py-2 text-center"><?= htmlspecialchars($data['lomba_akademik']) ?></td>
+                        <td class="border border-black px-4 py-2 text-center"><?= htmlspecialchars($data['lomba_nonakademik']) ?></td>
+                        <td class="border border-black px-4 py-2 text-center"><?= number_format($data['pengalaman_organisasi'], 2) ?></td>
+                        <td class="border border-black px-4 py-2 text-center"><?= number_format($data['skor_bahasa_inggris'], 2) ?></td>
+                        <td class="border border-black px-4 py-2 text-center"><?= htmlspecialchars($data['prestasi_kemenangan'], 2) ?></td>
+                        <td class="border border-black px-4 py-2 text-center"><?= htmlspecialchars($data['semester']) ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+
         {{-- Tabel Perhitungan Skor Lomba Mahasiswa --}}
         @foreach ($getScoreLomba as $item)
             <div class="mb-10">

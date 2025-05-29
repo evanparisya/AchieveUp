@@ -163,11 +163,11 @@ class DashboardAdmin extends Controller
         $aras = $this->aras;
         $data = 
         [
-            // 'getAllFungsiEntrophy' => $entrophy->getAllFunction(),
+            'getAllFungsiEntrophy' => $entrophy->getAllFunction(),
             // 'getAllFungsiElectre' => $electre->getAllFunction(),
             // 'matriksNormalisasiTerbobot' => $electre->getMatriksNormalisasiTerbobot(),
             // 'getAllFungsiAras' =>     $aras->getAllFunction(),
-            'getRankingElectre' => $electre->getRanking(),
+            // 'getRankingElectre' => $electre->getRanking(),
             // 'getNilaiCorcondace' => $electre->getNilaiCorcondace(),
             // 'getCorcondace' => $electre->getCorcondace(),
         ];
