@@ -6,6 +6,24 @@
     <div class="space-y-8">
         <div class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
             <h1 class="text-2xl font-bold mb-4">ADMIN</h1>
+
+            <div class="relative w-full max-w-xs">
+                <select
+                    class="appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 ease-in-out cursor-pointer hover:bg-gray-50">
+                    <option value="" disabled selected>Pilih opsi</option>
+                    <option value="1">Opsi 1</option>
+                    <option value="2">Opsi 2</option>
+                    <option value="3">Opsi 3</option>
+                    <option value="4">Opsi 4</option>
+                </select>
+                <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </div>
+            </div>
+
         </div>
 
         <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
@@ -13,16 +31,13 @@
             <p class="mb-4 font-normal text-gray-700">Grafik perkembangan prestasi mahasiswa tahun ini.</p>
             <canvas id="chartPrestasi" class="w-full h-40"></canvas>
         </div>
-        {{-- Tampilkan Tabel peringkat mahasiswa dengan 2 pilihan metode pemeringkatan entropy dan electre --}}
         <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
-            {{-- Dropdown untuk memilih metode pemeringkatan --}}
             <label for="metode" class="block mb-2 text-sm font-medium text-gray-900">Pilih Metode Pemeringkatan</label>
             <select id="metode"
                 class="mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                 <option value="entropy">Entropy</option>
                 <option value="electre">Electre</option>
             </select>
-            {{-- Tampilkan tabel peringkat mahasiswa --}}
             <div class="overflow-x-auto">
                 <table class="w-full text-sm text-left text-gray-500">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -41,7 +56,7 @@
                             <td class="px-6 py-4">2</td>
                         </tr>
                     </tbody>
-                    {{-- Route ke langkah-langkah metode pemeringkatan entropy atau electre--}}
+                    {{-- Route ke langkah-langkah metode pemeringkatan entropy atau electre --}}
                     <tfoot>
                         <tr class="bg-white border-b">
                             <td colspan="2" class="px-6 py-4 text-center">
@@ -63,7 +78,6 @@
 
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
             <script>
-                // Fungsi untuk mengupdate chart berdasarkan metode yang dipilih
                 function updateChart(metode) {
                     const ctx = document.getElementById('chartPrestasi').getContext('2d');
                     const data = {
@@ -94,14 +108,13 @@
                     });
                 }
 
-                // Event listener untuk dropdown
                 document.getElementById('metode').addEventListener('change', function() {
                     updateChart(this.value);
                 });
 
-                // Inisialisasi chart dengan metode default
                 updateChart('entropy');
             </script>
+
             <script>
                 const ctx = document.getElementById('chartPrestasi').getContext('2d');
                 new Chart(ctx, {

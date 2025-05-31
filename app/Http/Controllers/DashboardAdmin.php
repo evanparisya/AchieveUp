@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Entrophy;
-use App\Services\Electre;
 use App\Services\Aras;
-
+use App\Services\Electre;
+use App\Services\Entrophy;
 
 class DashboardAdmin extends Controller
 {
@@ -23,14 +22,14 @@ class DashboardAdmin extends Controller
     public function index()
     {
         $breadcrumb = (object)
-        [
+            [
             'title' => 'Dashboard',
-            'list' => ['Home', 'Dashboard']
+            'list' => ['Home', 'Dashboard'],
         ];
 
         $page = (object)
-        [
-            'title' => 'Selamat datang di Dashboard'
+            [
+            'title' => 'Selamat datang di Dashboard',
         ];
 
         $activeMenu = 'dashboard';
@@ -42,25 +41,22 @@ class DashboardAdmin extends Controller
             'page' => $page,
             'activeMenu' => $activeMenu,
             'rankingElectre' => $rankingElectre,
-            'rankingAras' => $rankingAras
+            'rankingAras' => $rankingAras,
         ]);
     }
-
-
 
     public function entropy()
     {
         $breadcrumb = (object)
-        [
+            [
             'title' => 'Entropy',
-            'list' => ['Home', 'Dashboard', 'Entropy']
+            'list' => ['Home', 'Dashboard', 'Entropy'],
         ];
 
         $page = (object)
-        [
-            'title' => 'Entropy'
+            [
+            'title' => 'Entropy',
         ];
-
 
         $activeMenu = 'dashboard';
 
@@ -86,18 +82,17 @@ class DashboardAdmin extends Controller
         ]);
     }
 
-
     public function electre()
     {
         $breadcrumb = (object)
-        [
+            [
             'title' => 'Electre',
-            'list' => ['Home', 'Dashboard', 'Electre']
+            'list' => ['Home', 'Dashboard', 'Electre'],
         ];
 
         $page = (object)
-        [
-            'title' => 'Electre'
+            [
+            'title' => 'Electre',
         ];
 
         $activeMenu = 'dashboard';
@@ -122,21 +117,21 @@ class DashboardAdmin extends Controller
             'getTresholdD' => $this->electre->getTresholdD(),
             'getMatriksDominanD' => $this->electre->getMatriksDominanD(),
             'getAgregatDominanMatriks' => $this->electre->getAgregatDominanMatriks(),
-            'getRanking' => $this->electre->getRanking()
+            'getRanking' => $this->electre->getRanking(),
         ]);
     }
 
     public function aras()
     {
         $breadcrumb = (object)
-        [
+            [
             'title' => 'Aras',
-            'list' => ['Home', 'Dashboard', 'Aras']
+            'list' => ['Home', 'Dashboard', 'Aras'],
         ];
 
         $page = (object)
-        [
-            'title' => 'Aras'
+            [
+            'title' => 'Aras',
         ];
 
         $activeMenu = 'dashboard';
@@ -161,8 +156,8 @@ class DashboardAdmin extends Controller
         $entrophy = $this->entrophy;
         $electre = $this->electre;
         $aras = $this->aras;
-        $data = 
-        [
+        $data =
+            [
             'getAllFungsiEntrophy' => $entrophy->getAllFunction(),
             // 'getAllFungsiElectre' => $electre->getAllFunction(),
             // 'matriksNormalisasiTerbobot' => $electre->getMatriksNormalisasiTerbobot(),
@@ -176,5 +171,4 @@ class DashboardAdmin extends Controller
         return $data;
     }
 
-    
 }

@@ -32,7 +32,6 @@
     </div>
     {{-- SweetAlert --}}
     <script>
-        // Komen
         document.getElementById('form-create').addEventListener('submit', function(e) {
             e.preventDefault();
             Swal.fire({

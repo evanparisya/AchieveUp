@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @source "../views";
+@tailwind utilities;
 
 @theme {
     --font-primary: "Poppins", sans-serif;
@@ -31,22 +32,32 @@
     animation: ripple-animation 0.6s linear;
 }
 
+/* Primary Button */
 .button-primary {
-    @apply relative inline-flex items-center justify-center font-semibold rounded-[12px] transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden text-white bg-primary hover:bg-[#4B30AA] px-4 py-2 h-10 text-sm sm:px-6 sm:py-3 sm:h-12 sm:text-base rounded-[8px];
+    @apply relative inline-flex items-center justify-center font-semibold transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden text-white bg-primary hover:bg-purple-700 px-4 py-2 h-10 text-sm sm:px-6 sm:py-3 sm:h-12 sm:text-base rounded-[12px];
 }
 
-/* Secondary Button */
+/* Secondary Outline Button */
 .button-secondary {
-    @apply relative inline-flex items-center justify-center font-semibold rounded-[12px] transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden text-white bg-secondary hover:bg-[#C86A00] px-4 py-2 h-10 text-sm sm:px-6 sm:py-3 sm:h-12 sm:text-base rounded-[8px];
+    @apply relative inline-flex items-center justify-center font-semibold transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden text-primary bg-transparent border-2 border-primary hover:bg-primary hover:text-white px-4 py-2 h-10 text-sm sm:px-6 sm:py-3 sm:h-12 sm:text-base rounded-[12px];
 }
 
-/* Medium-sized variations */
+/* Medium Primary Button */
 .button-primary-medium {
-    @apply relative inline-flex items-center justify-center font-semibold rounded-[12px] transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden text-white bg-primary hover:bg-[#4B30AA] px-4 py-2 h-10 text-sm sm:px-6 sm:py-2 sm:h-10 sm:text-sm rounded-[12px];
+    @apply relative inline-flex items-center justify-center font-semibold transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden text-white bg-primary hover:bg-purple-700 px-4 py-2 h-10 text-sm sm:px-6 sm:py-2 sm:h-10 sm:text-sm rounded-[8px];
 }
 
+/* Medium Secondary Outline Button */
 .button-secondary-medium {
-    @apply relative inline-flex items-center justify-center font-semibold rounded-[12px] transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden text-white bg-secondary hover:bg-[#C86A00] px-4 py-2 h-10 text-sm sm:px-6 sm:py-2 sm:h-10 sm:text-sm rounded-[12px];
+    @apply relative inline-flex items-center justify-center font-semibold transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden text-primary bg-transparent border-2 border-primary hover:bg-primary hover:text-white px-4 py-2 h-10 text-sm sm:px-6 sm:py-2 sm:h-10 sm:text-sm rounded-[8px];
+}
+
+.button-approve {
+    @apply relative inline-flex items-center justify-center font-semibold transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden text-white bg-green-600 px-4 py-2 h-10 text-sm sm:px-6 sm:py-3 sm:h-12 sm:text-base rounded-[12px];
+}
+
+.button-reject {
+    @apply relative inline-flex items-center justify-center font-semibold transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden text-white bg-red-600 px-4 py-2 h-10 text-sm sm:px-6 sm:py-3 sm:h-12 sm:text-base rounded-[12px];
 }
 
 /* Action Buttons (Detail, Edit, Delete) */
@@ -66,9 +77,8 @@
     @apply border-red-500 text-red-600 hover:bg-red-50 cursor-pointer;
 }
 
-/* Input Field */
 .input {
-    @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6041CE] focus:outline-none focus:border-transparent bg-white/70 transition-all duration-300;
+    @apply w-full px-[10px] py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6041CE] focus:outline-none focus:border-transparent bg-white/70 transition-all duration-300 shadow-sm cursor-pointer hover:bg-gray-50;
 }
 
 .sidebar-menu-button {

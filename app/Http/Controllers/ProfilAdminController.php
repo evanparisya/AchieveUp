@@ -74,7 +74,6 @@ class ProfilAdminController extends Controller
     {
         $admin = Dosen::findOrFail($id);
 
-        // Validasi input
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:dosen,username,' . $admin->id,
@@ -82,12 +81,10 @@ class ProfilAdminController extends Controller
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        // Update data admin
         $admin->nama = $validated['nama'];
         $admin->username = $validated['username'];
         $admin->email = $validated['email'];
 
-        // Upload foto jika ada
         if ($request->hasFile('foto')) {
             if ($admin->foto) {
                 Storage::disk('public')->delete($admin->foto);

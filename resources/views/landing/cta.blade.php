@@ -1,5 +1,5 @@
 <div class="flex flex-col lg:flex-row justify-between lg:justify-between items-center text-center lg:text-left w-full h-[274px] p-8 shrink-0 bg-cover bg-no-repeat bg-center"
-     style="
+    style="
         background-image:
         linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
         linear-gradient(0deg, rgba(117, 88, 222, 0.3), rgba(117, 88, 222, 0.3)),

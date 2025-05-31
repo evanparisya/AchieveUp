@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable; // Karena ada login
+use Illuminate\Database\Eloquent\Factories\HasFactory;//
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class Dosen extends Authenticatable
@@ -36,6 +36,6 @@ class Dosen extends Authenticatable
 
     public function getRoleAttribute($value)
     {
-        return $value === 'admin' ? 'admin' : 'dosen pembimbing';
+        return $value === 'admin' ? 'admin' : ($value === 'dosen pembimbing' ? 'dosen pembimbing' : 'unknown');
     }
 }
