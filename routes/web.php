@@ -9,6 +9,7 @@ use App\Http\Controllers\LombaController;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\PrestasiMahasiswaController;
 use App\Http\Controllers\ProdiController;
+use App\Http\Controllers\ProfilAdminController;
 use App\Http\Controllers\ProfilDosenPembimbingController;
 use App\Http\Controllers\ProfilMahasiswaController;
 use App\Http\Controllers\UserController;
@@ -93,6 +94,12 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
         Route::get('/edit/{id}', [ProdiController::class, 'edit'])->name('edit');
         Route::put('/update/{id}', [ProdiController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [ProdiController::class, 'destroy'])->name('delete');
+    });
+
+    Route::prefix('profil')->name('profil.')->group(function () {
+        Route::get('/', [ProfilAdminController::class, 'index'])->name('index');
+        Route::get('/edit', [ProfilAdminController::class, 'edit'])->name('edit');
+        Route::put('/update/{id}', [ProfilAdminController::class, 'update'])->name('update');
     });
 });
 

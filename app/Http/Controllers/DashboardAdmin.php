@@ -8,7 +8,6 @@ use App\Services\Entrophy;
 
 class DashboardAdmin extends Controller
 {
-
     protected $entrophy;
     protected $electre;
     protected $aras;
@@ -170,5 +169,4 @@ class DashboardAdmin extends Controller
 
         return $data;
     }
-
 }
