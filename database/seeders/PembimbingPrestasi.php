@@ -20,6 +20,12 @@ class PembimbingPrestasi extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'prestasi_id' => 2,
+                'dosen_id' => 2,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
     }
 }

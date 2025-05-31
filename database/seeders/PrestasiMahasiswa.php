@@ -32,6 +32,30 @@ class PrestasiMahasiswa extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'prestasi_id' => 2,
+                'mahasiswa_id' => 2,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'prestasi_id' => 2,
+                'mahasiswa_id' => 3,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'prestasi_id' => 2,
+                'mahasiswa_id' => 4,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'prestasi_id' => 2,
+                'mahasiswa_id' => 5,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
     }
 }
