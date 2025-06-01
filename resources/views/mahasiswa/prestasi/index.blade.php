@@ -3,164 +3,277 @@
 @section('title', 'Prestasi')
 
 @section('content')
-<div class="mx-auto max-w-full h-full flex flex-col">
-    <h1 class="text-xl font-bold mb-4">Daftar Semua Prestasi</h1>
+    <div class="mx-auto max-w-full h-full flex flex-col">
 
-    <div class="flex items-center justify-between mb-4">
-        <div class="flex items-center space-x-2">
-            <label for="show-entry" class="text-sm font-medium text-gray-700">Tampilkan</label>
-            <select id="show-entry"
-                class="appearance-none bg-white border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#6041CE] focus:border-transparent transition-shadow">
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="25">25</option>
-            </select>
-            <span class="text-sm font-medium text-gray-700">data</span>
-        </div>
-        <div class="flex items-center gap-2">
-            <input id="search-bar" type="text" placeholder="Cari..." class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#6041CE] focus:border-transparent transition-shadow" />
-            <button id="btn-add-prestasi" class="button-primary-medium">
+        <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center space-x-2">
+                <label for="show-entry" class="text-sm font-medium text-gray-700">Tampilkan</label>
+                <select id="show-entry"
+                    class="appearance-none bg-white border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#6041CE] focus:border-transparent transition-shadow">
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
+                    <option value="20">20</option>
+                    <option value="40">40</option>
+                </select>
+                <span class="text-sm font-medium text-gray-700">data</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <input id="search-bar" type="text" placeholder="Cari..." class="input" />
+                <a href="{{ route('mahasiswa.prestasi.create') }}" id="btn-add-user" class="button-primary-medium">
                     <i class="fas fa-plus mr-2"></i>
                     <span>Tambah</span>
-                </button>
+                </a>
+            </div>
         </div>
-    </div>
-    
-    <div class="flex-1 overflow-x-auto bg-white shadow rounded border border-gray-200">
-        <table id="table_prestasi" class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
-                <tr>
-                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Judul</th>
-                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tingkat</th>
-                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Juara</th>
-                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal</th>
-                </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200"></tbody>
-        </table>
-        <p id="prestasi_info" class="text-sm text-gray-500 mt-2 px-4"></p>
-        <div id="prestasi_pagination" class="mt-2 flex flex-wrap gap-2 px-4 pb-4"></div>
-    </div>
-</div>
-@endsection
 
-@push('js')
-<script>
-$(document).ready(function () {
-    let prestasiData = [];
-    let originalData = [];
-    let currentPage = 1;
-
-    function renderPrestasiTable() {
-        let entriesToShow = parseInt($("#show-entry").val()) || 5;
-        let tbody = $('#table_prestasi tbody');
-        let searchQuery = $('#search-bar').val().toLowerCase();
-
-        if (!Array.isArray(prestasiData)) {
-            console.error('prestasiData is not an array:', prestasiData);
-            prestasiData = [];
-        }
-
-        let filtered = prestasiData.filter(item =>
-            (item.judul || '').toLowerCase().includes(searchQuery) ||
-            (item.tingkat || '').toLowerCase().includes(searchQuery) ||
-            (item.juara || '').toString().toLowerCase().includes(searchQuery) ||
-            (item.status || '').toLowerCase().includes(searchQuery)
-        );
-
-        let totalData = filtered.length;
-        let totalPages = Math.ceil(totalData / entriesToShow);
-
-        let startIndex = (currentPage - 1) * entriesToShow;
-        let paginated = filtered.slice(startIndex, startIndex + entriesToShow);
-
-        tbody.empty();
-
-        // Calculate table height: (entriesToShow * row height) + header height
-        const rowHeight = 48; // 48px per row
-        const headerHeight = 40; // Approximate header height (can adjust based on actual height)
-        const tableHeight = (entriesToShow * rowHeight) + headerHeight;
-        $('#table_prestasi').css('height', `${tableHeight}px`);
-
-        if (paginated.length === 0) {
-            tbody.append('<tr class="h-12"><td colspan="5" class="px-4 py-2 text-center text-gray-400">Tidak ada prestasi yang ditemukan.</td></tr>');
-            // Fill remaining rows to maintain table height
-            for (let i = 1; i < entriesToShow; i++) {
-                tbody.append('<tr class="h-12"><td colspan="5" class="px-4 py-2"></td></tr>');
-            }
-        } else {
-            $.each(paginated, function (index, item) {
-                let formattedDate = item.tanggal_pengajuan
-                    ? new Date(item.tanggal_pengajuan).toLocaleDateString('id-ID', {
-                          day: '2-digit',
-                          month: '2-digit',
-                          year: 'numeric'
-                      })
-                    : 'Tidak tersedia';
-                let row = `
-                    <tr class="h-12 hover:bg-gray-50 transition">
-                        <td class="px-4 py-2 align-middle">${item.judul || 'N/A'}</td>
-                        <td class="px-4 py-2 align-middle">${item.tingkat || 'N/A'}</td>
-                        <td class="px-4 py-2 align-middle">Juara ${item.juara || 'N/A'}</td>
-                        <td class="px-4 py-2 align-middle">${item.status || 'N/A'}</td>
-                        <td class="px-4 py-2 align-middle">${formattedDate}</td>
+        <div class="flex-1 overflow-x-auto bg-white shadow rounded border border-gray-200">
+            <table id="prestasi-table" class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Judul
+                        </th>
+                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal
+                            Mulai</th>
+                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tempat
+                        </th>
+                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Pembimbing</th>
+                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status
+                        </th>
+                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
                     </tr>
+                </thead>
+                <tbody id="prestasi-body" class="bg-white divide-y divide-gray-200 overflow-y-auto">
+
+                </tbody>
+            </table>
+            <p id="prestasi_info" class="text-sm text-gray-500 mt-2 px-4"></p>
+            <div id="prestasi_pagination" class="mt-2 flex flex-wrap gap-2 px-4 pb-4"></div>
+        </div>
+
+    </div>
+    <script>
+        $(document).ready(function() {
+            let prestasiData = [];
+            let currentPage = 1;
+
+            function actionButtonsPrestasi(id, status) {
+                if (status === 'disetujui') {
+                    return `
+                        <div class="flex gap-2">
+                            <a href="/mahasiswa/prestasi/${id}" class="action-button detail-button" title="Detail">
+                                <i class="fas fa-eye text-[18px]"></i>
+                            </a>
+                        </div>
+                    `;
+                }
+                if (status === 'pending') {
+                    return `
+                        <div class="flex gap-2">
+                            <a href="/mahasiswa/prestasi/${id}" class="action-button detail-button" title="Detail">
+                                <i class="fas fa-eye text-[18px]"></i>
+                            </a>
+                        </div>
+                    `;
+                }
+                return `
+                    <div class="flex gap-2">
+                        <a href="/mahasiswa/prestasi/${id}" class="action-button detail-button" title="Detail">
+                            <i class="fas fa-eye text-[18px]"></i>
+                        </a>
+                        <a href="/mahasiswa/prestasi/${id}/edit" class="action-button edit-button" title="Edit">
+                            <i class="fas fa-edit text-[18px]"></i>
+                        </a>
+                        <button type="button" class="action-button delete-button btn-hapus" data-id="${id}" data-type="prestasi" title="Hapus">
+                            <i class="fas fa-trash text-[18px]"></i>
+                        </button>
+                    </div>
                 `;
-                tbody.append(row);
+            }
+
+            $(document).on('click', '.btn-hapus', function() {
+                const id = $(this).data('id');
+                Swal.fire({
+                    title: 'Yakin ingin menghapus?',
+                    text: "Data yang dihapus tidak dapat dikembalikan.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#aaa',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: `/mahasiswa/prestasi/${id}`,
+                            type: 'DELETE',
+                            data: {
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function(res) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Berhasil!',
+                                    text: 'Data berhasil dihapus.',
+                                    timer: 1500,
+                                    showConfirmButton: false
+                                });
+                                loadPrestasi();
+                            },
+                            error: function() {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Gagal!',
+                                    text: 'Terjadi kesalahan saat menghapus data.',
+                                });
+                            }
+                        });
+                    }
+                });
             });
 
-            const remainingRows = entriesToShow - paginated.length;
-            for (let i = 0; i < remainingRows; i++) {
-                tbody.append('<tr class="h-12"><td colspan="5" class="px-4 py-2"></td></tr>');
-            }
-        }
-
-        $("#prestasi_info").text(`Menampilkan ${paginated.length} dari ${totalData} data prestasi`);
-
-        let paginationHtml = '';
-        for (let i = 1; i <= totalPages; i++) {
-            paginationHtml += `<button class="px-2 py-1 rounded ${i === currentPage ? 'bg-[#6041CE] text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'} page-btn-prestasi" data-page="${i}">${i}</button> `;
-        }
-        $("#prestasi_pagination").html(paginationHtml);
-
-        $(".page-btn-prestasi").on("click", function () {
-            currentPage = parseInt($(this).data("page"));
-            renderPrestasiTable();
-        });
-    }
-
-    function loadPrestasi() {
-        $.ajax({
-            url: '/mahasiswa/prestasi/getdata',
-            type: "GET",
-            dataType: "json",
-            success: function (response) {
-                prestasiData = response || [];
-                originalData = [...prestasiData];
-                currentPage = 1;
-                renderPrestasiTable();
-            },
-            error: function (xhr, status, error) {
-                console.error('Error fetching prestasi data:', error, xhr.status, xhr.responseText);
-                $("#prestasi_info").text("Gagal memuat data prestasi. Silakan coba lagi.");
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Gagal',
-                    text: 'Gagal memuat data prestasi. Silakan coba lagi.',
-                    timer: 3000,
-                    showConfirmButton: false
+            function setTableHeight(entriesToShow) {
+                const rowHeight = 48;
+                const headerHeight = 40;
+                const tableHeight = entriesToShow * rowHeight + headerHeight;
+                $('#prestasi-table tbody').css({
+                    'max-height': `${entriesToShow * rowHeight}px`
                 });
             }
+
+            function renderPrestasiTable() {
+                let searchQuery = $('#search-bar').val().toLowerCase();
+                let entriesToShow = parseInt($('#show-entry').val()) || 10;
+                let tbody = $('#prestasi-body');
+
+                const statusOrder = {
+                    'pending': 1,
+                    'ditolak': 2,
+                    'disetujui': 3
+                };
+                let sorted = prestasiData.slice().sort((a, b) => {
+                    return (statusOrder[a.status] || 99) - (statusOrder[b.status] || 99);
+                });
+
+                let filtered = sorted.filter(item =>
+                    item.judul.toLowerCase().includes(searchQuery) ||
+                    item.tempat.toLowerCase().includes(searchQuery)
+                );
+
+                let totalData = filtered.length;
+                let totalPages = Math.ceil(totalData / entriesToShow);
+                let startIndex = (currentPage - 1) * entriesToShow;
+                let paginated = filtered.slice(startIndex, startIndex + entriesToShow);
+
+                tbody.empty();
+
+                if (paginated.length === 0) {
+                    tbody.append(`
+                <tr>
+                    <td colspan="5" class="px-4 py-6 text-center text-gray-500">Tidak ada data ditemukan</td>
+                </tr>
+            `);
+                } else {
+                    $.each(paginated, function(index, item) {
+                        let pembimbing = item.dosens.map(d => d.nama).join(', ') || '-';
+                        let statusClass = item.status === 'disetujui' ? 'bg-green-100 text-green-800' :
+                            item.status === 'ditolak' ? 'bg-red-100 text-red-800' :
+                            'bg-gray-200 text-gray-900';
+
+                        let row = `
+                    <tr class="h-12 hover:bg-gray-50">
+                        <td class="px-4 py-3 whitespace-nowrap text-sm">${item.judul}</td>
+                        <td class="px-4 py-3 whitespace-nowrap text-sm">${item.tanggal_mulai}</td>
+                        <td class="px-4 py-3 whitespace-nowrap text-sm">${item.tempat}</td>
+                        <td class="px-4 py-3 whitespace-nowrap text-sm">${pembimbing}</td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <span class="inline-flex items-center gap-2.5 px-2 py-1 rounded text-xs font-semibold capitalize
+                                ${item.status === 'disetujui' ? 'bg-green-100 text-green-800' : 
+                                item.status === 'ditolak' ? 'bg-red-100 text-red-800' : 
+                                'bg-gray-200 text-gray-900'}">
+                                <i class="${
+                                    item.status === 'disetujui' ? 'fas fa-check-circle text-green-500' :
+                                    item.status === 'ditolak' ? 'fas fa-times-circle text-red-500' :
+                                    'fas fa-hourglass-half text-gray-500'
+                                }"></i>
+                                ${item.status}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-900">
+                            ${actionButtonsPrestasi(item.id, item.status)}
+                        </td>
+                    </tr>
+                `;
+                        tbody.append(row);
+                    });
+                }
+
+                $("#prestasi_info").text(`Menampilkan ${paginated.length} dari ${totalData} data`);
+
+                let paginationHtml = '';
+                for (let i = 1; i <= totalPages; i++) {
+                    paginationHtml +=
+                        `<button class="px-3 py-1 rounded-md text-sm ${i === currentPage ? 'bg-[#6041CE] text-white' : 'bg-gray-200'} page-btn-prestasi" data-page="${i}">${i}</button>`;
+                }
+                $("#prestasi_pagination").html(paginationHtml);
+
+                $(".page-btn-prestasi").off("click").on("click", function() {
+                    currentPage = parseInt($(this).data("page"));
+                    renderPrestasiTable();
+                });
+
+                setTableHeight(entriesToShow);
+            }
+
+            function loadPrestasi() {
+                $.ajax({
+                    url: '/mahasiswa/prestasi/getdata',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        prestasiData = response.data;
+                        currentPage = 1;
+                        renderPrestasiTable();
+                    },
+                    error: function() {
+                        alert('Gagal memuat data prestasi.');
+                    }
+                });
+            }
+
+            $('#search-bar, #show-entry').on('input change', function() {
+                currentPage = 1;
+                renderPrestasiTable();
+            });
+
+            loadPrestasi();
         });
-    }
+    </script>
 
-    $('#show-entry, #search-bar').on('input change', function () {
-        currentPage = 1;
-        renderPrestasiTable();
-    });
+    @if (session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: '{{ session('success') }}',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            });
+        </script>
+    @endif
 
-    loadPrestasi();
-});
-</script>
-@endpush
+    @if ($errors->any())
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal!',
+                    html: `{!! implode('<br>', $errors->all()) !!}`,
+                    showConfirmButton: true
+                });
+            });
+        </script>
+    @endif
+@endsection

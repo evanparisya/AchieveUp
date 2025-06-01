@@ -29,19 +29,20 @@
 
         <div x-data="{ tab: 'mahasiswa' }" x-init="$watch('tab', value => window.tab = value)">
             <div class="flex mb-0">
-                <button
-                    class="px-4 py-2 rounded-t-[12px] focus:outline-none transition-all duration-150 border border-b-0"
-                    :class="tab === 'mahasiswa' 
-                        ? 'bg-white font-semibold text-primary border-gray-200'
-                        : 'bg-gray-100 text-gray-500 hover:text-blue-600 border-transparent'"
+                <button class="px-4 py-2 rounded-t-[12px] focus:outline-none transition-all duration-150 border border-b-0"
+                    :class="tab === 'mahasiswa'
+                        ?
+                        'bg-white font-semibold text-primary border-gray-200' :
+                        'bg-gray-100 text-gray-500 hover:text-blue-600 border-transparent'"
                     @click="tab = 'mahasiswa'">
                     Mahasiswa
                 </button>
                 <button
                     class="px-4 py-2 rounded-t-[12px] focus:outline-none transition-all duration-150 ml-1 border border-b-0"
-                    :class="tab === 'dosen' 
-                        ? 'bg-white font-semibold text-primary border-gray-200'
-                        : 'bg-gray-100 text-gray-500 hover:text-blue-600 border-transparent'"
+                    :class="tab === 'dosen'
+                        ?
+                        'bg-white font-semibold text-primary border-gray-200' :
+                        'bg-gray-100 text-gray-500 hover:text-blue-600 border-transparent'"
                     @click="tab = 'dosen'">
                     Dosen
                 </button>
@@ -52,12 +53,18 @@
                     <table id="table_mahasiswa" class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">NIM</th>
-                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama Mahasiswa</th>
-                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
-                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Program Studi</th>
-                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    NIM</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Nama Mahasiswa</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Username</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Email</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Program Studi</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Aksi</th>
                             </tr>
                         </thead>
                         <tbody id="table_mahasiswa_body" class="bg-white divide-y divide-gray-200 overflow-y-auto">
@@ -71,12 +78,18 @@
                     <table id="table_dosen" class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">NIDN</th>
-                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
-                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
-                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
-                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    NIDN</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Nama</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Username</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Email</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Role</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Aksi</th>
                             </tr>
                         </thead>
                         <tbody id="table_dosen_body" class="bg-white divide-y divide-gray-200 overflow-y-auto">
@@ -90,7 +103,7 @@
     </div>
 
     <script>
-        $(document).on('click', '#btn-add-user', function () {
+        $(document).on('click', '#btn-add-user', function() {
             Swal.fire({
                 title: 'Tambah Data',
                 text: "Pilih tipe data yang ingin ditambahkan",
@@ -111,7 +124,7 @@
     </script>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             let mahasiswaData = [];
             let currentPage = 1;
 
@@ -156,7 +169,7 @@
 
                 tbody.empty();
 
-                $.each(paginated, function (index, item) {
+                $.each(paginated, function(index, item) {
                     let row = `
                         <tr class="h-12">
                             <td class="px-6 py-4 text-sm text-gray-900">${item.nim}</td>
@@ -174,19 +187,21 @@
 
                 let remaining = entriesToShow - paginated.length;
                 for (let i = 0; i < remaining; i++) {
-                    tbody.append('<tr class="h-12"><td colspan="6" class="px-6 py-4 text-sm text-gray-400"></td></tr>');
+                    tbody.append(
+                        '<tr class="h-12"><td colspan="6" class="px-6 py-4 text-sm text-gray-400"></td></tr>');
                 }
 
                 $("#mahasiswa_info").text(`Menampilkan ${paginated.length} dari ${totalData} data mahasiswa`);
 
                 let paginationHtml = '';
                 for (let i = 1; i <= totalPages; i++) {
-                    paginationHtml += `<button class="px-2 py-1 rounded ${i === currentPage ? 'bg-primary text-white' : 'bg-gray-200'} page-btn-mhs" data-page="${i}">${i}</button> `;
+                    paginationHtml +=
+                        `<button class="px-3 py-1 rounded ${i === currentPage ? 'bg-primary text-white' : 'bg-gray-200'} page-btn-mhs" data-page="${i}">${i}</button> `;
                 }
 
                 $("#mahasiswa_pagination").html(paginationHtml);
 
-                $(".page-btn-mhs").off("click").on("click", function () {
+                $(".page-btn-mhs").off("click").on("click", function() {
                     currentPage = parseInt($(this).data("page"));
                     renderMahasiswaTable();
                 });
@@ -199,7 +214,7 @@
                     url: '/admin/users/mahasiswa/getdata',
                     type: 'GET',
                     dataType: 'json',
-                    success: function (response) {
+                    success: function(response) {
                         mahasiswaData = response;
                         currentPage = 1;
                         renderMahasiswaTable();
@@ -207,7 +222,7 @@
                 });
             }
 
-            $('#search-bar, #show-entry').on('input change', function () {
+            $('#search-bar, #show-entry').on('input change', function() {
                 currentPage = 1;
                 renderMahasiswaTable();
             });
@@ -218,15 +233,23 @@
     </script>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             let dosenData = [];
             let currentPage = 1;
 
             function actionButtonsDosen(id) {
                 return `
-                    <a href="/admin/users/${id}" class="text-blue-600 hover:underline mr-2">Detail</a>
-                    <a href="/admin/users/dosen/${id}/update" class="text-yellow-600 hover:underline mr-2">Update</a>
-                    <button type="button" class="text-red-600 hover:underline btn-hapus" data-id="${id}" data-type="dosen">Hapus</button>
+                    <div class="flex gap-2">
+                        <a href="/admin/users/${id}" class="action-button detail-button" title="Detail">
+                            <i class="fas fa-eye text-[18px]"></i>
+                        </a>
+                        <a href="/admin/users/dosen/${id}/update" class="action-button edit-button" title="Update">
+                            <i class="fas fa-edit text-[18px]"></i>
+                        </a>
+                        <button type="button" class="action-button delete-button btn-hapus" data-id="${id}" data-type="dosen" title="Hapus">
+                            <i class="fas fa-trash text-[18px]"></i>
+                        </button>
+                    </div>
                 `;
             }
 
@@ -255,7 +278,7 @@
 
                 tbody.empty();
 
-                $.each(paginated, function (index, item) {
+                $.each(paginated, function(index, item) {
                     let row = `
                         <tr class="h-12">
                             <td class="px-6 py-4 text-sm text-gray-900">${item.nidn}</td>
@@ -273,19 +296,21 @@
 
                 let remaining = entriesToShow - paginated.length;
                 for (let i = 0; i < remaining; i++) {
-                    tbody.append('<tr class="h-12"><td colspan="6" class="px-6 py-4 text-sm text-gray-400"></td></tr>');
+                    tbody.append(
+                        '<tr class="h-12"><td colspan="6" class="px-6 py-4 text-sm text-gray-400"></td></tr>');
                 }
 
                 $("#dosen_info").text(`Menampilkan ${paginated.length} dari ${totalData} data dosen`);
 
                 let paginationHtml = '';
                 for (let i = 1; i <= totalPages; i++) {
-                    paginationHtml += `<button class="px-2 py-1 rounded ${i === currentPage ? 'bg-primary text-white' : 'bg-gray-200'} page-btn" data-page="${i}">${i}</button> `;
+                    paginationHtml +=
+                        `<button class="px-2 py-1 rounded ${i === currentPage ? 'bg-primary text-white' : 'bg-gray-200'} page-btn" data-page="${i}">${i}</button> `;
                 }
 
                 $("#dosen_pagination").html(paginationHtml);
 
-                $(".page-btn").off("click").on("click", function () {
+                $(".page-btn").off("click").on("click", function() {
                     currentPage = parseInt($(this).data("page"));
                     renderDosenTable();
                 });
@@ -298,7 +323,7 @@
                     url: '/admin/users/dosen/getdata',
                     method: "GET",
                     dataType: "json",
-                    success: function (response) {
+                    success: function(response) {
                         dosenData = response;
                         currentPage = 1;
                         renderDosenTable();
@@ -306,7 +331,7 @@
                 });
             }
 
-            $('#search-bar, #show-entry').on('input change', function () {
+            $('#search-bar, #show-entry').on('input change', function() {
                 currentPage = 1;
                 renderDosenTable();
             });
@@ -317,8 +342,8 @@
     </script>
 
     <script>
-        $(document).ready(function () {
-            $('#show-entry, #search-bar').on('input change', function () {
+        $(document).ready(function() {
+            $('#show-entry, #search-bar').on('input change', function() {
                 let activeTab = window.tab;
                 if (activeTab === 'mahasiswa') {
                     window.loadMahasiswa();
@@ -328,7 +353,7 @@
             });
         });
 
-        $(document).on('click', '.btn-hapus', function () {
+        $(document).on('click', '.btn-hapus', function() {
             let id = $(this).data('id');
             let type = $(this).data('type');
             let url = `/admin/users/${type}/${id}`;
@@ -351,7 +376,7 @@
                         data: {
                             _token: '{{ csrf_token() }}'
                         },
-                        success: function (response) {
+                        success: function(response) {
                             Swal.fire(
                                 'Terhapus!',
                                 response.success || 'Data berhasil dihapus.',
@@ -364,7 +389,7 @@
                                 }
                             });
                         },
-                        error: function (xhr) {
+                        error: function(xhr) {
                             Swal.fire(
                                 'Gagal!',
                                 xhr.responseJSON.error || 'Tidak dapat menghapus data.',
@@ -376,7 +401,7 @@
             });
         });
     </script>
-    
+
     @if (session('success'))
         <script>
             Swal.fire({

@@ -13,7 +13,7 @@ class Entrophy
             'prestasi' => function ($q) {
                 $q->where('tanggal_selesai', '>=', now()->subMonths(6));
             },
-            'profil'
+            'profil',
         ])->get();
 
         return $mahasiswa;
@@ -73,19 +73,19 @@ class Entrophy
                     $counts['internasional_akademik'],
                     $counts['nasional_akademik'],
                     $counts['regional_akademik'],
-                    $counts['provinsi_akademik']
+                    $counts['provinsi_akademik'],
                 ]),
                 'lomba_nonakademik' => implode(',', [
                     $counts['internasional_nonakademik'],
                     $counts['nasional_nonakademik'],
                     $counts['regional_nonakademik'],
-                    $counts['provinsi_nonakademik']
+                    $counts['provinsi_nonakademik'],
                 ]),
                 'ipk' => $mhs->profil->ips ?? 0,
                 'pengalaman_organisasi' => $mhs->profil->pengalaman_organisasi ?? 0,
                 'skor_bahasa_inggris' => $mhs->profil->skor_toffle ?? 0,
                 'prestasi_kemenangan' => $this->formatPrestasiKemenangan($mhs->prestasi),
-                'semester' => 'semester ' . ($mhs->profil->semester ?? 1)
+                'semester' => 'semester ' . ($mhs->profil->semester ?? 1),
             ];
         }
 
@@ -106,7 +106,7 @@ class Entrophy
             return implode(', ', [
                 ucfirst($item->tingkat),
                 'Juara ' . $item->juara,
-                $item->is_individu ? 'Individu' : 'Kelompok'
+                $item->is_individu ? 'Individu' : 'Kelompok',
             ]);
         })->implode('; ');
     }
@@ -135,7 +135,7 @@ class Entrophy
                 'nasional' => 0,
                 'regional' => 0,
                 'provinsi' => 0,
-                'score' => 0
+                'score' => 0,
             ];
 
             // Hitung hanya jika ada prestasi
@@ -145,10 +145,10 @@ class Entrophy
                 $key = $prestasi->tingkat . '_' . $type;
 
                 $tingkatMap = [
-                    'internasional' => 'inter',
+                    'internasional' => 'internasional',
                     'nasional' => 'nasional',
                     'regional' => 'regional',
-                    'provinsi' => 'provinsi'
+                    'provinsi' => 'provinsi',
                 ];
 
                 $tingkat = $prestasi->tingkat;
@@ -156,11 +156,10 @@ class Entrophy
                 $bobot = $prestasi->is_akademik ? 0.1 : 0.05;
 
                 if (!isset($tingkatMap[$tingkat])) {
-                    continue; // Lewati jika tingkat tidak valid
+                    continue; 
                 }
 
                 $key = $tingkatMap[$tingkat] . '_' . $type;
-
 
                 $counts[$key]++;
                 $totals[$prestasi->tingkat] += $bobot;
@@ -209,23 +208,23 @@ class Entrophy
             'internasional' => [
                 1 => ['individu' => 10, 'kelompok' => 5],
                 2 => ['individu' => 8, 'kelompok' => 4],
-                3 => ['individu' => 4, 'kelompok' => 2]
+                3 => ['individu' => 4, 'kelompok' => 2],
             ],
             'nasional' => [
                 1 => ['individu' => 8, 'kelompok' => 4],
                 2 => ['individu' => 6, 'kelompok' => 3],
-                3 => ['individu' => 3, 'kelompok' => 1.5]
+                3 => ['individu' => 3, 'kelompok' => 1.5],
             ],
             'regional' => [
                 1 => ['individu' => 6, 'kelompok' => 3],
                 2 => ['individu' => 4, 'kelompok' => 2],
-                3 => ['individu' => 2, 'kelompok' => 1]
+                3 => ['individu' => 2, 'kelompok' => 1],
             ],
             'provinsi' => [
                 1 => ['individu' => 4, 'kelompok' => 1],
                 2 => ['individu' => 2, 'kelompok' => 1],
-                3 => ['individu' => 1, 'kelompok' => 0.5]
-            ]
+                3 => ['individu' => 1, 'kelompok' => 0.5],
+            ],
         ];
 
         foreach ($mahasiswa as $index => $mhs) {
@@ -259,7 +258,7 @@ class Entrophy
                             'tingkat' => ucfirst($tingkat),
                             'juara' => $juara,
                             'jenis' => $jenis,
-                            'skor' => $skor
+                            'skor' => $skor,
                         ];
                     }
                 }
@@ -285,32 +284,65 @@ class Entrophy
 
     protected function hitungBobotIPK($ipk)
     {
-        if ($ipk >= 3.5) return 5;
-        if ($ipk > 2.5) return 4;
-        if ($ipk > 1.5) return 3;
+        if ($ipk >= 3.5) {
+            return 5;
+        }
+
+        if ($ipk > 2.5) {
+            return 4;
+        }
+
+        if ($ipk > 1.5) {
+            return 3;
+        }
+
         return 2;
     }
 
     protected function hitungBobotToefl($skor)
     {
-        if ($skor >= 850) return 5;
-        if ($skor >= 650) return 4;
-        if ($skor >= 450) return 3;
+        if ($skor >= 850) {
+            return 5;
+        }
+
+        if ($skor >= 650) {
+            return 4;
+        }
+
+        if ($skor >= 450) {
+            return 3;
+        }
+
         return 2;
     }
 
     protected function hitungBobotOrganisasi($pengalaman)
     {
-        if ($pengalaman > 3) return 5;
-        if ($pengalaman >= 1) return 3;
+        if ($pengalaman > 3) {
+            return 5;
+        }
+
+        if ($pengalaman >= 1) {
+            return 3;
+        }
+
         return 1;
     }
 
     protected function hitungBobotSemester($semester)
     {
-        if ($semester >= 7) return 2;
-        if ($semester >= 5) return 3;
-        if ($semester >= 3) return 4;
+        if ($semester >= 7) {
+            return 2;
+        }
+
+        if ($semester >= 5) {
+            return 3;
+        }
+
+        if ($semester >= 3) {
+            return 4;
+        }
+
         return 5;
     }
 
@@ -331,7 +363,7 @@ class Entrophy
                 'pengalaman_organisasi' => $this->normalisasiBenefit($alt['pengalaman_organisasi'], $maxMinValues['max']['pengalaman_organisasi']),
                 'skor_bahasa_inggris' => $this->normalisasiBenefit($alt['skor_bahasa_inggris'], $maxMinValues['max']['skor_bahasa_inggris']),
                 'prestasi_kemenangan' => $this->normalisasiBenefit($alt['prestasi_kemenangan'], $maxMinValues['max']['prestasi_kemenangan']),
-                'semester' => $this->normalisasiCost($alt['semester'], $maxMinValues['min']['semester'])
+                'semester' => $this->normalisasiCost($alt['semester'], $maxMinValues['min']['semester']),
             ];
         }
 
@@ -370,7 +402,7 @@ class Entrophy
 
         return [
             'max' => $max,
-            'min' => $min
+            'min' => $min,
         ];
     }
 
@@ -395,7 +427,7 @@ class Entrophy
             'pengalaman_organisasi' => 0,
             'skor_bahasa_inggris' => 0,
             'prestasi_kemenangan' => 0,
-            'semester' => 0
+            'semester' => 0,
         ];
 
         foreach ($matriks as $row) {
@@ -413,7 +445,7 @@ class Entrophy
             'pengalaman_organisasi' => round($totalKriteria['pengalaman_organisasi'], 3),
             'skor_bahasa_inggris' => round($totalKriteria['skor_bahasa_inggris'], 3),
             'prestasi_kemenangan' => round($totalKriteria['prestasi_kemenangan'], 3),
-            'semester' => round($totalKriteria['semester'], 3)
+            'semester' => round($totalKriteria['semester'], 3),
         ];
 
         return $data;
@@ -438,7 +470,7 @@ class Entrophy
                 'pengalaman_organisasi' => $this->hitungProporsi($row['pengalaman_organisasi'], $totalKriteria['pengalaman_organisasi']),
                 'skor_bahasa_inggris' => $this->hitungProporsi($row['skor_bahasa_inggris'], $totalKriteria['skor_bahasa_inggris']),
                 'prestasi_kemenangan' => $this->hitungProporsi($row['prestasi_kemenangan'], $totalKriteria['prestasi_kemenangan']),
-                'semester' => $this->hitungProporsi($row['semester'], $totalKriteria['semester'])
+                'semester' => $this->hitungProporsi($row['semester'], $totalKriteria['semester']),
             ];
         }
 
@@ -466,7 +498,7 @@ class Entrophy
                 'pengalaman_organisasi' => $this->hitungLn($row['pengalaman_organisasi']),
                 'skor_bahasa_inggris' => $this->hitungLn($row['skor_bahasa_inggris']),
                 'prestasi_kemenangan' => $this->hitungLn($row['prestasi_kemenangan']),
-                'semester' => $this->hitungLn($row['semester'])
+                'semester' => $this->hitungLn($row['semester']),
             ];
         }
 
@@ -498,7 +530,7 @@ class Entrophy
                 'pengalaman_organisasi' => round($row['pengalaman_organisasi'] * $nilaiProporsional[$index]['pengalaman_organisasi'], 4),
                 'skor_bahasa_inggris' => round($row['skor_bahasa_inggris'] * $nilaiProporsional[$index]['skor_bahasa_inggris'], 4),
                 'prestasi_kemenangan' => round($row['prestasi_kemenangan'] * $nilaiProporsional[$index]['prestasi_kemenangan'], 4),
-                'semester' => round($row['semester'] * $nilaiProporsional[$index]['semester'], 4)
+                'semester' => round($row['semester'] * $nilaiProporsional[$index]['semester'], 4),
             ];
         }
 
@@ -514,7 +546,7 @@ class Entrophy
             'pengalaman_organisasi' => 0,
             'skor_bahasa_inggris' => 0,
             'prestasi_kemenangan' => 0,
-            'semester' => 0
+            'semester' => 0,
         ];
         foreach ($matriksLn as $row) {
             $total['ipk'] += $row['ipk'];
@@ -587,14 +619,14 @@ class Entrophy
             'pengalaman_organisasi' => $hasil['W3'],
             'skor_bahasa_inggris' => $hasil['W4'],
             'prestasi_kemenangan' => $hasil['W5'],
-            'semester' => $hasil['W6']
+            'semester' => $hasil['W6'],
         ];
 
         return [
             'bobot_kriteria' => $hasil,
             'total_bobot' => round($totalBobot, 4),
             'data_bobot' => $data,
-            'total_nilai_dispers' => round($totalNilaiDispersi, 4)
+            'total_nilai_dispers' => round($totalNilaiDispersi, 4),
         ];
     }
 }

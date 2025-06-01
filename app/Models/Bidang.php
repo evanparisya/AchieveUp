@@ -16,9 +16,6 @@ class Bidang extends Model
         'nama',
     ];
 
-    /**
-     * Relasi many-to-many ke model Lomba
-     */
     public function lomba()
     {
         return $this->belongsToMany(Lomba::class, 'bidang_lomba', 'bidang_id', 'lomba_id')->withTimestamps();

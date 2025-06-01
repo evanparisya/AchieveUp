@@ -46,6 +46,7 @@
             </main>
         </div>
     </div>
+
     <script src="//unpkg.com/alpinejs" defer></script>
 
     @vite('resources/js/app.js')
@@ -57,7 +58,6 @@
         });
     </script>
 
-    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js "></script>
     @stack('js')
 </body>
 

@@ -67,7 +67,8 @@
                 <tbody class="bg-white divide-y divide-gray-200">
                     <!-- Internasional -->
                     <tr>
-                        <td rowspan="3" class="border border-black px-4 py-2 text-center font-medium text-gray-900">Internasional</td>
+                        <td rowspan="3" class="border border-black px-4 py-2 text-center font-medium text-gray-900">
+                            Internasional</td>
                         <td class="border border-black px-4 py-2 text-center">Juara 1</td>
                         <td class="border border-black px-4 py-2 text-center">10</td>
                         <td class="border border-black px-4 py-2 text-center">5</td>
@@ -85,7 +86,8 @@
 
                     <!-- Nasional -->
                     <tr>
-                        <td rowspan="3" class="border border-black px-4 py-2 text-center font-medium text-gray-900">Nasional</td>
+                        <td rowspan="3" class="border border-black px-4 py-2 text-center font-medium text-gray-900">
+                            Nasional</td>
                         <td class="border border-black px-4 py-2 text-center">Juara 1</td>
                         <td class="border border-black px-4 py-2 text-center">8</td>
                         <td class="border border-black px-4 py-2 text-center">4</td>
@@ -103,7 +105,8 @@
 
                     <!-- Regional -->
                     <tr>
-                        <td rowspan="3" class="border border-black px-4 py-2 text-center font-medium text-gray-900">Regional</td>
+                        <td rowspan="3" class="border border-black px-4 py-2 text-center font-medium text-gray-900">
+                            Regional</td>
                         <td class="border border-black px-4 py-2 text-center">Juara 1</td>
                         <td class="border border-black px-4 py-2 text-center">6</td>
                         <td class="border border-black px-4 py-2 text-center">3</td>
@@ -121,7 +124,8 @@
 
                     <!-- Provinsi -->
                     <tr>
-                        <td rowspan="3" class="border border-black px-4 py-2 text-center font-medium text-gray-900">Provinsi</td>
+                        <td rowspan="3" class="border border-black px-4 py-2 text-center font-medium text-gray-900">
+                            Provinsi</td>
                         <td class="border border-black px-4 py-2 text-center">Juara 1</td>
                         <td class="border border-black px-4 py-2 text-center">4</td>
                         <td class="border border-black px-4 py-2 text-center">1</td>
@@ -324,7 +328,8 @@
                         <th class="border border-black px-4 py-2 text-center">Alternatif</th>
                         <th class="border border-black px-4 py-2 text-center">Bobot IPK</th>
                         <th class="border border-black px-4 py-2 text-center">Jumlah Lomba Akademik (IA, NA, RE, PR)</th>
-                        <th class="border border-black px-4 py-2 text-center">Jumlah Lomba Non-Akademik (IA, NA, RE, PR)</th>
+                        <th class="border border-black px-4 py-2 text-center">Jumlah Lomba Non-Akademik (IA, NA, RE, PR)
+                        </th>
                         <th class="border border-black px-4 py-2 text-center">Pengalaman Organisasi</th>
                         <th class="border border-black px-4 py-2 text-center">Skor Bahasa Inggris</th>
                         <th class="border border-black px-4 py-2 text-center">Prestasi Kemenangan</th>
@@ -335,14 +340,21 @@
                     <?php 
                 foreach ($getSampleData as $data): ?>
                     <tr>
-                        <td class="border border-black px-4 py-2 text-center"><?= htmlspecialchars($data['alternatif']) ?></td>
+                        <td class="border border-black px-4 py-2 text-center"><?= htmlspecialchars($data['alternatif']) ?>
+                        </td>
                         <td class="border border-black px-4 py-2 text-center"><?= number_format($data['ipk'], 2) ?></td>
-                        <td class="border border-black px-4 py-2 text-center"><?= htmlspecialchars($data['lomba_akademik']) ?></td>
-                        <td class="border border-black px-4 py-2 text-center"><?= htmlspecialchars($data['lomba_nonakademik']) ?></td>
-                        <td class="border border-black px-4 py-2 text-center"><?= number_format($data['pengalaman_organisasi'], 2) ?></td>
-                        <td class="border border-black px-4 py-2 text-center"><?= number_format($data['skor_bahasa_inggris'], 2) ?></td>
-                        <td class="border border-black px-4 py-2 text-center"><?= htmlspecialchars($data['prestasi_kemenangan'], 2) ?></td>
-                        <td class="border border-black px-4 py-2 text-center"><?= htmlspecialchars($data['semester']) ?></td>
+                        <td class="border border-black px-4 py-2 text-center">
+                            <?= htmlspecialchars($data['lomba_akademik']) ?></td>
+                        <td class="border border-black px-4 py-2 text-center">
+                            <?= htmlspecialchars($data['lomba_nonakademik']) ?></td>
+                        <td class="border border-black px-4 py-2 text-center">
+                            <?= number_format($data['pengalaman_organisasi'], 2) ?></td>
+                        <td class="border border-black px-4 py-2 text-center">
+                            <?= number_format($data['skor_bahasa_inggris'], 2) ?></td>
+                        <td class="border border-black px-4 py-2 text-center">
+                            <?= htmlspecialchars($data['prestasi_kemenangan'], 2) ?></td>
+                        <td class="border border-black px-4 py-2 text-center"><?= htmlspecialchars($data['semester']) ?>
+                        </td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -358,23 +370,17 @@
                         <table class="table-auto w-full border border-black rounded shadow">
                             <thead class="bg-gray-100">
                                 <tr>
-                                    <th
-                                        class="border border-black px-4 py-2 text-center font-bold ">
+                                    <th class="border border-black px-4 py-2 text-center font-bold ">
                                         Tingkat</th>
-                                    <th
-                                        class="border border-black px-4 py-2 text-center font-bold ">
+                                    <th class="border border-black px-4 py-2 text-center font-bold ">
                                         Akademik</th>
-                                    <th
-                                        class="border border-black px-4 py-2 text-center font-bold ">
+                                    <th class="border border-black px-4 py-2 text-center font-bold ">
                                         Non-Akademik</th>
-                                    <th
-                                        class="border border-black px-4 py-2 text-center font-bold ">
+                                    <th class="border border-black px-4 py-2 text-center font-bold ">
                                         Bobot Akademik</th>
-                                    <th
-                                        class="border border-black px-4 py-2 text-center font-bold ">
+                                    <th class="border border-black px-4 py-2 text-center font-bold ">
                                         Bobot Non-Akademik</th>
-                                    <th
-                                        class="border border-black px-4 py-2 text-center font-bold ">
+                                    <th class="border border-black px-4 py-2 text-center font-bold ">
                                         Total</th>
                                 </tr>
                             </thead>
@@ -388,8 +394,10 @@
                                 <!-- Internasional Row -->
                                 <tr class="hover:bg-gray-50 transition-colors">
                                     <td class="border border-black px-4 py-2 text-center font-bold ">Internasional</td>
-                                    <td class="border border-black px-4 py-2 text-center">{{ $item['internasional_akademik'] }}</td>
-                                    <td class="border border-black px-4 py-2 text-center">{{ $item['internasional_nonakademik'] }}</td>
+                                    <td class="border border-black px-4 py-2 text-center">
+                                        {{ $item['internasional_akademik'] }}</td>
+                                    <td class="border border-black px-4 py-2 text-center">
+                                        {{ $item['internasional_nonakademik'] }}</td>
                                     <td class="border border-black px-4 py-2 text-center text-blue-600">
                                         {{ number_format($item['internasional_akademik_bobot'], 2) }}</td>
                                     <td class="border border-black px-4 py-2 text-center text-blue-600">
@@ -402,8 +410,10 @@
                                 <!-- Nasional Row -->
                                 <tr class="hover:bg-gray-50 transition-colors">
                                     <td class="border border-black px-4 py-2 text-center font-bold">Nasional</td>
-                                    <td class="border border-black px-4 py-2 text-center">{{ $item['nasional_akademik'] }}</td>
-                                    <td class="border border-black px-4 py-2 text-center">{{ $item['nasional_nonakademik'] }}</td>
+                                    <td class="border border-black px-4 py-2 text-center">{{ $item['nasional_akademik'] }}
+                                    </td>
+                                    <td class="border border-black px-4 py-2 text-center">
+                                        {{ $item['nasional_nonakademik'] }}</td>
                                     <td class="border border-black px-4 py-2 text-center text-blue-600">
                                         {{ number_format($item['nasional_akademik_bobot'], 2) }}</td>
                                     <td class="border border-black px-4 py-2 text-center text-blue-600">
@@ -415,8 +425,10 @@
                                 <!-- Regional Row -->
                                 <tr class="hover:bg-gray-50 transition-colors">
                                     <td class="border border-black px-4 py-2 text-center font-bold">Regional</td>
-                                    <td class="border border-black px-4 py-2 text-center">{{ $item['regional_akademik'] }}</td>
-                                    <td class="border border-black px-4 py-2 text-center">{{ $item['regional_nonakademik'] }}</td>
+                                    <td class="border border-black px-4 py-2 text-center">{{ $item['regional_akademik'] }}
+                                    </td>
+                                    <td class="border border-black px-4 py-2 text-center">
+                                        {{ $item['regional_nonakademik'] }}</td>
                                     <td class="border border-black px-4 py-2 text-center text-blue-600">
                                         {{ number_format($item['regional_akademik_bobot'], 2) }}</td>
                                     <td class="border border-black px-4 py-2 text-center text-blue-600">
@@ -428,8 +440,10 @@
                                 <!-- Provinsi Row -->
                                 <tr class="hover:bg-gray-50 transition-colors">
                                     <td class="border border-black px-4 py-2 text-center font-bold">Provinsi</td>
-                                    <td class="border border-black px-4 py-2 text-center">{{ $item['provinsi_akademik'] }}</td>
-                                    <td class="border border-black px-4 py-2 text-center">{{ $item['provinsi_nonakademik'] }}</td>
+                                    <td class="border border-black px-4 py-2 text-center">{{ $item['provinsi_akademik'] }}
+                                    </td>
+                                    <td class="border border-black px-4 py-2 text-center">
+                                        {{ $item['provinsi_nonakademik'] }}</td>
                                     <td class="border border-black px-4 py-2 text-center text-blue-600">
                                         {{ number_format($item['provinsi_akademik_bobot'], 2) }}</td>
                                     <td class="border border-black px-4 py-2 text-center text-blue-600">
@@ -440,8 +454,7 @@
 
                                 <!-- Total Row -->
                                 <tr class="bg-gray-100 hover:bg-gray-200 transition-colors">
-                                    <td colspan="5"
-                                        class="border border-black px-4 py-2 text-right font-bold">
+                                    <td colspan="5" class="border border-black px-4 py-2 text-right font-bold">
                                         Total</td>
                                     <td class="border border-black px-4 py-2 text-center font-bold text-lg text-blue-700">
                                         {{ number_format($item['totalScore'], 2) }}</td>
@@ -472,13 +485,19 @@
                     <?php 
                 foreach ($getDataAlternatif as $data): ?>
                     <tr>
-                        <td class="border border-black px-4 py-2 text-center"><?= htmlspecialchars($data['alternatif']) ?></td>
+                        <td class="border border-black px-4 py-2 text-center"><?= htmlspecialchars($data['alternatif']) ?>
+                        </td>
                         <td class="border border-black px-4 py-2 text-center"><?= number_format($data['ipk'], 2) ?></td>
-                        <td class="border border-black px-4 py-2 text-center"><?= htmlspecialchars($data['jumlah_lomba']) ?></td>
-                        <td class="border border-black px-4 py-2 text-center"><?= number_format($data['pengalaman_organisasi'], 2) ?></td>
-                        <td class="border border-black px-4 py-2 text-center"><?= number_format($data['skor_bahasa_inggris'], 2) ?></td>
-                        <td class="border border-black px-4 py-2 text-center"><?= number_format($data['prestasi_kemenangan'], 2) ?></td>
-                        <td class="border border-black px-4 py-2 text-center"><?= number_format($data['semester'], 2) ?></td>
+                        <td class="border border-black px-4 py-2 text-center">
+                            <?= htmlspecialchars($data['jumlah_lomba']) ?></td>
+                        <td class="border border-black px-4 py-2 text-center">
+                            <?= number_format($data['pengalaman_organisasi'], 2) ?></td>
+                        <td class="border border-black px-4 py-2 text-center">
+                            <?= number_format($data['skor_bahasa_inggris'], 2) ?></td>
+                        <td class="border border-black px-4 py-2 text-center">
+                            <?= number_format($data['prestasi_kemenangan'], 2) ?></td>
+                        <td class="border border-black px-4 py-2 text-center"><?= number_format($data['semester'], 2) ?>
+                        </td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -494,7 +513,8 @@
                         <tr>
                             <th class="border border-black px-4 py-2 text-center"></th>
                             @foreach ($getMaxMin['max'] as $kriteria => $nilaiMax)
-                                <th class="border border-black px-4 py-2 text-center">{{ ucfirst(str_replace('_', ' ', $kriteria)) }}</th>
+                                <th class="border border-black px-4 py-2 text-center">
+                                    {{ ucfirst(str_replace('_', ' ', $kriteria)) }}</th>
                             @endforeach
                         </tr>
                     </thead>
@@ -502,13 +522,15 @@
                         <tr>
                             <td class="border border-black px-4 py-2 text-center"><strong>Maksimum</strong></td>
                             @foreach ($getMaxMin['max'] as $nilaiMax)
-                                <td class="border border-black px-4 py-2 text-center">{{ number_format($nilaiMax, 2) }}</td>
+                                <td class="border border-black px-4 py-2 text-center">{{ number_format($nilaiMax, 2) }}
+                                </td>
                             @endforeach
                         </tr>
                         <tr>
                             <td class="border border-black px-4 py-2 text-center"><strong>Minimum</strong></td>
                             @foreach ($getMaxMin['min'] as $nilaiMin)
-                                <td class="border border-black px-4 py-2 text-center">{{ number_format($nilaiMin, 2) }}</td>
+                                <td class="border border-black px-4 py-2 text-center">{{ number_format($nilaiMin, 2) }}
+                                </td>
                             @endforeach
                         </tr>
                     </tbody>
@@ -535,12 +557,18 @@
                     @foreach ($getNormalisasi as $data)
                         <tr>
                             <td class="border border-black px-4 py-2 text-center">{{ $data['alternatif'] }}</td>
-                            <td class="border border-black px-4 py-2 text-center">{{ number_format($data['ipk'], 2) }}</td>
-                            <td class="border border-black px-4 py-2 text-center">{{ number_format($data['jumlah_lomba'], 2) }}</td>
-                            <td class="border border-black px-4 py-2 text-center">{{ number_format($data['pengalaman_organisasi'], 2) }}</td>
-                            <td class="border border-black px-4 py-2 text-center">{{ number_format($data['skor_bahasa_inggris'], 2) }}</td>
-                            <td class="border border-black px-4 py-2 text-center">{{ number_format($data['prestasi_kemenangan'], 2) }}</td>
-                            <td class="border border-black px-4 py-2 text-center">{{ number_format($data['semester'], 2) }}</td>
+                            <td class="border border-black px-4 py-2 text-center">{{ number_format($data['ipk'], 2) }}
+                            </td>
+                            <td class="border border-black px-4 py-2 text-center">
+                                {{ number_format($data['jumlah_lomba'], 2) }}</td>
+                            <td class="border border-black px-4 py-2 text-center">
+                                {{ number_format($data['pengalaman_organisasi'], 2) }}</td>
+                            <td class="border border-black px-4 py-2 text-center">
+                                {{ number_format($data['skor_bahasa_inggris'], 2) }}</td>
+                            <td class="border border-black px-4 py-2 text-center">
+                                {{ number_format($data['prestasi_kemenangan'], 2) }}</td>
+                            <td class="border border-black px-4 py-2 text-center">
+                                {{ number_format($data['semester'], 2) }}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -565,12 +593,18 @@
                 <tbody>
                     <tr>
                         <td class="border border-black px-4 py-2 text-center">Total</td>
-                        <td class="border border-black px-4 py-2 text-center">{{ number_format($getTotalKriteria['ipk'], 2) }}</td>
-                        <td class="border border-black px-4 py-2 text-center">{{ number_format($getTotalKriteria['jumlah_lomba'], 2) }}</td>
-                        <td class="border border-black px-4 py-2 text-center">{{ number_format($getTotalKriteria['pengalaman_organisasi'], 2) }}</td>
-                        <td class="border border-black px-4 py-2 text-center">{{ number_format($getTotalKriteria['skor_bahasa_inggris'], 2) }}</td>
-                        <td class="border border-black px-4 py-2 text-center">{{ number_format($getTotalKriteria['prestasi_kemenangan'], 2) }}</td>
-                        <td class="border border-black px-4 py-2 text-center">{{ number_format($getTotalKriteria['semester'], 2) }}</td>
+                        <td class="border border-black px-4 py-2 text-center">
+                            {{ number_format($getTotalKriteria['ipk'], 2) }}</td>
+                        <td class="border border-black px-4 py-2 text-center">
+                            {{ number_format($getTotalKriteria['jumlah_lomba'], 2) }}</td>
+                        <td class="border border-black px-4 py-2 text-center">
+                            {{ number_format($getTotalKriteria['pengalaman_organisasi'], 2) }}</td>
+                        <td class="border border-black px-4 py-2 text-center">
+                            {{ number_format($getTotalKriteria['skor_bahasa_inggris'], 2) }}</td>
+                        <td class="border border-black px-4 py-2 text-center">
+                            {{ number_format($getTotalKriteria['prestasi_kemenangan'], 2) }}</td>
+                        <td class="border border-black px-4 py-2 text-center">
+                            {{ number_format($getTotalKriteria['semester'], 2) }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -595,12 +629,18 @@
                     @foreach ($getNilaiProporsional as $data)
                         <tr>
                             <td class="border border-black px-4 py-2 text-center">{{ $data['alternatif'] }}</td>
-                            <td class="border border-black px-4 py-2 text-center">{{ number_format($data['ipk'], 2) }}</td>
-                            <td class="border border-black px-4 py-2 text-center">{{ number_format($data['jumlah_lomba'], 2) }}</td>
-                            <td class="border border-black px-4 py-2 text-center">{{ number_format($data['pengalaman_organisasi'], 2) }}</td>
-                            <td class="border border-black px-4 py-2 text-center">{{ number_format($data['skor_bahasa_inggris'], 2) }}</td>
-                            <td class="border border-black px-4 py-2 text-center">{{ number_format($data['prestasi_kemenangan'], 2) }}</td>
-                            <td class="border border-black px-4 py-2 text-center">{{ number_format($data['semester'], 2) }}</td>
+                            <td class="border border-black px-4 py-2 text-center">{{ number_format($data['ipk'], 2) }}
+                            </td>
+                            <td class="border border-black px-4 py-2 text-center">
+                                {{ number_format($data['jumlah_lomba'], 2) }}</td>
+                            <td class="border border-black px-4 py-2 text-center">
+                                {{ number_format($data['pengalaman_organisasi'], 2) }}</td>
+                            <td class="border border-black px-4 py-2 text-center">
+                                {{ number_format($data['skor_bahasa_inggris'], 2) }}</td>
+                            <td class="border border-black px-4 py-2 text-center">
+                                {{ number_format($data['prestasi_kemenangan'], 2) }}</td>
+                            <td class="border border-black px-4 py-2 text-center">
+                                {{ number_format($data['semester'], 2) }}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -626,12 +666,18 @@
                     @foreach ($getNilaiLn as $data)
                         <tr>
                             <td class="border border-black px-4 py-2 text-center">{{ $data['alternatif'] }}</td>
-                            <td class="border border-black px-4 py-2 text-center">{{ number_format($data['ipk'], 2) }}</td>
-                            <td class="border border-black px-4 py-2 text-center">{{ number_format($data['jumlah_lomba'], 2) }}</td>
-                            <td class="border border-black px-4 py-2 text-center">{{ number_format($data['pengalaman_organisasi'], 2) }}</td>
-                            <td class="border border-black px-4 py-2 text-center">{{ number_format($data['skor_bahasa_inggris'], 2) }}</td>
-                            <td class="border border-black px-4 py-2 text-center">{{ number_format($data['prestasi_kemenangan'], 2) }}</td>
-                            <td class="border border-black px-4 py-2 text-center">{{ number_format($data['semester'], 2) }}</td>
+                            <td class="border border-black px-4 py-2 text-center">{{ number_format($data['ipk'], 2) }}
+                            </td>
+                            <td class="border border-black px-4 py-2 text-center">
+                                {{ number_format($data['jumlah_lomba'], 2) }}</td>
+                            <td class="border border-black px-4 py-2 text-center">
+                                {{ number_format($data['pengalaman_organisasi'], 2) }}</td>
+                            <td class="border border-black px-4 py-2 text-center">
+                                {{ number_format($data['skor_bahasa_inggris'], 2) }}</td>
+                            <td class="border border-black px-4 py-2 text-center">
+                                {{ number_format($data['prestasi_kemenangan'], 2) }}</td>
+                            <td class="border border-black px-4 py-2 text-center">
+                                {{ number_format($data['semester'], 2) }}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -657,12 +703,18 @@
                     @foreach ($getNilaiProporsionalKaliLn as $data)
                         <tr>
                             <td class="border border-black px-4 py-2 text-center">{{ $data['alternatif'] }}</td>
-                            <td class="border border-black px-4 py-2 text-center">{{ number_format($data['ipk'], 2) }}</td>
-                            <td class="border border-black px-4 py-2 text-center">{{ number_format($data['jumlah_lomba'], 2) }}</td>
-                            <td class="border border-black px-4 py-2 text-center">{{ number_format($data['pengalaman_organisasi'], 2) }}</td>
-                            <td class="border border-black px-4 py-2 text-center">{{ number_format($data['skor_bahasa_inggris'], 2) }}</td>
-                            <td class="border border-black px-4 py-2 text-center">{{ number_format($data['prestasi_kemenangan'], 2) }}</td>
-                            <td class="border border-black px-4 py-2 text-center">{{ number_format($data['semester'], 2) }}</td>
+                            <td class="border border-black px-4 py-2 text-center">{{ number_format($data['ipk'], 2) }}
+                            </td>
+                            <td class="border border-black px-4 py-2 text-center">
+                                {{ number_format($data['jumlah_lomba'], 2) }}</td>
+                            <td class="border border-black px-4 py-2 text-center">
+                                {{ number_format($data['pengalaman_organisasi'], 2) }}</td>
+                            <td class="border border-black px-4 py-2 text-center">
+                                {{ number_format($data['skor_bahasa_inggris'], 2) }}</td>
+                            <td class="border border-black px-4 py-2 text-center">
+                                {{ number_format($data['prestasi_kemenangan'], 2) }}</td>
+                            <td class="border border-black px-4 py-2 text-center">
+                                {{ number_format($data['semester'], 2) }}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -687,12 +739,18 @@
                 <tbody>
                     <tr>
                         <td class="border border-black px-4 py-2 text-center">Total</td>
-                        <td class="border border-black px-4 py-2 text-center">{{ number_format($getTotalPLn['ipk'], 2) }}</td>
-                        <td class="border border-black px-4 py-2 text-center">{{ number_format($getTotalPLn['jumlah_lomba'], 2) }}</td>
-                        <td class="border border-black px-4 py-2 text-center">{{ number_format($getTotalPLn['pengalaman_organisasi'], 2) }}</td>
-                        <td class="border border-black px-4 py-2 text-center">{{ number_format($getTotalPLn['skor_bahasa_inggris'], 2) }}</td>
-                        <td class="border border-black px-4 py-2 text-center">{{ number_format($getTotalPLn['prestasi_kemenangan'], 2) }}</td>
-                        <td class="border border-black px-4 py-2 text-center">{{ number_format($getTotalPLn['semester'], 2) }}</td>
+                        <td class="border border-black px-4 py-2 text-center">{{ number_format($getTotalPLn['ipk'], 2) }}
+                        </td>
+                        <td class="border border-black px-4 py-2 text-center">
+                            {{ number_format($getTotalPLn['jumlah_lomba'], 2) }}</td>
+                        <td class="border border-black px-4 py-2 text-center">
+                            {{ number_format($getTotalPLn['pengalaman_organisasi'], 2) }}</td>
+                        <td class="border border-black px-4 py-2 text-center">
+                            {{ number_format($getTotalPLn['skor_bahasa_inggris'], 2) }}</td>
+                        <td class="border border-black px-4 py-2 text-center">
+                            {{ number_format($getTotalPLn['prestasi_kemenangan'], 2) }}</td>
+                        <td class="border border-black px-4 py-2 text-center">
+                            {{ number_format($getTotalPLn['semester'], 2) }}</td>
                     </tr>
                 </tbody>
             </table>

@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/
+ */
 
 Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::post('login', [AuthController::class, 'postLogin']);
@@ -35,7 +35,6 @@ Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/landing', [LandingController::class, 'index']);
 
 Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(function () {
-    // Route pemeringkatan
     Route::prefix('dashboard')->name('dashboard.')->group(function () {
         Route::get('/', [DashboardAdmin::class, 'index'])->name('index');
         Route::get('entropy', [DashboardAdmin::class, 'entropy'])->name('entropy');
@@ -67,6 +66,11 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
 
     Route::prefix('prestasi')->name('prestasi.')->group(function () {
         Route::get('/', [VerifikasiPrestasiController::class, 'index'])->name('index');
+        Route::get('/getdata', [VerifikasiPrestasiController::class, 'getData'])->name('getdata');
+        Route::get('/{id}', [VerifikasiPrestasiController::class, 'show'])->name('show');
+        Route::patch('/{id}/approve', [VerifikasiPrestasiController::class, 'approve'])->name('approve');
+        Route::patch('/{id}/reject', [VerifikasiPrestasiController::class, 'reject'])->name('reject');
+        Route::get('/{id}', [VerifikasiPrestasiController::class, 'show'])->name('admin.prestasi.show');
     });
 
     Route::prefix('periode')->name('periode.')->group(function () {
@@ -94,6 +98,8 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
         Route::put('/update/{id}', [ProdiController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [ProdiController::class, 'destroy'])->name('delete');
     });
+
+
 
     Route::prefix('profil')->name('profil.')->group(function () {
         Route::get('/', [ProfilAdminController::class, 'index'])->name('index');
@@ -133,7 +139,17 @@ Route::middleware(['mahasiswa'])->prefix('mahasiswa')->name('mahasiswa.')->group
     Route::prefix('prestasi')->name('prestasi.')->group(function () {
         Route::get('/', [PrestasiMahasiswaController::class, 'index'])->name('index');
         Route::get('/getdata', [PrestasiMahasiswaController::class, 'getData'])->name('getdata');
+        Route::get('/create', [PrestasiMahasiswaController::class, 'create'])->name('create');
+        Route::post('/store', [PrestasiMahasiswaController::class, 'store'])->name('store');
+        Route::get('/{id}', [PrestasiMahasiswaController::class, 'show'])->name('show');
+        Route::delete('/{id}', [PrestasiMahasiswaController::class, 'destroy'])->name('destroy');
+
+        Route::get('/{id}/edit', [PrestasiMahasiswaController::class, 'edit'])
+            ->name('mahasiswa.prestasi.edit');
+        Route::put('/{id}', [PrestasiMahasiswaController::class, 'update'])
+            ->name('mahasiswa.prestasi.update');
     });
+
 
     Route::prefix('profil')->name('profil.')->group(function () {
         Route::get('/', [ProfilMahasiswaController::class, 'index'])->name('index');

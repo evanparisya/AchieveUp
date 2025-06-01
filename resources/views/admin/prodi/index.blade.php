@@ -47,8 +47,6 @@
 
     </div>
 
-    <script src="//unpkg.com/alpinejs" defer></script>
-
     <script>
         $(document).ready(function() {
             let prodiData = [];
@@ -75,7 +73,6 @@
                 let totalData = filtered.length;
                 let totalPages = Math.ceil(totalData / entriesToShow);
 
-                // Pagination slice
                 let startIndex = (currentPage - 1) * entriesToShow;
                 let paginated = filtered.slice(startIndex, startIndex + entriesToShow);
 
@@ -94,10 +91,8 @@
                     tbody.append(row);
                 });
 
-                // Info total
                 $("#prodi_info").text(`Menampilkan ${paginated.length} dari ${totalData} data prodi`);
 
-                // Pagination
                 let paginationHtml = '';
                 for (let i = 1; i <= totalPages; i++) {
                     paginationHtml +=
@@ -138,7 +133,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             $(document).on('click', '.btn-hapus', function() {
                 const id = $(this).data('id');
-                const type = $(this).data('type'); // bisa dipakai kalau ada banyak jenis data
+                const type = $(this).data('type');
 
                 Swal.fire({
                     title: 'Yakin hapus data ini?',
@@ -160,7 +155,7 @@
                             success: function(response) {
                                 Swal.fire('Berhasil!', response.message, 'success')
                                     .then(() => {
-                                        location.reload(); // refresh tabel
+                                        location.reload();
                                     });
                             },
                             error: function(xhr) {
