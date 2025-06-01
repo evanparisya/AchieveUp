@@ -63,7 +63,7 @@
             function actionButtonsLomba(id) {
                 console.log("Lomba ID:", id);
                 return `
-                <a href="/lomba/${id}" class="text-blue-600 hover:underline mr-2">Detail</a>
+                <a href="/admin/lomba/${id}" class="text-blue-600 hover:underline mr-2">Detail</a>
                 <a href="/admin/lomba/edit/${id}" class="text-yellow-600 hover:underline mr-2">Edit</a>
                 <button type="button" class="text-red-600 hover:underline btn-hapus" data-id="${id}" data-type="lomba">Hapus</button>
             `;
