@@ -55,7 +55,7 @@
             function actionButtonsProdi(id) {
                 console.log("Prodi ID:", id);
                 return `
-                <a href="/prodi/${id}" class="text-blue-600 hover:underline mr-2">Detail</a>
+                <a href="/admin/prodi/${id}" class="text-blue-600 hover:underline mr-2">Detail</a>
                 <a href="/admin/prodi/edit/${id}" class="text-yellow-600 hover:underline mr-2">Edit</a>
                 <button type="button" class="text-red-600 hover:underline btn-hapus" data-id="${id}" data-type="prodi">Hapus</button>
             `;

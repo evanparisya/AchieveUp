@@ -38,4 +38,8 @@ class Dosen extends Authenticatable
     {
         return $value === 'admin' ? 'admin' : ($value === 'dosen pembimbing' ? 'dosen pembimbing' : 'unknown');
     }
+    public function rekomendasiLombas()
+    {
+        return $this->hasMany(DosenPembimbingRekomendasi::class, 'dosen_id');
+    }
 }
