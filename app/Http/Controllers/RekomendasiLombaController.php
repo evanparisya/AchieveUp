@@ -94,7 +94,7 @@ class RekomendasiLombaController extends Controller
             MahasiswaRekomendasi::create([
                 'rekomendasi_lomba_id' => $rekomendasi->id,
                 'mahasiswa_id' => $mhs_id,
-                'note' => 'Rekomendasi Lomba Terbaru Mahasiswa ' . $rekomendasi->lomba->judul,
+                'note' => 'Anda mendapatkan rekomendasi untuk mengikuti Lomba : ' . $rekomendasi->lomba->judul,
             ]);
         }
 
@@ -102,7 +102,7 @@ class RekomendasiLombaController extends Controller
             DosenPembimbingRekomendasi::create([
                 'rekomendasi_lomba_id' => $rekomendasi->id,
                 'dosen_id' => $dsn_id,
-                'note' => 'Rekomendasi Dosen Pembimbing Lomba Terbaru ' . $rekomendasi->lomba->judul,
+                'note' => 'Anda mendapatkan rekomendasi untuk menjadi Dosen Pembimbing dalam Lomba ' . $rekomendasi->lomba->judul,
             ]);
         }
 
@@ -195,9 +195,6 @@ class RekomendasiLombaController extends Controller
     {
         $rekomendasi = RekomendasiLomba::with('lomba.bidang')
             ->where('id', $id)
-            ->whereHas('lomba', function ($q) {
-                $q->where('is_active', true);
-            })
             ->first();
 
         $mahasiswa = MahasiswaRekomendasi::with('mahasiswa')
