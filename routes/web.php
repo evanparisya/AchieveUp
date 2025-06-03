@@ -10,6 +10,7 @@ use App\Http\Controllers\NotifikasiMahasiswa;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\PrestasiMahasiswaController;
 use App\Http\Controllers\ProdiController;
+use App\Http\Controllers\BidangController;
 use App\Http\Controllers\ProfilAdminController;
 use App\Http\Controllers\ProfilDosenPembimbingController;
 use App\Http\Controllers\ProfilMahasiswaController;
@@ -99,6 +100,19 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
         Route::put('/update/{id}', [ProdiController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [ProdiController::class, 'destroy'])->name('delete');
     });
+
+    Route::prefix('bidang')->name('bidang.')->group(function () {
+        Route::get('/', [BidangController::class, 'index'])->name('index');
+        Route::get('/create', [BidangController::class, 'create'])->name('create');
+        Route::get('/getall', [BidangController::class, 'getall'])->name('getall');
+        Route::get('/{id}', [BidangController::class, 'show'])->name('detail');
+        
+        Route::post('/store', [BidangController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [BidangController::class, 'edit'])->name('edit');
+        Route::put('/update/{id}', [BidangController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [BidangController::class, 'destroy'])->name('delete');
+    });
+
 
 
 
