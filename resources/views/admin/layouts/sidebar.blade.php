@@ -97,6 +97,34 @@
                     Management Prodi
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ route('admin.rekomendasi.index') }}"
+                    class="sidebar-menu-button {{ $activeMenu == 'rekomendasi' ? 'sidebar-active' : '' }}">
+                    <div
+                        class="w-5 h-5 mr-2 inline-block align-middle {{ $activeMenu == 'prodi' ? 'text-white' : 'text-gray-400' }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 12l2-2m0 0l7-7 7 7m-9 2v6m0 0h4m-4 0a2 2 0 01-2-2v-4a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4z" />
+                        </svg>
+                    </div>
+                    Rekomendasi
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('admin.bidang.index') }}"
+                    class="sidebar-menu-button {{ $activeMenu == 'bidang' ? 'sidebar-active' : '' }}">
+                    <div
+                        class="w-5 h-5 mr-2 inline-block align-middle {{ $activeMenu == 'bidang' ? 'text-white' : 'text-gray-400' }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 12l2-2m0 0l7-7 7 7m-9 2v6m0 0h4m-4 0a2 2 0 01-2-2v-4a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4z" />
+                        </svg>
+                    </div>
+                    Management Bidang
+                </a>
+            </li>
         </ul>
     </nav>
 </aside>
