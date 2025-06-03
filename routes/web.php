@@ -121,9 +121,25 @@ Route::middleware(['dosen:dosen pembimbing'])->prefix('dosen_pembimbing')->name(
 });
 
 Route::middleware(['mahasiswa'])->prefix('mahasiswa')->name('mahasiswa.')->group(function () {
-    Route::get('/dashboard', [DashboardMahasiswa::class, 'index'])->name('dashboard.index');
+    Route::prefix('dashboard')->name('dashboard.')->group(function () {
+        Route::get('', [DashboardMahasiswa::class, 'index'])->name('index');
+    });
 
     Route::prefix('prestasi')->name('prestasi.')->group(function () {
+        Route::get('/', [PrestasiMahasiswaController::class, 'index'])->name('index');
+        Route::get('/getdata', [PrestasiMahasiswaController::class, 'getData'])->name('getdata');
+        Route::get('/create', [PrestasiMahasiswaController::class, 'create'])->name('create');
+        Route::post('/store', [PrestasiMahasiswaController::class, 'store'])->name('store');
+        Route::get('/{id}', [PrestasiMahasiswaController::class, 'show'])->name('show');
+        Route::delete('/{id}', [PrestasiMahasiswaController::class, 'destroy'])->name('destroy');
+
+        Route::get('/{id}/edit', [PrestasiMahasiswaController::class, 'edit'])
+            ->name('mahasiswa.prestasi.edit');
+        Route::put('/{id}', [PrestasiMahasiswaController::class, 'update'])
+            ->name('mahasiswa.prestasi.update');
+    });
+
+    Route::prefix('lomba')->name('lomba.')->group(function () {
         Route::get('/', [PrestasiMahasiswaController::class, 'index'])->name('index');
         Route::get('/getdata', [PrestasiMahasiswaController::class, 'getData'])->name('getdata');
         Route::get('/create', [PrestasiMahasiswaController::class, 'create'])->name('create');
