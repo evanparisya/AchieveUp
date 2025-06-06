@@ -155,9 +155,9 @@ class DashboardAdmin extends Controller
         $entrophy = $this->entrophy;
         $electre = $this->electre;
         $aras = $this->aras;
-        $data =
-            [
-            'getAllFungsiEntrophy' => $entrophy->getAllFunction(),
+        $data = 
+        [
+            // 'getAllFungsiEntrophy' => $entrophy->getAllFunction(),
             // 'getAllFungsiElectre' => $electre->getAllFunction(),
             // 'matriksNormalisasiTerbobot' => $electre->getMatriksNormalisasiTerbobot(),
             // 'getAllFungsiAras' =>     $aras->getAllFunction(),

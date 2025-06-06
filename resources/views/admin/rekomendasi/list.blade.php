@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Lomba')
+@section('title', 'Rekomendasi')
 
 @section('content')
     <div class="flex flex-wrap items-center justify-between mb-4 gap-2">
@@ -27,7 +27,7 @@
 
     <!-- Table Wrapper -->
     <div class="overflow-x-auto bg-white shadow rounded-b-[12px] border-t-0 border border-gray-200">
-        <!-- Tab Lomba -->
+        <!-- Tab Rekomendasi -->
         <table id="table_lomba" class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>
@@ -60,16 +60,15 @@
             let lombaData = [];
             let currentPage = 1;
 
-            function actionButtonsLomba(id) {
-                console.log("Lomba ID:", id);
+            function actionButtonsRekomendasi(id) {
+                console.log("Rekomendasi ID:", id);
                 return `
-                <a href="/admin/lomba/${id}" class="text-blue-600 hover:underline mr-2">Detail</a>
-                <a href="/admin/lomba/edit/${id}" class="text-yellow-600 hover:underline mr-2">Edit</a>
+                <a href="/admin/rekomendasi/${id}" class="text-blue-600 hover:underline mr-2">Detail</a>
                 <button type="button" class="text-red-600 hover:underline btn-hapus" data-id="${id}" data-type="lomba">Hapus</button>
             `;
             }
 
-            function renderLombaTable() {
+            function renderRekomendasiTable() {
                 let searchQuery = $('#search-bar').val().toLowerCase();
                 let entriesToShow = parseInt($('#show-entry').val());
                 let tbody = $('#table_lomba tbody');
@@ -81,30 +80,39 @@
                 let totalData = filtered.length;
                 let totalPages = Math.ceil(totalData / entriesToShow);
 
+                // Pagination slice
                 let startIndex = (currentPage - 1) * entriesToShow;
                 let paginated = filtered.slice(startIndex, startIndex + entriesToShow);
 
                 tbody.empty();
                 $.each(paginated, function(index, item) {
                     let row = `
-                    <tr>
-                        <td class="px-6 py-4 text-sm text-gray-900">${item.judul}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900"><span class="px-1 py-1 rounded text-xs font-semibold ${item.tingkat_warna}">
-                            ${item.tingkat.charAt(0).toUpperCase() + item.tingkat.slice(1)}
-                        </span></td>
-                        <td class="px-6 py-4 text-sm text-gray-900">${item.periode_pendaftaran}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900"><a href="${item.link}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">${item.link}</a></td>
-                        <td class="px-6 py-4 text-sm text-gray-900">${item.bidang.map(b => `<span class="inline-block bg-blue-100 text-blue-800 text-xs font-medium mr-1 px-1 py-0.5 rounded">${b.nama}</span>`).join(' ')}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">
-                            ${actionButtonsLomba(item.id)}
-                        </td>
-                    </tr>
-                `;
+                        <tr>
+                            <td class="px-6 py-4 text-sm text-gray-900">${item.judul}</td>
+                            <td class="px-6 py-4 text-sm text-gray-900">
+                                <span class="px-1 py-1 rounded text-xs font-semibold ${item.tingkat_warna}">
+                                    ${item.tingkat.charAt(0).toUpperCase() + item.tingkat.slice(1)}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-900">${item.periode_pendaftaran}</td>
+                            <td class="px-6 py-4 text-sm text-gray-900">
+                                <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">${item.link}</a>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-900">
+                                ${item.bidang.map(b => `<span class="inline-block bg-blue-100 text-blue-800 text-xs font-medium mr-1 px-1 py-0.5 rounded">${b.nama}</span>`).join(' ')}
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-900">
+                                ${actionButtonsRekomendasi(item.id)}
+                            </td>
+                        </tr>
+                        `;
                     tbody.append(row);
                 });
 
+                // Info total
                 $("#lomba_info").text(`Menampilkan ${paginated.length} dari ${totalData} data lomba`);
 
+                // Pagination
                 let paginationHtml = '';
                 for (let i = 1; i <= totalPages; i++) {
                     paginationHtml +=
@@ -114,30 +122,30 @@
 
                 $(".page-btn-lomba").on("click", function() {
                     currentPage = parseInt($(this).data("page"));
-                    renderLombaTable();
+                    renderRekomendasiTable();
                 });
             }
 
-            function loadLomba() {
+            function loadRekomendasi() {
                 $.ajax({
-                    url: '/admin/lomba/getall',
+                    url: '/admin/rekomendasi/getAll',
                     type: 'GET',
                     dataType: 'json',
                     success: function(response) {
                         lombaData = response;
                         currentPage = 1;
-                        renderLombaTable();
+                        renderRekomendasiTable();
                     }
                 });
             }
 
             $('#search-bar, #show-entry').on('input change', function() {
                 currentPage = 1;
-                renderLombaTable();
+                renderRekomendasiTable();
             });
 
-            window.loadLomba = loadLomba;
-            loadLomba();
+            window.loadRekomendasi = loadRekomendasi;
+            loadRekomendasi();
         });
     </script>
 
@@ -145,7 +153,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             $(document).on('click', '.btn-hapus', function() {
                 const id = $(this).data('id');
-                const type = $(this).data('type'); 
+                const type = $(this).data('type'); // bisa dipakai kalau ada banyak jenis data
 
                 Swal.fire({
                     title: 'Yakin hapus data ini?',
@@ -159,7 +167,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: `/admin/lomba/delete/${id}`,
+                            url: `/admin/rekomendasi/delete/${id}`,
                             type: 'DELETE',
                             data: {
                                 _token: '{{ csrf_token() }}'
@@ -167,7 +175,7 @@
                             success: function(response) {
                                 Swal.fire('Berhasil!', response.message, 'success')
                                     .then(() => {
-                                        location.reload(); 
+                                        location.reload(); // refresh tabel
                                     });
                             },
                             error: function(xhr) {
@@ -187,7 +195,7 @@
         $(document).ready(function() {
             $('#show-entry, #search-bar').on('input change', function() {
                 let activeTab = window.tab;
-                window.loadLomba();
+                window.loadRekomendasi();
             });
         });
     </script>

@@ -8,12 +8,15 @@ use App\Http\Controllers\DashboardMahasiswa;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\LombaController;
 use App\Http\Controllers\LombaDosenController;
+use App\Http\Controllers\NotifikasiMahasiswa;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\PrestasiMahasiswaController;
 use App\Http\Controllers\ProdiController;
+use App\Http\Controllers\BidangController;
 use App\Http\Controllers\ProfilAdminController;
 use App\Http\Controllers\ProfilDosenPembimbingController;
 use App\Http\Controllers\ProfilMahasiswaController;
+use App\Http\Controllers\RekomendasiLombaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerifikasiPrestasiController;
 use Illuminate\Support\Facades\Route;
@@ -81,6 +84,7 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
     Route::prefix('lomba')->name('lomba.')->group(function () {
         Route::get('/', [LombaController::class, 'index'])->name('index');
         Route::get('/getall', [LombaController::class, 'getAll'])->name('getall');
+        Route::get('/{id}', [LombaController::class, 'show'])->name('detail');
         Route::get('/create', [LombaController::class, 'create'])->name('create');
         Route::post('/store', [LombaController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [LombaController::class, 'edit'])->name('edit');
@@ -91,6 +95,7 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
     Route::prefix('prodi')->name('prodi.')->group(function () {
         Route::get('/', [ProdiController::class, 'index'])->name('index');
         Route::get('/getall', [ProdiController::class, 'getall'])->name('getall');
+        Route::get('/{id}', [ProdiController::class, 'show'])->name('detail');
         Route::get('/create', [ProdiController::class, 'create'])->name('create');
         Route::post('/store', [ProdiController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [ProdiController::class, 'edit'])->name('edit');
@@ -98,10 +103,35 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
         Route::delete('/delete/{id}', [ProdiController::class, 'destroy'])->name('delete');
     });
 
+    Route::prefix('bidang')->name('bidang.')->group(function () {
+        Route::get('/', [BidangController::class, 'index'])->name('index');
+        Route::get('/create', [BidangController::class, 'create'])->name('create');
+        Route::get('/getall', [BidangController::class, 'getall'])->name('getall');
+        Route::get('/{id}', [BidangController::class, 'show'])->name('detail');
+        
+        Route::post('/store', [BidangController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [BidangController::class, 'edit'])->name('edit');
+        Route::put('/update/{id}', [BidangController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [BidangController::class, 'destroy'])->name('delete');
+    });
+
+
+
+
     Route::prefix('profil')->name('profil.')->group(function () {
         Route::get('/', [ProfilAdminController::class, 'index'])->name('index');
         Route::get('/edit', [ProfilAdminController::class, 'edit'])->name('edit');
         Route::put('/update/{id}', [ProfilAdminController::class, 'update'])->name('update');
+    });
+
+    Route::prefix('rekomendasi')->name('rekomendasi.')->group(function () {
+        Route::get('/', [RekomendasiLombaController::class, 'index'])->name('index');
+        Route::get('/create/{id}', [RekomendasiLombaController::class, 'create'])->name('create');
+        Route::post('/store', [RekomendasiLombaController::class, 'store'])->name('store');
+        Route::get('/list', [RekomendasiLombaController::class, 'list'])->name('list');
+        Route::get('/getAll', [RekomendasiLombaController::class, 'getAll'])->name('getAll');
+        Route::get('/{id}', [RekomendasiLombaController::class, 'show'])->name('detail');
+        Route::delete('/delete/{id}', [RekomendasiLombaController::class, 'destroy'])->name('delete');
     });
 });
 
@@ -127,13 +157,28 @@ Route::middleware(['dosen:dosen pembimbing'])->prefix('dosen_pembimbing')->name(
         Route::post('/store', [LombaDosenController::class, 'store'])->name('store');
         Route::get('/{id}', [LombaDosenController::class, 'show'])->name('show');
     });
-    
 });
 
 Route::middleware(['mahasiswa'])->prefix('mahasiswa')->name('mahasiswa.')->group(function () {
-    Route::get('/dashboard', [DashboardMahasiswa::class, 'index'])->name('dashboard.index');
+    Route::prefix('dashboard')->name('dashboard.')->group(function () {
+        Route::get('', [DashboardMahasiswa::class, 'index'])->name('index');
+    });
 
     Route::prefix('prestasi')->name('prestasi.')->group(function () {
+        Route::get('/', [PrestasiMahasiswaController::class, 'index'])->name('index');
+        Route::get('/getdata', [PrestasiMahasiswaController::class, 'getData'])->name('getdata');
+        Route::get('/create', [PrestasiMahasiswaController::class, 'create'])->name('create');
+        Route::post('/store', [PrestasiMahasiswaController::class, 'store'])->name('store');
+        Route::get('/{id}', [PrestasiMahasiswaController::class, 'show'])->name('show');
+        Route::delete('/{id}', [PrestasiMahasiswaController::class, 'destroy'])->name('destroy');
+
+        Route::get('/{id}/edit', [PrestasiMahasiswaController::class, 'edit'])
+            ->name('mahasiswa.prestasi.edit');
+        Route::put('/{id}', [PrestasiMahasiswaController::class, 'update'])
+            ->name('mahasiswa.prestasi.update');
+    });
+
+    Route::prefix('lomba')->name('lomba.')->group(function () {
         Route::get('/', [PrestasiMahasiswaController::class, 'index'])->name('index');
         Route::get('/getdata', [PrestasiMahasiswaController::class, 'getData'])->name('getdata');
         Route::get('/create', [PrestasiMahasiswaController::class, 'create'])->name('create');
@@ -151,5 +196,16 @@ Route::middleware(['mahasiswa'])->prefix('mahasiswa')->name('mahasiswa.')->group
         Route::get('/', [ProfilMahasiswaController::class, 'index'])->name('index');
         Route::get('/edit', [ProfilMahasiswaController::class, 'edit'])->name('edit');
         Route::put('/update/{id}', [ProfilMahasiswaController::class, 'update'])->name('update');
+    });
+
+    Route::prefix('notifikasi')->name('notifikasi.')->group(function () {
+        Route::get('/', [NotifikasiMahasiswa::class, 'index'])->name('index');
+        Route::get('getAllRekomendasi', [NotifikasiMahasiswa::class, 'getAllRekomendasi'])->name('getAllRekomendasi');
+        Route::post('/markAsRead', [NotifikasiMahasiswa::class, 'markAsRead'])->name('markAsRead');
+        Route::post('/markAllAsRead', [NotifikasiMahasiswa::class, 'markAllAsRead'])->name('markAllAsRead');
+        Route::get('/{id}', [NotifikasiMahasiswa::class, 'show'])->name('detail');
+        Route::delete('/{id}', [NotifikasiMahasiswa::class, 'destroy'])->name('delete');
+        Route::post('/destroyIsAccpeptedMessege', [NotifikasiMahasiswa::class, 'destroyIsAccpeptedMessege'])->name('destroyIsAccpeptedMessege');
+
     });
 });

@@ -3,17 +3,16 @@
 @section('title', 'Update Prestasi')
 
 @section('content')
-    <div class="container mx-auto px-4 py-6">
+    <div class="mx-auto px-4 py-6">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Kolom Kiri: Form Update -->
             <div class="col-span-2">
                 <form action="{{ url('mahasiswa/prestasi/' . $prestasi->id . 'update/') }}" method="POST"
-                    enctype="multipart/form-data" class="bg-white shadow rounded p-6 space-y-4">
+                    enctype="multipart/form-data" class="bg-white shadow rounded-[] p-6 space-y-4">
                     @csrf
                     @method('PUT')
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- Tanggal Pengajuan -->
+                        {{-- Tanggal Pengajuan --}}
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Pengajuan</label>
                             <div class="mb-1 text-gray-600 text-md">
@@ -22,21 +21,21 @@
                             <input type="hidden" name="tanggal_pengajuan" value="{{ now()->format('Y-m-d') }}">
                         </div>
 
-                        <!-- Judul -->
+                        {{-- Judul --}}
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Judul</label>
                             <input type="text" name="judul" value="{{ old('judul', $prestasi->judul) }}" required
                                 class="w-full border border-gray-300 rounded-lg px-4 py-2" />
                         </div>
 
-                        <!-- Tempat -->
+                        {{-- Tempat --}}
                         <div>
                             <label for="tempat" class="block text-sm font-medium text-gray-700 mb-1">Tempat</label>
                             <input type="text" name="tempat" id="tempat" required class="input"
                                 value="{{ old('tempat', $prestasi->tempat) }}">
                         </div>
 
-                        <!-- Tanggal Mulai -->
+                        {{-- Tanggal Mulai --}}
                         <div>
                             <label for="tanggal_mulai" class="block text-sm font-medium text-gray-700 mb-1">Tanggal
                                 Mulai</label>
@@ -45,7 +44,7 @@
                                 value="{{ old('tanggal_mulai', $prestasi->tanggal_mulai) }}">
                         </div>
 
-                        <!-- Tanggal Selesai -->
+                        {{-- Tanggal Selesai --}}
                         <div>
                             <label for="tanggal_selesai" class="block text-sm font-medium text-gray-700 mb-1">Tanggal
                                 Selesai</label>
@@ -54,12 +53,11 @@
                                 value="{{ old('tanggal_selesai', $prestasi->tanggal_selesai) }}">
                         </div>
 
-                        <!-- Garis pemisah -->
                         <div class="col-span-1 md:col-span-2">
                             <hr class="my-2 opacity-10">
                         </div>
 
-                        <!-- URL (nullable) -->
+                        {{-- URL --}}
                         <div>
                             <label for="url" class="block text-sm font-medium text-gray-700 mb-1">URL Lomba (Instagram,
                                 web,
@@ -68,7 +66,7 @@
                                 value="{{ old('url', $prestasi->url) }}">
                         </div>
 
-                        <!-- Tingkat -->
+                        {{-- Tingkat --}}
                         <div>
                             <label for="tingkat" class="block text-sm font-medium text-gray-700 mb-1">Tingkat</label>
                             <select name="tingkat" id="tingkat" required
@@ -89,7 +87,7 @@
                             </select>
                         </div>
 
-                        <!-- Juara -->
+                        {{-- Juara --}}
                         <div>
                             <label for="juara" class="block text-sm font-medium text-gray-700 mb-1">Juara</label>
                             <select name="juara" id="juara" required
@@ -104,7 +102,10 @@
                             </select>
                         </div>
 
-                        <!-- Bidang -->
+                        <div class="col-span-1 md:col-span-2">
+                            <hr class="my-2 opacity-10">
+                        </div>
+
                         <div>
                             <label for="bidang" class="block text-sm font-medium text-gray-700 mb-1">Bidang
                                 Prestasi</label>
@@ -176,7 +177,6 @@
                             </div>
                         </div>
 
-                        <!-- Garis pemisah -->
                         <div class="col-span-1 md:col-span-2">
                             <hr class="my-2 opacity-10">
                         </div>

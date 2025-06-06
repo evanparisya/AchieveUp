@@ -13,7 +13,8 @@ class Electre
         $this->entrophy = $entropy;
     }
 
-    public function getAllFunction(){
+    public function getAllFunction()
+    {
         return [
             'getPenyebut' => $this->getPenyebut(),
             'getMatriksNormalisasiTerbobot' => $this->getMatriksNormalisasiTerbobot(),
@@ -29,7 +30,7 @@ class Electre
             'getTresholdD' => $this->getTresholdD(),
             'getMatriksDominanD' => $this->getMatriksDominanD(),
             'getAgregatDominanMatriks' => $this->getAgregatDominanMatriks(),
-            'getRanking' => $this->getRanking()
+            'getRanking' => $this->getRanking(),
         ];
     }
 
@@ -43,7 +44,7 @@ class Electre
             'pengalaman_organisasi' => 0,
             'skor_bahasa_inggris' => 0,
             'prestasi_kemenangan' => 0,
-            'semester' => 0
+            'semester' => 0,
         ];
 
         foreach ($matriksNormalisasi as $row) {
@@ -75,7 +76,7 @@ class Electre
                 'pengalaman_organisasi' => round($row['pengalaman_organisasi'] / $penyebut['pengalaman_organisasi'], 4),
                 'skor_bahasa_inggris' => round($row['skor_bahasa_inggris'] / $penyebut['skor_bahasa_inggris'], 4),
                 'prestasi_kemenangan' => round($row['prestasi_kemenangan'] / $penyebut['prestasi_kemenangan'], 4),
-                'semester' => round($row['semester'] / $penyebut['semester'], 4)
+                'semester' => round($row['semester'] / $penyebut['semester'], 4),
             ];
         }
         return $hasil;
@@ -96,7 +97,7 @@ class Electre
                 'pengalaman_organisasi' => round($row['pengalaman_organisasi'] * $bobotKriteria['W3'], 4),
                 'skor_bahasa_inggris' => round($row['skor_bahasa_inggris'] * $bobotKriteria['W4'], 4),
                 'prestasi_kemenangan' => round($row['prestasi_kemenangan'] * $bobotKriteria['W5'], 4),
-                'semester' => round($row['semester'] * $bobotKriteria['W6'], 4)
+                'semester' => round($row['semester'] * $bobotKriteria['W6'], 4),
             ];
         }
         return $hasil;
@@ -121,7 +122,7 @@ class Electre
                             'skor_bahasa_inggris' => 0,
                             'prestasi_kemenangan' => 0,
                             'semester' => 0,
-                            'total' => 0
+                            'total' => 0,
                         ],
                     ];
                 }
@@ -251,8 +252,8 @@ class Electre
             foreach ($pairData as $key => $concordanceValues) {
                 // Ekstrak indeks i dan j dari key (format: A-i-j)
                 $parts = explode('-', $key);
-                $i = (int)$parts[1];
-                $j = (int)$parts[2];
+                $i = (int) $parts[1];
+                $j = (int) $parts[2];
 
                 // Validasi indeks
                 if (!isset($pembobotanByIndex[$i]) || !isset($pembobotanByIndex[$j])) {
@@ -396,7 +397,7 @@ class Electre
                 'nim' => $alt['nim'],
                 'concordance' => $concordanceData[$altNumber] ?? ['total' => 0, 'details' => []],
                 'discordance' => $discordanceData[$altNumber] ?? ['total' => 0, 'details' => []],
-                'net_flow' => ($concordanceData[$altNumber]['total'] ?? 0) - ($discordanceData[$altNumber]['total'] ?? 0)
+                'net_flow' => ($concordanceData[$altNumber]['total'] ?? 0) - ($discordanceData[$altNumber]['total'] ?? 0),
             ];
         }
 
@@ -421,7 +422,7 @@ class Electre
         for ($i = 1; $i <= $jumlahAlternatif; $i++) {
             $result[$i] = [
                 'total' => 0,
-                'details' => []
+                'details' => [],
             ];
         }
 
@@ -429,7 +430,7 @@ class Electre
             foreach ($pair as $key => $nilai) {
                 $parts = explode('-', $key);
                 if (count($parts) === 3) {
-                    $i = (int)$parts[1]; // Ambil index alternatif pertama
+                    $i = (int) $parts[1]; // Ambil index alternatif pertama
 
                     if ($i >= 1 && $i <= $jumlahAlternatif) {
                         $result[$i]['details'][$key] = $nilai;

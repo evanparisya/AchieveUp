@@ -5,12 +5,12 @@
 @section('content')
     <div class="container mx-auto p-4 max-w-lg">
 
-        <h1 class="text-xl font-bold mb-4">Tambah Prodi</h1>
+        <h1 class="text-xl font-bold mb-4">Tambah Bidang</h1>
 
-        <form id="form-create" action="{{ url('admin/prodi/store') }}" method="POST" enctype="multipart/form-data">
+        <form id="form-create" action="{{ url('admin/bidang/store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
-            {{-- Kode Prodi --}}
+            {{-- Kode Bidang --}}
             <label for="kode" class="block mb-1">Kode</label>
             <input type="text" name="kode" id="kode" class="w-full mb-3 p-2 border rounded"
                 value="{{ old('kode') }}">
@@ -18,7 +18,7 @@
                 <p class="text-red-500 text-sm mb-2">{{ $message }}</p>
             @enderror
 
-            {{-- Nama Prodi --}}
+            {{-- Nama Bidang --}}
             <label for="nama" class="block mb-1">Nama</label>
             <input type="text" name="nama" id="nama" class="w-full mb-3 p-2 border rounded"
                 value="{{ old('nama') }}">
