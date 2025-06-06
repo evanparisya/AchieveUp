@@ -13,6 +13,7 @@ use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\PrestasiMahasiswaController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\BidangController;
+use App\Http\Controllers\NotifikasiDosenPembimbing;
 use App\Http\Controllers\ProfilAdminController;
 use App\Http\Controllers\ProfilDosenPembimbingController;
 use App\Http\Controllers\ProfilMahasiswaController;
@@ -156,6 +157,17 @@ Route::middleware(['dosen:dosen pembimbing'])->prefix('dosen_pembimbing')->name(
         Route::get('/create', [LombaDosenController::class, 'create'])->name('create');
         Route::post('/store', [LombaDosenController::class, 'store'])->name('store');
         Route::get('/{id}', [LombaDosenController::class, 'show'])->name('show');
+    });
+
+    Route::prefix('notifikasi')->name('notifikasi.')->group(function () {
+        Route::get('/', [NotifikasiDosenPembimbing::class, 'index'])->name('index');
+        Route::get('getAllRekomendasi', [NotifikasiDosenPembimbing::class, 'getAllRekomendasi'])->name('getAllRekomendasi');
+        Route::post('/markAsRead', [NotifikasiDosenPembimbing::class, 'markAsRead'])->name('markAsRead');
+        Route::post('/markAllAsRead', [NotifikasiDosenPembimbing::class, 'markAllAsRead'])->name('markAllAsRead');
+        Route::get('/{id}', [NotifikasiDosenPembimbing::class, 'show'])->name('detail');
+        Route::delete('/{id}', [NotifikasiDosenPembimbing::class, 'destroy'])->name('delete');
+        Route::post('/destroyIsAcceptedMessage', [NotifikasiDosenPembimbing::class, 'destroyIsAcceptedMessage'])->name('destroyIsAcceptedMessage');
+
     });
 });
 
