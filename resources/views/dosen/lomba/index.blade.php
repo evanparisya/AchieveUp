@@ -20,10 +20,11 @@
             </div>
 
             <div class="flex items-center gap-2">
-                <input id="search-bar" type="text" placeholder="Search..." class="border rounded px-2 py-1 text-sm" />
+                <input id="search-bar" type="text" placeholder="Cari..." class="input" />
                 <button id="btn-add-user" onclick="window.location.href='{{ route('dosen.lomba.create') }}'"
-                    class="bg-blue-600 text-white px-4 py-1 rounded text-sm hover:bg-blue-700">
-                    + Add
+                    class="button-primary-medium">
+                    <i class="fas fa-plus mr-2"></i>
+                    <span>Tambah</span>
                 </button>
             </div>
         </div>
