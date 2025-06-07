@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\ProgramStudi;
+use App\Models\Mahasiswa;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -28,7 +31,7 @@ class AuthController extends Controller
 
         // Cek login untuk mahasiswa
         if (
-            Auth::guard('mahasiswa')->attempt(['NIM' => $username, 'password' => $password]) ||
+            Auth::guard('mahasiswa')->attempt(['nim' => $username, 'password' => $password]) ||
             Auth::guard('mahasiswa')->attempt(['username' => $username, 'password' => $password])
         ) {
             $request->session()->regenerate();
@@ -39,7 +42,7 @@ class AuthController extends Controller
 
         // Cek login untuk dosen
         if (
-            Auth::guard('dosen')->attempt(['NIDN' => $username, 'password' => $password]) ||
+            Auth::guard('dosen')->attempt(['nidn' => $username, 'password' => $password]) ||
             Auth::guard('dosen')->attempt(['username' => $username, 'password' => $password])
         ) {
             $request->session()->regenerate();
@@ -72,5 +75,42 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/login');
+    }
+
+    public function showRegisterMahasiswa()
+    {
+        $programStudis = ProgramStudi::all();
+        return view('auth.login', compact('programStudis'));
+    }
+
+    public function registerMahasiswa(Request $request)
+    {
+        $request->validate([
+            'nim' => 'required|string|unique:mahasiswa,nim',
+            'nama' => 'required|string',
+            'username' => 'required|string|unique:mahasiswa,username',
+            'email' => 'required|email|unique:mahasiswa,email',
+            'program_studi_id' => 'required|exists:program_studi,id',
+            'password' => [
+                'required',
+                'string',
+                'confirmed',
+                'min:8',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
+            ],
+        ]);
+
+        $mahasiswa = Mahasiswa::create([
+            'nim' => $request->nim,
+            'nama' => $request->nama,
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'foto' => null,
+            'program_studi_id' => $request->program_studi_id,
+        ]);
+
+        return redirect('/login')
+            ->with('success', 'Registrasi berhasil. Silakan login dengan akun Anda.');
     }
 }

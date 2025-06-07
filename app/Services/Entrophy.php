@@ -14,7 +14,7 @@ class Entrophy
                 $q->where('tanggal_selesai', '>=', now()->subMonths(6));
             },
             'profil',
-        ])->get();
+        ])->limit(20)->get();
 
         return $mahasiswa;
     }
