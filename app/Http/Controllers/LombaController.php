@@ -29,6 +29,47 @@ class LombaController extends Controller
         return view('admin.lomba.index', compact('breadcrumb', 'page', 'activeMenu'));
     }
 
+    public function getLomba($id)
+    {
+        $lomba = Lomba::with('bidang')->findOrFail($id);
+
+        $warnaTingkat = match ($lomba->tingkat) {
+            'internasional' => 'bg-red-100 text-red-800',
+            'nasional'      => 'bg-blue-100 text-blue-800',
+            'regional'      => 'bg-green-100 text-green-800',
+            'provinsi'      => 'bg-yellow-100 text-yellow-800',
+            default         => 'bg-gray-100 text-gray-800',
+        };
+
+        $data = [
+            'id' => $lomba->id,
+            'judul' => $lomba->judul,
+            'tempat' => $lomba->tempat,
+            'tanggal_daftar' => $lomba->tanggal_daftar,
+            'tanggal_daftar_terakhir' => $lomba->tanggal_daftar_terakhir,
+            'periode_pendaftaran' => Carbon::parse($lomba->tanggal_daftar)->format('d M Y') .
+                ' s.d. ' .
+                Carbon::parse($lomba->tanggal_daftar_terakhir)->format('d M Y'),
+            'link' => $lomba->url,
+            'tingkat' => $lomba->tingkat,
+            'tingkat_warna' => $warnaTingkat,
+            'is_individu' => $lomba->is_individu ? 'Ya' : 'Tidak',
+            'is_active' => $lomba->is_active ? 'Ya' : 'Tidak',
+            'file_poster' => $lomba->file_poster,
+            'is_akademik' => $lomba->is_akademik ? 'Ya' : 'Tidak',
+            'bidang' => $lomba->bidang->map(function ($b) {
+                return [
+                    'id' => $b->id,
+                    'kode' => $b->kode,
+                    'nama' => $b->nama,
+                ];
+            }),
+        ];
+
+        return $data;
+    }
+
+
     public function getAll()
     {
         $lombas = Lomba::with('bidang')->get();
