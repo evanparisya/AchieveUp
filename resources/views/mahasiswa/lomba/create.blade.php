@@ -1,11 +1,11 @@
-@extends('admin.layouts.app')
+@extends('mahasiswa.layouts.app')
 
-@section('title', 'Create')
+@section('title', 'Ajukan Lomba')
 
 @section('content')
     <div class="container mx-auto max-w-7xl p-6">
         <div class="bg-white shadow-md rounded-lg p-8">
-            <form id="form-create" action="{{ url('admin/lomba/store') }}" method="POST" enctype="multipart/form-data"
+            <form id="form-create" action="{{ url('/mahasiswa/lomba/store') }}" method="POST" enctype="multipart/form-data"
                 class="space-y-6">
                 @csrf
 
@@ -64,13 +64,14 @@
                         <label for="tingkat" class="block text-sm font-semibold mb-2 text-gray-700">Tingkat</label>
                         <select name="tingkat" id="tingkat" class="input">
                             <option value="">-- Pilih Tingkat --</option>
-                            <option value="internasional">Internasional</option>
-                            <option value="nasional">Nasional</option>
-                            <option value="regional">Regional</option>
-                            <option value="provinsi">Provinsi</option>
+                            <option value="internasional" {{ old('tingkat') == 'internasional' ? 'selected' : '' }}>
+                                Internasional</option>
+                            <option value="nasional" {{ old('tingkat') == 'nasional' ? 'selected' : '' }}>Nasional</option>
+                            <option value="regional" {{ old('tingkat') == 'regional' ? 'selected' : '' }}>Regional</option>
+                            <option value="provinsi" {{ old('tingkat') == 'provinsi' ? 'selected' : '' }}>Provinsi</option>
                         </select>
                         @error('tingkat')
-                            <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
+                            <p class="text-red-600 text-xs mt-2">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -80,16 +81,16 @@
                             <label class="inline-flex items-center cursor-pointer">
                                 <input type="radio" name="is_individu" value="1" class="form-radio text-blue-600"
                                     {{ old('is_individu', '1') == '1' ? 'checked' : '' }}>
-                                <span class="ml-2 text-gray-800">Individu</span>
+                                <span class="ml-2 text-gray-600">Individu</span>
                             </label>
                             <label class="inline-flex items-center cursor-pointer">
                                 <input type="radio" name="is_individu" value="0" class="form-radio text-blue-600"
                                     {{ old('is_individu') == '0' ? 'checked' : '' }}>
-                                <span class="ml-2 text-gray-800">Kelompok</span>
+                                <span class="ml-2 text-gray-600">Kelompok</span>
                             </label>
                         </div>
                         @error('is_individu')
-                            <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                            <p class="text-red-600 text-xs mt-2">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -99,23 +100,23 @@
                             <label class="inline-flex items-center cursor-pointer">
                                 <input type="radio" name="is_akademik" value="1" class="form-radio text-blue-600"
                                     {{ old('is_akademik', '1') == '1' ? 'checked' : '' }}>
-                                <span class="ml-2 text-gray-800">Akademik</span>
+                                <span class="ml-2 text-gray-600">Akademik</span>
                             </label>
                             <label class="inline-flex items-center cursor-pointer">
                                 <input type="radio" name="is_akademik" value="0" class="form-radio text-blue-600"
                                     {{ old('is_akademik') == '0' ? 'checked' : '' }}>
-                                <span class="ml-2 text-gray-800">Non-Akademik</span>
+                                <span class="ml-2 text-gray-600">Non-Akademik</span>
                             </label>
                         </div>
                         @error('is_akademik')
-                            <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                            <p class="text-red-600 text-xs mt-2">{{ $message }}</p>
                         @enderror
                     </div>
 
                     {{-- File Poster --}}
-                    <div x-data="fileUpload()" class="">
-                        <label for="file_poster" class="block text-sm font-semibold mb-2 text-gray-700">File Poster</label>
-
+                    <div x-data="fileUpload()" class="md:col-span-3">
+                        <label for="file_poster" class="block text-sm font-semibold mb-2 text-gray-700">File
+                            Poster</label>
                         <div x-ref="dropzone"
                             class="flex flex-col items-center justify-center text-gray-500 border-2 border-dashed border-gray-300 rounded-lg h-56 cursor-pointer bg-gray-50 hover:bg-gray-100 transition"
                             @dragover.prevent="$refs.dropzone.classList.add('border-blue-400')"
@@ -132,19 +133,15 @@
                                     <p class="text-xs text-gray-400">Format JPG/PNG, maks 5MB</p>
                                 </div>
                             </template>
-
                             <input type="file" name="file_poster" id="file_poster" accept=".jpg,.jpeg,.png"
                                 class="hidden" x-ref="fileInput" @change="handleFile($event)" />
                         </div>
-
                         <template x-if="fileName && previewUrl">
                             <p class="text-sm text-green-600 mt-2 font-medium" x-text="fileName"></p>
                         </template>
-
                         <template x-if="errorMsg">
                             <p class="text-red-600 text-xs mt-1" x-text="errorMsg"></p>
                         </template>
-
                         @error('file_poster')
                             <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
                         @enderror
@@ -153,8 +150,6 @@
                     {{-- Dropdown Bidang --}}
                     <div x-data="bidangDropdown()" class="md:col-span-3">
                         <label for="bidang" class="block text-sm font-semibold mb-2 text-gray-700">Bidang</label>
-
-                        {{-- Dropdown --}}
                         <select id="bidang" @change="addSelected($event)" class="input">
                             <option value="">-- Pilih Bidang --</option>
                             @foreach ($bidangs as $bidang)
@@ -162,8 +157,6 @@
                                 </option>
                             @endforeach
                         </select>
-
-                        {{-- Badge-style selected bidang --}}
                         <div class="flex flex-wrap gap-2 mt-3">
                             <template x-for="(item, index) in selected" :key="item.id">
                                 <span
@@ -178,8 +171,6 @@
                                 </span>
                             </template>
                         </div>
-
-                        {{-- Error --}}
                         @error('bidang')
                             <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
                         @enderror
@@ -187,10 +178,11 @@
                 </div>
 
                 {{-- Submit --}}
-                <button type="submit"
-                    class="w-full bg-blue-600 hover:bg-blue-700 transition text-white font-semibold py-3 rounded-md focus:outline-none focus:ring-4 focus:ring-blue-400 mt-6">
-                    Simpan
-                </button>
+                <div class="text-right">
+                    <button type="submit" class="button-primary">
+                        Ajukan Lomba
+                    </button>
+                </div>
             </form>
         </div>
     </div>
@@ -203,9 +195,7 @@
                     const option = event.target.options[event.target.selectedIndex];
                     const id = option.value;
                     const nama = option.getAttribute('data-nama');
-
                     if (!id || this.selected.some(item => item.id === id)) return;
-
                     this.selected.push({
                         id,
                         nama
@@ -217,9 +207,7 @@
                 }
             };
         }
-    </script>
 
-    <script>
         function fileUpload() {
             return {
                 fileName: '',
@@ -228,20 +216,17 @@
                 handleFile(event) {
                     const file = event.target.files[0];
                     if (!file) return;
-
                     const validTypes = ['image/jpeg', 'image/png'];
                     if (!validTypes.includes(file.type)) {
                         this.errorMsg = 'Format file harus JPG atau PNG.';
                         this.clearFile();
                         return;
                     }
-
                     if (file.size > 5 * 1024 * 1024) {
                         this.errorMsg = 'Ukuran file maksimal 5MB.';
                         this.clearFile();
                         return;
                     }
-
                     this.errorMsg = '';
                     this.fileName = file.name;
                     this.previewUrl = URL.createObjectURL(file);
@@ -249,27 +234,22 @@
                 handleDrop(event) {
                     const files = event.dataTransfer.files;
                     if (files.length === 0) return;
-
                     const fileInput = this.$refs.fileInput;
                     const file = files[0];
-
                     const validTypes = ['image/jpeg', 'image/png'];
                     if (!validTypes.includes(file.type)) {
                         this.errorMsg = 'Format file harus JPG atau PNG.';
                         this.clearFile();
                         return;
                     }
-
                     if (file.size > 5 * 1024 * 1024) {
                         this.errorMsg = 'Ukuran file maksimal 5MB.';
                         this.clearFile();
                         return;
                     }
-
                     const dataTransfer = new DataTransfer();
                     dataTransfer.items.add(file);
                     fileInput.files = dataTransfer.files;
-
                     this.errorMsg = '';
                     this.fileName = file.name;
                     this.previewUrl = URL.createObjectURL(file);
@@ -279,18 +259,16 @@
                     this.previewUrl = '';
                     this.$refs.fileInput.value = '';
                 }
-            }
+            };
         }
-    </script>
 
-    <script>
         document.getElementById('form-create').addEventListener('submit', function(e) {
             e.preventDefault();
             Swal.fire({
-                title: 'Apakah Anda yakin ingin menambahkan data ini?',
+                title: 'Apakah Anda yakin ingin mengajukan lomba ini?',
                 icon: 'question',
                 showCancelButton: true,
-                confirmButtonText: 'Ya, simpan',
+                confirmButtonText: 'Ya, ajukan',
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -299,5 +277,4 @@
             });
         });
     </script>
-
 @endsection

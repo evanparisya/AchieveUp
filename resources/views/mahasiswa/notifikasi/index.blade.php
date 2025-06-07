@@ -100,6 +100,27 @@
             });
 
             document.getElementById('notif-list').addEventListener('click', function(e) {
+                if (e.target.classList.contains('mark-read')) {
+                    const id = e.target.getAttribute('data-id');
+                    fetch('{{ url('mahasiswa/notifikasi/markAsRead') }}', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: JSON.stringify({
+                                id
+                            })
+                        })
+                        .then(res => res.json())
+                        .then(res => {
+                            if (res.success) {
+                                loadNotifikasi();
+                            }
+                        });
+                    return;
+                }
+
                 const notifItem = e.target.closest('.notif-item');
                 if (notifItem) {
                     const id = notifItem.getAttribute('data-id');

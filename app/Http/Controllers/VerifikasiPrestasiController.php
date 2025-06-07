@@ -15,8 +15,8 @@ class VerifikasiPrestasiController extends Controller
     public function index(Request $request)
     {
         $breadcrumb = (object)[
-            'title' => 'Daftar Prestasi',
-            'list' => ['Home', 'User']
+            'title' => 'Verifikasi Prestasi',
+            'list' => ['Home', 'Verifikasi Prestasi']
         ];
 
         $page = (object)[
