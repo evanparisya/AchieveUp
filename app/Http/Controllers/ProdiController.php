@@ -23,7 +23,8 @@ class ProdiController extends Controller
         return view('admin.prodi.index', compact('breadcrumb', 'page', 'activeMenu'));
     }
 
-    public function getProdi($id){
+    public function getProdi($id)
+    {
         $prodi = ProgramStudi::find($id);
         return $prodi;
     }
