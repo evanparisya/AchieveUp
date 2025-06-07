@@ -17,13 +17,11 @@ class MahasiswaRekomendasi extends Model
         'note',
     ];
 
-    // Relasi ke rekomendasi lomba
     public function rekomendasiLomba()
     {
         return $this->belongsTo(RekomendasiLomba::class, 'rekomendasi_lomba_id');
     }
 
-    // Relasi ke mahasiswa
     public function mahasiswa()
     {
         return $this->belongsTo(Mahasiswa::class, 'mahasiswa_id');

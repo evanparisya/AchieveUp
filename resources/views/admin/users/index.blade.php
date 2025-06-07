@@ -4,14 +4,12 @@
 
 @section('content')
     <div class="mx-auto max-w-full h-full flex flex-col">
-        <h1 class="text-xl font-bold mb-4">Daftar Pengguna</h1>
-
         <div class="flex items-center justify-between mb-4">
             <div class="flex items-center space-x-2">
                 <label for="show-entry" class="text-sm font-medium text-gray-700">Tampilkan</label>
                 <select id="show-entry"
                     class="appearance-none bg-white border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#6041CE] focus:border-transparent transition-shadow">
-                    <option value="5">5</option>
+                    <option value="5" selected>5</option>
                     <option value="10">10</option>
                     <option value="20">20</option>
                     <option value="40">40</option>
@@ -19,7 +17,7 @@
                 <span class="text-sm font-medium text-gray-700">data</span>
             </div>
             <div class="flex items-center gap-2">
-                <input id="search-bar" type="text" placeholder="Cari..." class="input" />
+                <input id="search-bar" type="text" placeholder="Cari..." class="search-list" />
                 <button id="btn-add-user" class="button-primary-medium">
                     <i class="fas fa-plus mr-2"></i>
                     <span>Tambah</span>
@@ -196,7 +194,7 @@
                 let paginationHtml = '';
                 for (let i = 1; i <= totalPages; i++) {
                     paginationHtml +=
-                        `<button class="px-3 py-1 rounded ${i === currentPage ? 'bg-primary text-white' : 'bg-gray-200'} page-btn-mhs" data-page="${i}">${i}</button> `;
+                        `<button class="px-3 py-1 rounded ${i === currentPage ? 'bg-primary text-white' : 'bg-gray-200'} page-btn-mhs" data-page="${i}">${i}</button>`;
                 }
 
                 $("#mahasiswa_pagination").html(paginationHtml);
@@ -305,7 +303,7 @@
                 let paginationHtml = '';
                 for (let i = 1; i <= totalPages; i++) {
                     paginationHtml +=
-                        `<button class="px-2 py-1 rounded ${i === currentPage ? 'bg-primary text-white' : 'bg-gray-200'} page-btn" data-page="${i}">${i}</button> `;
+                        `<button class="px-3 py-1 rounded ${i === currentPage ? 'bg-primary text-white' : 'bg-gray-200'} page-btn-mhs" data-page="${i}">${i}</button> `;
                 }
 
                 $("#dosen_pagination").html(paginationHtml);

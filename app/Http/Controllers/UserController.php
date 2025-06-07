@@ -28,8 +28,8 @@ class UserController extends Controller
         }
 
         $breadcrumb = (object)[
-            'title' => 'Daftar User',
-            'list' => ['Home', 'User']
+            'title' => 'Manajemen Pengguna',
+            'list' => ['Home', 'Manajemen Pengguna']
         ];
 
         $page = (object)[

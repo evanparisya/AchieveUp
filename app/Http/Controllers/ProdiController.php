@@ -10,8 +10,8 @@ class ProdiController extends Controller
     public function index()
     {
         $breadcrumb = (object)[
-            'title' => 'Daftar Prodi',
-            'list' => ['Home', 'Prodi']
+            'title' => 'Daftar Program Studi',
+            'list' => ['Home', 'Manajemen Program Studi']
         ];
 
         $page = (object)[

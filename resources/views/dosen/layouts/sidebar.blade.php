@@ -12,7 +12,7 @@
                 <a href="{{ route('dosen.dashboard.index') }}"
                     class="sidebar-menu-button {{ $activeMenu == 'dashboard' ? 'sidebar-active' : '' }}">
                     <div
-                        class="w-5 h-5 mr-2 inline-block align-middle {{ $activeMenu == 'dashboard' ? 'text-white' : 'text-gray-400' }}">
+                        class="w-5 h-5 mr-2 inline-block align-middle {{ $activeMenu == 'dashboard' ? 'text-[#6041CE]' : 'text-gray-400' }}">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -31,7 +31,7 @@
                 <a href="{{ url('/users') }}"
                     class="sidebar-menu-button {{ $activeMenu == 'users' ? 'sidebar-active' : '' }}">
                     <div
-                        class="w-5 h-5 mr-2 inline-block align-middle {{ $activeMenu == 'users' ? 'text-white' : 'text-gray-400' }}">
+                        class="w-5 h-5 mr-2 inline-block align-middle {{ $activeMenu == 'users' ? 'text-[#6041CE]' : 'text-gray-400' }}">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -45,7 +45,7 @@
                 <a href="{{ url('/prestasi') }}"
                     class="sidebar-menu-button {{ $activeMenu == 'prestasi' ? 'sidebar-active' : '' }}">
                     <div
-                        class="w-5 h-5 mr-2 inline-block align-middle {{ $activeMenu == 'prestasi' ? 'text-white' : 'text-gray-400' }}">
+                        class="w-5 h-5 mr-2 inline-block align-middle {{ $activeMenu == 'prestasi' ? 'text-[#6041CE]' : 'text-gray-400' }}">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -59,7 +59,7 @@
                 <a href="{{ url('/periode') }}"
                     class="sidebar-menu-button {{ $activeMenu == 'periode' ? 'sidebar-active' : '' }}">
                     <div
-                        class="w-5 h-5 mr-2 inline-block align-middle {{ $activeMenu == 'periode' ? 'text-white' : 'text-gray-400' }}">
+                        class="w-5 h-5 mr-2 inline-block align-middle {{ $activeMenu == 'periode' ? 'text-[#6041CE]' : 'text-gray-400' }}">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

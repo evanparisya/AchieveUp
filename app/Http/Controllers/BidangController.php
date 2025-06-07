@@ -10,8 +10,8 @@ class BidangController extends Controller
     public function index()
     {
         $breadcrumb = (object)[
-            'title' => 'Daftar Bidang',
-            'list' => ['Home', 'Bidang']
+            'title' => 'Manajemen Bidang',
+            'list' => ['Home', 'Manajemen Bidang']
         ];
 
         $page = (object)[
