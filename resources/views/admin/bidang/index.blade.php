@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="mx-auto max-w-full h-full flex flex-col">
-        <h1 class="text-xl font-bold mb-4">Daftar Bidang</h1>
+
 
         <div class="flex items-center justify-between mb-4">
             <div class="flex items-center space-x-2">
@@ -37,14 +37,16 @@
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kode</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
 
             </tbody>
         </table>
-        <p id="bidang_info" class="text-sm text-gray-500 mt-2"></p>
-        <div id="bidang_pagination" class="mt-2 flex flex-wrap gap-2"></div>
+        
+        <p id="bidang_info" class="text-sm text-gray-500 mt-2 px-4"></p>
+            <div id="bidang_pagination" class="mt-2 flex flex-wrap gap-2 px-4 pb-4"></div>
     </div>
 
     </div>
@@ -106,7 +108,7 @@
                 let paginationHtml = '';
                 for (let i = 1; i <= totalPages; i++) {
                     paginationHtml +=
-                        `<button class="px-2 py-1 rounded ${i === currentPage ? 'bg-blue-500 text-white' : 'bg-gray-200'} page-btn-bidang" data-page="${i}">${i}</button> `;
+                        `<button class="px-3 py-1 rounded ${i === currentPage ? 'bg-primary text-white' : 'bg-gray-200'} page-btn-prestasi" data-page="${i}">${i}</button> `;
                 }
                 $("#bidang_pagination").html(paginationHtml);
 

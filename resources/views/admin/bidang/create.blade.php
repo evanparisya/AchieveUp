@@ -3,7 +3,8 @@
 @section('title', 'Create')
 
 @section('content')
-    <div class="container mx-auto p-4 max-w-lg">
+    <div class="container mx-auto max-w-140 p-6">
+        <div class="bg-white shadow-md rounded-lg p-8">
 
         <h1 class="text-xl font-bold mb-4">Tambah Bidang</h1>
 
@@ -29,6 +30,8 @@
             {{-- Submit --}}
             <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Simpan</button>
         </form>
+    </div>
+    </div>
     </div>
     {{-- SweetAlert --}}
     <script>
