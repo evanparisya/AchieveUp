@@ -249,13 +249,13 @@
                     <!-- Row 1 -->
                     <tr>
                         <td class="border border-black px-4 py-2 text-center">&gt; 3</td>
-                        <td class="border border-black px-4 py-2 text-center">3</td>
+                        <td class="border border-black px-4 py-2 text-center">5</td>
                     </tr>
 
                     <!-- Row 2 -->
                     <tr>
                         <td class="border border-black px-4 py-2 text-center">3 ≤ jml ≤ 1</td>
-                        <td class="border border-black px-4 py-2 text-center">2</td>
+                        <td class="border border-black px-4 py-2 text-center">3</td>
                     </tr>
 
                     <!-- Row 3 -->
@@ -291,25 +291,25 @@
                     <!-- Row 1 -->
                     <tr>
                         <td class="border border-black px-4 py-2 text-center">7-8</td>
-                        <td class="border border-black px-4 py-2 text-center">1</td>
+                        <td class="border border-black px-4 py-2 text-center">2</td>
                     </tr>
 
                     <!-- Row 2 -->
                     <tr>
                         <td class="border border-black px-4 py-2 text-center">5-6</td>
-                        <td class="border border-black px-4 py-2 text-center">2</td>
+                        <td class="border border-black px-4 py-2 text-center">3</td>
                     </tr>
 
                     <!-- Row 3 -->
                     <tr>
                         <td class="border border-black px-4 py-2 text-center">3-4</td>
-                        <td class="border border-black px-4 py-2 text-center">3</td>
+                        <td class="border border-black px-4 py-2 text-center">4</td>
                     </tr>
 
                     <!-- Row 4 -->
                     <tr>
                         <td class="border border-black px-4 py-2 text-center">1-2</td>
-                        <td class="border border-black px-4 py-2 text-center">4</td>
+                        <td class="border border-black px-4 py-2 text-center">5</td>
                     </tr>
                 </tbody>
             </table>

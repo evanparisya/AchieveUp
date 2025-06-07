@@ -9,12 +9,23 @@ class Entrophy
 
     public function getDataMahasiswa()
     {
+        // $mahasiswa = Mahasiswa::with([
+        //     'prestasi' => function ($q) {
+        //         $q->where('tanggal_selesai', '>=', now()->subMonths(6));
+        //     },
+        //     'profil',
+        // ])->get();
+
         $mahasiswa = Mahasiswa::with([
             'prestasi' => function ($q) {
                 $q->where('tanggal_selesai', '>=', now()->subMonths(6));
             },
             'profil',
-        ])->get();
+        ])
+            ->limit(10) // ambil 10 data mahasiswa saja
+            ->get();
+
+        // dd($mahasiswa);
 
         return $mahasiswa;
     }
@@ -156,7 +167,7 @@ class Entrophy
                 $bobot = $prestasi->is_akademik ? 0.1 : 0.05;
 
                 if (!isset($tingkatMap[$tingkat])) {
-                    continue; 
+                    continue;
                 }
 
                 $key = $tingkatMap[$tingkat] . '_' . $type;

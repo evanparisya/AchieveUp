@@ -1,9 +1,17 @@
 @php
-    // Hitung jumlah notifikasi belum dibaca
-    $notifUnread = \App\Models\MahasiswaRekomendasi::where('mahasiswa_id', Auth::guard('mahasiswa')->id())
-        ->where('is_accepted', false)
-        ->count();
+    use Illuminate\Support\Facades\Auth;
+    use App\Models\MahasiswaRekomendasi;
+    use App\Models\MahasiswaPrestasiNote;
+
+    $mahasiswaId = Auth::guard('mahasiswa')->id();
+
+    $unreadRekom = MahasiswaRekomendasi::where('mahasiswa_id', $mahasiswaId)->where('is_accepted', false)->count();
+
+    $unreadVerif = MahasiswaPrestasiNote::where('mahasiswa_id', $mahasiswaId)->where('is_accepted', false)->count();
+
+    $notifUnread = $unreadRekom + $unreadVerif;
 @endphp
+
 <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow px-8 py-4 flex items-center justify-between">
     <div class="text-base font-medium text-gray-700"></div>
     <div class="flex items-center space-x-3 justify-end relative">
@@ -16,6 +24,7 @@
                     class="absolute top-2 right-2 block w-2.5 h-2.5 rounded-full bg-red-600 border-2 border-white"></span>
             @endif
         </a>
+
         <div class="flex flex-col text-right leading-tight">
             <span
                 class="text-md font-medium text-gray-800">{{ Auth::guard('mahasiswa')->user()->nama ?? 'Nama Pengguna' }}</span>

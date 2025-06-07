@@ -199,8 +199,8 @@
         </table>
     </div>
 
-    {{-- Tabel Hasil Normalisasi --}}
-    <h1 class="text-lg font-bold mb-2">Hasil Normalisasi</h1>
+    {{-- Tabel Hasil Normalisasi Terbobot --}}
+    <h1 class="text-lg font-bold mb-2">Hasil Normalisasi Terbobot</h1>
 
     <div class="hasil-normalisasi">
         <table class="table-auto w-full border border-black rounded shadow">

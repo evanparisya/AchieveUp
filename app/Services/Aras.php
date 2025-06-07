@@ -102,17 +102,22 @@ class Aras
         $data = $this->getAlternatif();
         $totalKriteria = $this->getTotalKriteria();
         $normalisasiBaru = [];
+        $bobotKriteria = $this->entrophy->getBobotKriteria()['data_bobot'];
         foreach ($data as $alternatif) {
             $normalisasi = [];
             foreach ($totalKriteria as $k => $total) {
                 if ($total != 0) {
-                    $normalisasi[$k] = $alternatif[$k] / $total;
+                    $normalisasi[$k] = ($alternatif[$k] / $total);
                 } else {
                     $normalisasi[$k] = 0; // Atau bisa diatur sesuai kebutuhan
                 }
             }
+            foreach ($bobotKriteria as $b => $bobot){
+                $normalisasi[$b] = $normalisasi[$b] * $bobot;
+            }
             $normalisasiBaru[] = array_merge(['alternatif' => $alternatif['alternatif'], 'nama' => $alternatif['nama'], 'nim' => $alternatif['nim']], $normalisasi);
         }
+
         return $normalisasiBaru;
     }
 

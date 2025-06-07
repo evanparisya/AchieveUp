@@ -81,24 +81,25 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
     Route::prefix('lomba')->name('lomba.')->group(function () {
         Route::get('/', [LombaController::class, 'index'])->name('index');
         Route::get('/getall', [LombaController::class, 'getAll'])->name('getall');
-        Route::get('/{id}', [LombaController::class, 'show'])->name('detail');
         Route::get('/create', [LombaController::class, 'create'])->name('create');
         Route::post('/store', [LombaController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [LombaController::class, 'edit'])->name('edit');
         Route::put('/update/{id}', [LombaController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [LombaController::class, 'destroy'])->name('delete');
+        Route::get('/{id}', [LombaController::class, 'show'])->name('detail');
     });
 
     Route::prefix('prodi')->name('prodi.')->group(function () {
         Route::get('/', [ProdiController::class, 'index'])->name('index');
         Route::get('/getall', [ProdiController::class, 'getall'])->name('getall');
-        Route::get('/{id}', [ProdiController::class, 'show'])->name('detail');
         Route::get('/create', [ProdiController::class, 'create'])->name('create');
         Route::post('/store', [ProdiController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [ProdiController::class, 'edit'])->name('edit');
         Route::put('/update/{id}', [ProdiController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [ProdiController::class, 'destroy'])->name('delete');
+        Route::get('/{id}', [ProdiController::class, 'show'])->name('detail');
     });
+
 
 
 
@@ -160,13 +161,13 @@ Route::middleware(['mahasiswa'])->prefix('mahasiswa')->name('mahasiswa.')->group
 
     Route::prefix('notifikasi')->name('notifikasi.')->group(function () {
         Route::get('/', [NotifikasiMahasiswa::class, 'index'])->name('index');
-        Route::get('getAllRekomendasi', [NotifikasiMahasiswa::class, 'getAllRekomendasi'])->name('getAllRekomendasi');
+        Route::get('getAll', [NotifikasiMahasiswa::class, 'getAllNotifikasi'])->name('getAll');
         Route::post('/markAsRead', [NotifikasiMahasiswa::class, 'markAsRead'])->name('markAsRead');
         Route::post('/markAllAsRead', [NotifikasiMahasiswa::class, 'markAllAsRead'])->name('markAllAsRead');
-        Route::get('/{id}', [NotifikasiMahasiswa::class, 'show'])->name('detail');
-        Route::delete('/{id}', [NotifikasiMahasiswa::class, 'destroy'])->name('delete');
         Route::post('/destroyIsAccpeptedMessege', [NotifikasiMahasiswa::class, 'destroyIsAccpeptedMessege'])->name('destroyIsAccpeptedMessege');
-        
-        
+
+        // Dynamic routes based on type
+        Route::get('{type}/{id}', [NotifikasiMahasiswa::class, 'show'])->name('detail');
+        Route::delete('{type}/{id}', [NotifikasiMahasiswa::class, 'destroy'])->name('delete');
     });
 });

@@ -1,11 +1,10 @@
-{{-- filepath: d:\Laravel\Fork\AchieveUp\resources\views\mahasiswa\notifikasi\index.blade.php --}}
 @extends('mahasiswa.layouts.app')
 
 @section('title', 'Notifikasi')
 
 @section('content')
     <div class="container mx-auto max-w-2xl p-4">
-        <h2 class="text-xl font-bold mb-4">Notifikasi Rekomendasi Lomba</h2>
+        <h2 class="text-xl font-bold mb-4">Notifikasi</h2>
         <div class="flex justify-end mb-4 gap-2">
             <button id="mark-all" class="px-3 py-1 bg-green-600 text-white rounded text-sm hover:bg-green-700">
                 Tandai Semua Sudah Dibaca
@@ -23,7 +22,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             function loadNotifikasi() {
-                fetch('{{ route('mahasiswa.notifikasi.getAllRekomendasi') }}')
+                fetch('{{ route('mahasiswa.notifikasi.getAll') }}')
                     .then(res => res.json())
                     .then(res => {
                         let html = '';
@@ -31,18 +30,17 @@
                             html += '<ul class="space-y-4">';
                             res.data.forEach(item => {
                                 html += `
-                                    <li class="notif-item bg-white rounded shadow p-4 flex flex-col md:flex-row md:items-center md:justify-between ${item.is_accepted ? '' : 'border-l-4 border-blue-500'} relative"
-                                        data-id="${item.id}" data-read="${item.is_accepted}" style="cursor:pointer;">
-                                        <div>
-                                            <div class="font-semibold">${item.judul}</div>
-                                            <div class="text-sm text-gray-600 mb-1">${item.periode_pendaftaran}</div>
-                                            <div class="text-xs text-gray-500 mb-1">${item.tingkat} - ${item.bidang.map(b => b.nama).join(', ')}</div>
-                                            <div class="text-xs ${item.is_accepted ? 'text-green-600' : 'text-blue-600'}">
-                                                ${item.pesan ? item.pesan : ''}
-                                            </div>
+                                <li class="notif-item bg-white rounded shadow p-4 flex flex-col md:flex-row md:items-center md:justify-between ${item.is_accepted ? '' : 'border-l-4 border-blue-500'} relative"
+                                    data-id="${item.id}" data-type="${item.type}" data-read="${item.is_accepted}" style="cursor:pointer;">
+                                    <div>
+                                        <div class="font-semibold">${item.judul}</div>
+                                        <div class="text-sm text-gray-600 mb-1">${item.periode_pendaftaran ?? item.created_at}</div>
+                                        <div class="text-xs ${item.is_accepted ? 'text-green-600' : 'text-blue-600'}">
+                                            ${item.pesan ?? ''}
                                         </div>
-                                        ${!item.is_accepted ? `<span class="absolute top-2 right-2 block w-4 h-4 rounded-full bg-red-600 border-2 border-white"></span>` : ''}
-                                    </li>`;
+                                    </div>
+                                    ${!item.is_accepted ? `<span class="absolute top-2 right-2 block w-4 h-4 rounded-full bg-red-600 border-2 border-white"></span>` : ''}
+                                </li>`;
                             });
                             html += '</ul>';
                         } else {
@@ -54,7 +52,6 @@
 
             loadNotifikasi();
 
-            // Tombol mark all
             document.getElementById('mark-all').addEventListener('click', function() {
                 fetch('{{ route('mahasiswa.notifikasi.markAllAsRead') }}', {
                         method: 'POST',
@@ -71,7 +68,6 @@
                     });
             });
 
-            // Tombol hapus pesan yang sudah dibaca
             document.getElementById('delete-read').addEventListener('click', function() {
                 Swal.fire({
                     title: 'Yakin ingin menghapus semua pesan yang sudah dibaca?',
@@ -83,7 +79,7 @@
                     cancelButtonText: 'Batal'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        fetch('{{ url('mahasiswa/notifikasi/destroyIsAccpeptedMessege') }}', {
+                        fetch('{{ route('mahasiswa.notifikasi.destroyIsAccpeptedMessege') }}', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',
@@ -103,59 +99,34 @@
                 });
             });
 
-            // Event delegation untuk tombol mark as read & klik list
             document.getElementById('notif-list').addEventListener('click', function(e) {
-                // Jika klik tombol "Tandai Sudah Dibaca"
-                if (e.target.classList.contains('mark-read')) {
-                    const id = e.target.getAttribute('data-id');
-                    fetch('{{ url('mahasiswa/notifikasi/markAsRead') }}', {
+                const notifItem = e.target.closest('.notif-item');
+                if (notifItem) {
+                    const id = notifItem.getAttribute('data-id');
+                    const type = notifItem.getAttribute('data-type');
+                    const isRead = notifItem.getAttribute('data-read') === 'true' || notifItem.getAttribute(
+                        'data-read') === '1';
+
+                    if (!isRead) {
+                        fetch('{{ route('mahasiswa.notifikasi.markAsRead') }}', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
                                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
                             },
                             body: JSON.stringify({
-                                id
+                                id,
+                                type
                             })
-                        })
-                        .then(res => res.json())
-                        .then(res => {
+                        }).then(res => res.json()).then(res => {
                             if (res.success) {
-                                loadNotifikasi();
+                                window.location.href = `/mahasiswa/notifikasi/${type}/${id}`;
+                            } else {
+                                window.location.href = `/mahasiswa/notifikasi/${type}/${id}`;
                             }
                         });
-                    return;
-                }
-
-                // Jika klik area list (li.notif-item)
-                const notifItem = e.target.closest('.notif-item');
-                if (notifItem) {
-                    const id = notifItem.getAttribute('data-id');
-                    const isRead = notifItem.getAttribute('data-read') === 'true' || notifItem.getAttribute(
-                        'data-read') === '1';
-                    // Trigger markAsRead jika belum dibaca
-                    if (!isRead) {
-                        fetch('{{ url('mahasiswa/notifikasi/markAsRead') }}', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                                },
-                                body: JSON.stringify({
-                                    id
-                                })
-                            })
-                            .then(res => res.json())
-                            .then(res => {
-                                // Pastikan mark as read sukses sebelum redirect
-                                if (res.success) {
-                                    window.location.href = '/mahasiswa/notifikasi/' + id;
-                                } else {
-                                    window.location.href = '/mahasiswa/notifikasi/' + id;
-                                }
-                            });
                     } else {
-                        window.location.href = '/mahasiswa/notifikasi/' + id;
+                        window.location.href = `/mahasiswa/notifikasi/${type}/${id}`;
                     }
                 }
             });
