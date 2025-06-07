@@ -1,4 +1,3 @@
-{{-- filepath: d:\Laravel\Fork\AchieveUp\resources\views\mahasiswa\notifikasi\index.blade.php --}}
 @extends('mahasiswa.layouts.app')
 
 @section('title', 'Notifikasi')
@@ -54,7 +53,6 @@
 
             loadNotifikasi();
 
-            // Tombol mark all
             document.getElementById('mark-all').addEventListener('click', function() {
                 fetch('{{ route('mahasiswa.notifikasi.markAllAsRead') }}', {
                         method: 'POST',
@@ -71,7 +69,6 @@
                     });
             });
 
-            // Tombol hapus pesan yang sudah dibaca
             document.getElementById('delete-read').addEventListener('click', function() {
                 Swal.fire({
                     title: 'Yakin ingin menghapus semua pesan yang sudah dibaca?',
@@ -103,9 +100,7 @@
                 });
             });
 
-            // Event delegation untuk tombol mark as read & klik list
             document.getElementById('notif-list').addEventListener('click', function(e) {
-                // Jika klik tombol "Tandai Sudah Dibaca"
                 if (e.target.classList.contains('mark-read')) {
                     const id = e.target.getAttribute('data-id');
                     fetch('{{ url('mahasiswa/notifikasi/markAsRead') }}', {
@@ -127,13 +122,11 @@
                     return;
                 }
 
-                // Jika klik area list (li.notif-item)
                 const notifItem = e.target.closest('.notif-item');
                 if (notifItem) {
                     const id = notifItem.getAttribute('data-id');
                     const isRead = notifItem.getAttribute('data-read') === 'true' || notifItem.getAttribute(
                         'data-read') === '1';
-                    // Trigger markAsRead jika belum dibaca
                     if (!isRead) {
                         fetch('{{ url('mahasiswa/notifikasi/markAsRead') }}', {
                                 method: 'POST',

@@ -13,6 +13,7 @@ use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\PrestasiMahasiswaController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\BidangController;
+use App\Http\Controllers\LombaMahasiswaController;
 use App\Http\Controllers\NotifikasiDosenPembimbing;
 use App\Http\Controllers\ProfilAdminController;
 use App\Http\Controllers\ProfilDosenPembimbingController;
@@ -84,9 +85,15 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
 
     Route::prefix('lomba')->name('lomba.')->group(function () {
         Route::get('/', [LombaController::class, 'index'])->name('index');
-        Route::get('/getall', [LombaController::class, 'getAll'])->name('getall');
-        Route::get('/{id}', [LombaController::class, 'show'])->name('detail');
         Route::get('/create', [LombaController::class, 'create'])->name('create');
+
+        Route::get('/getall', [LombaController::class, 'getAll'])->name('getall');
+        Route::get('/getpengajuan', [LombaController::class, 'getPengajuan'])->name('getpengajuan');
+        Route::post('/pengajuan/approve/{id}', [LombaController::class, 'approvePengajuan'])->name('approve');
+        Route::post('/pengajuan/reject/{id}', [LombaController::class, 'rejectPengajuan'])->name('reject');
+
+        Route::get('/{id}', [LombaController::class, 'show'])->name('detail');        
+
         Route::post('/store', [LombaController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [LombaController::class, 'edit'])->name('edit');
         Route::put('/update/{id}', [LombaController::class, 'update'])->name('update');
@@ -109,15 +116,11 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
         Route::get('/create', [BidangController::class, 'create'])->name('create');
         Route::get('/getall', [BidangController::class, 'getall'])->name('getall');
         Route::get('/{id}', [BidangController::class, 'show'])->name('detail');
-        
         Route::post('/store', [BidangController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [BidangController::class, 'edit'])->name('edit');
         Route::put('/update/{id}', [BidangController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [BidangController::class, 'destroy'])->name('delete');
     });
-
-
-
 
     Route::prefix('profil')->name('profil.')->group(function () {
         Route::get('/', [ProfilAdminController::class, 'index'])->name('index');
@@ -191,17 +194,16 @@ Route::middleware(['mahasiswa'])->prefix('mahasiswa')->name('mahasiswa.')->group
     });
 
     Route::prefix('lomba')->name('lomba.')->group(function () {
-        Route::get('/', [PrestasiMahasiswaController::class, 'index'])->name('index');
-        Route::get('/getdata', [PrestasiMahasiswaController::class, 'getData'])->name('getdata');
-        Route::get('/create', [PrestasiMahasiswaController::class, 'create'])->name('create');
-        Route::post('/store', [PrestasiMahasiswaController::class, 'store'])->name('store');
-        Route::get('/{id}', [PrestasiMahasiswaController::class, 'show'])->name('show');
-        Route::delete('/{id}', [PrestasiMahasiswaController::class, 'destroy'])->name('destroy');
+        Route::get('/', [LombaMahasiswaController::class, 'index'])->name('index');
+        Route::get('/create', [LombaMahasiswaController::class, 'create'])->name('create');
+        Route::get('/getall', [LombaMahasiswaController::class, 'getAll'])->name('getall');
+        Route::get('/getpengajuan', [LombaMahasiswaController::class, 'getPengajuan'])->name('getpengajuan');
+        Route::get('/{id}', [LombaMahasiswaController::class, 'show'])->name('detail');
+        Route::post('/store', [LombaMahasiswaController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [LombaMahasiswaController::class, 'edit'])->name('edit');
+        Route::put('/update/{id}', [LombaMahasiswaController::class, 'update'])->name('update');
 
-        Route::get('/{id}/edit', [PrestasiMahasiswaController::class, 'edit'])
-            ->name('mahasiswa.prestasi.edit');
-        Route::put('/{id}', [PrestasiMahasiswaController::class, 'update'])
-            ->name('mahasiswa.prestasi.update');
+        Route::delete('/{id}', [LombaMahasiswaController::class, 'destroyPengajuan'])->name('destroy');
     });
 
     Route::prefix('profil')->name('profil.')->group(function () {

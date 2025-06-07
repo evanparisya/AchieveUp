@@ -18,12 +18,15 @@ class DatabaseSeeder extends Seeder
             // BidangSeeder::class,
             // MahasiswaSeeder::class,
             // DosenSeeder::class,
-            // LombaSeeder::class,
+            
             // PrestasiSeeder::class,
             // BidangPrestasiSeeder::class,
             // BidanglombaSeeder::class,
             // PrestasiMahasiswa::class,
             // PembimbingPrestasi::class,
+
+            // LombaSeeder::class,
+            PengajuanLombaMhsSeeder::class
         ]);
     }
 }
