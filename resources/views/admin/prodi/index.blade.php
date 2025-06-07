@@ -3,48 +3,47 @@
 @section('title', 'Prodi')
 
 @section('content')
-    <div class="flex flex-wrap items-center justify-between mb-4 gap-2">
-        <div>
-            <label class="text-sm text-gray-700 mr-2">Show</label>
-            <select id="show-entry" class="border rounded px-2 py-1 text-sm">
-                <option>10</option>
-                <option>25</option>
-                <option>50</option>
-                <option>100</option>
-            </select>
-            <span class="text-sm text-gray-700 ml-2">entries</span>
+    <div class="mx-auto max-w-full h-full flex flex-col">
+        <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center space-x-2">
+                <label for="show-entry" class="text-sm font-medium text-gray-700">Tampilkan</label>
+                <select id="show-entry"
+                    class="appearance-none bg-white border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#6041CE] focus:border-transparent transition-shadow">
+                    <option value="5" selected>5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="40">40</option>
+                </select>
+                <span class="text-sm font-medium text-gray-700">data</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <input id="search-bar" type="text" placeholder="Cari..." class="search-list" />
+                <button id="btn-add-user"
+                    class="button-primary-medium"onclick="window.location.href='{{ url('admin/prodi/create') }}'">
+                    <i class="fas fa-plus mr-2"></i>
+                    <span>Tambah</span>
+                </button>
+            </div>
         </div>
-        <div class="flex items-center gap-2">
-            <input id="search-bar" type="text" placeholder="Search..." class="border rounded px-2 py-1 text-sm" />
-            <button id="btn-add-user" onclick="window.location.href='{{ url('admin/prodi/create') }}'"
-                class="bg-blue-600 text-white px-4 py-1 rounded text-sm hover:bg-blue-700">
-                + Add
-            </button>
 
+        <!-- Table Wrapper -->
+        <div class="overflow-x-auto bg-white shadow rounded-b-[12px] border-t-0 border border-gray-200">
+            <!-- Tab Prodi -->
+            <table id="table_prodi" class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kode</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+
+                </tbody>
+            </table>
+            <p id="prodi_info" class="text-sm text-gray-500 mt-2 px-4"></p>
+            <div id="prodi_pagination" class="mt-2 flex flex-wrap gap-2 px-4 pb-4"></div>
         </div>
-    </div>
-
-
-    <!-- Table Wrapper -->
-    <div class="overflow-x-auto bg-white shadow rounded-b-[12px] border-t-0 border border-gray-200">
-        <!-- Tab Prodi -->
-        <table id="table_prodi" class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
-                <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kode</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
-                </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-
-            </tbody>
-        </table>
-        <p id="prodi_info" class="text-sm text-gray-500 mt-2"></p>
-        <div id="prodi_pagination" class="mt-2 flex flex-wrap gap-2"></div>
-    </div>
-
-
     </div>
 
     <script>
@@ -55,7 +54,7 @@
             function actionButtonsProdi(id) {
                 console.log("Prodi ID:", id);
                 return `
-                <a href="/prodi/${id}" class="text-blue-600 hover:underline mr-2">Detail</a>
+                <a href="/admin/prodi/${id}" class="text-blue-600 hover:underline mr-2">Detail</a>
                 <a href="/admin/prodi/edit/${id}" class="text-yellow-600 hover:underline mr-2">Edit</a>
                 <button type="button" class="text-red-600 hover:underline btn-hapus" data-id="${id}" data-type="prodi">Hapus</button>
             `;
@@ -96,7 +95,7 @@
                 let paginationHtml = '';
                 for (let i = 1; i <= totalPages; i++) {
                     paginationHtml +=
-                        `<button class="px-2 py-1 rounded ${i === currentPage ? 'bg-blue-500 text-white' : 'bg-gray-200'} page-btn-mhs" data-page="${i}">${i}</button> `;
+                        `<button class="px-3 py-1 rounded ${i === currentPage ? 'bg-primary text-white' : 'bg-gray-200'} page-btn" data-page="${i}">${i}</button>`;
                 }
                 $("#prodi_pagination").html(paginationHtml);
 

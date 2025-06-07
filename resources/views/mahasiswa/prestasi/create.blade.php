@@ -10,6 +10,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
+                {{-- Tanggal Pengajuan --}}
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Pengajuan</label>
                     <div class="mb-1 text-gray-600 text-md">
@@ -18,26 +19,26 @@
                     <input type="hidden" name="tanggal_pengajuan" value="{{ now()->format('Y-m-d') }}">
                 </div>
 
+                {{-- Judul --}}
                 <div>
                     <label for="judul" class="block text-sm font-medium text-gray-700 mb-1">Judul Kegiatan</label>
                     <input type="text" name="judul" id="judul" required class="input" value="{{ old('judul') }}">
                 </div>
 
+                {{-- Tempat --}}
                 <div>
                     <label for="tempat" class="block text-sm font-medium text-gray-700 mb-1">Tempat</label>
                     <input type="text" name="tempat" id="tempat" required class="input" value="{{ old('tempat') }}">
                 </div>
 
+                {{-- Tanggal Mulai --}}
                 <div>
                     <label for="tanggal_mulai" class="block text-sm font-medium text-gray-700 mb-1">Tanggal Mulai</label>
                     <input type="date" name="tanggal_mulai" id="tanggal_mulai" required class="input"
                         value="{{ old('tanggal_mulai') }}">
                 </div>
 
-                <div class="col-span-1 md:col-span-2">
-                    <hr class="my-2 opacity-10">
-                </div>
-
+                {{-- Tanggal Selesai --}}
                 <div>
                     <label for="tanggal_selesai" class="block text-sm font-medium text-gray-700 mb-1">Tanggal
                         Selesai</label>
@@ -45,12 +46,18 @@
                         value="{{ old('tanggal_selesai') }}">
                 </div>
 
+                <div class="col-span-1 md:col-span-2">
+                    <hr class="my-2 opacity-10">
+                </div>
+
+                {{-- URL --}}
                 <div>
                     <label for="url" class="block text-sm font-medium text-gray-700 mb-1">URL Lomba (Instagram, web,
                         dll)</label>
                     <input type="url" name="url" id="url" class="input" value="{{ old('url') }}">
                 </div>
 
+                {{-- Tingkat --}}
                 <div>
                     <label for="tingkat" class="block text-sm font-medium text-gray-700 mb-1">Tingkat</label>
                     <select name="tingkat" id="tingkat" required class="input">
@@ -63,6 +70,7 @@
                     </select>
                 </div>
 
+                {{-- Juara --}}
                 <div>
                     <label for="juara" class="block text-sm font-medium text-gray-700 mb-1">Juara</label>
                     <select name="juara" id="juara" required class="input">

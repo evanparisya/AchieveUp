@@ -10,8 +10,8 @@ class PeriodeController extends Controller
     public function index(Request $request)
     {
         $breadcrumb = (object)[
-            'title' => 'Daftar Periode',
-            'list' => ['Home', 'Periode']
+            'title' => 'Manajemen Periode',
+            'list' => ['Home', 'Manajemen Periode']
         ];
 
         $page = (object)[

@@ -19,7 +19,7 @@
             </div>
             <div class="flex items-center gap-2">
                 <input id="search-bar" type="text" placeholder="Cari..." class="input" />
-                <a href="{{ route('mahasiswa.prestasi.create') }}" id="btn-add-user" class="button-primary-medium">
+                <a href="{{ route('mahasiswa.prestasi.create') }}" id="btn-add-prestasi" class="button-primary-medium">
                     <i class="fas fa-plus mr-2"></i>
                     <span>Tambah</span>
                 </a>
@@ -52,6 +52,7 @@
         </div>
 
     </div>
+    
     <script>
         $(document).ready(function() {
             let prestasiData = [];
@@ -213,7 +214,7 @@
                 let paginationHtml = '';
                 for (let i = 1; i <= totalPages; i++) {
                     paginationHtml +=
-                        `<button class="px-3 py-1 rounded-md text-sm ${i === currentPage ? 'bg-[#6041CE] text-white' : 'bg-gray-200'} page-btn-prestasi" data-page="${i}">${i}</button>`;
+                        `<button class="px-3 py-2 rounded-md text-sm ${i === currentPage ? 'bg-[#6041CE] text-white' : 'bg-gray-200'} page-btn-prestasi" data-page="${i}">${i}</button>`;
                 }
                 $("#prestasi_pagination").html(paginationHtml);
 

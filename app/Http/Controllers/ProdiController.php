@@ -10,8 +10,8 @@ class ProdiController extends Controller
     public function index()
     {
         $breadcrumb = (object)[
-            'title' => 'Daftar Prodi',
-            'list' => ['Home', 'Prodi']
+            'title' => 'Daftar Program Studi',
+            'list' => ['Home', 'Manajemen Program Studi']
         ];
 
         $page = (object)[
@@ -21,6 +21,12 @@ class ProdiController extends Controller
         $activeMenu = 'prodi';
 
         return view('admin.prodi.index', compact('breadcrumb', 'page', 'activeMenu'));
+    }
+
+    public function getProdi($id)
+    {
+        $prodi = ProgramStudi::find($id);
+        return $prodi;
     }
 
     public function getall(Request $request)
@@ -56,13 +62,19 @@ class ProdiController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'kode' => 'required|string|max:10',
-            'nama' => 'required|string|max:255',
+            'kode' => 'required|string|max:10|unique:program_studi,kode',
+            'nama' => 'required|string|max:255|unique:program_studi,nama',
+        ], [
+            'kode.unique' => 'Kode sudah digunakan.',
+            'nama.unique' => 'Nama sudah digunakan.',
         ]);
 
-        ProgramStudi::create($request->all());
-
-        return redirect()->route('admin.prodi.index')->with('success', 'Program Studi berhasil ditambahkan.');
+        try {
+            ProgramStudi::create($request->all());
+            return redirect()->route('admin.prodi.index')->with('success', 'Program Studi berhasil ditambahkan.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('error', 'Gagal menambahkan Program Studi: ' . $e->getMessage());
+        }
     }
     public function edit($id)
     {
@@ -86,13 +98,19 @@ class ProdiController extends Controller
         $prodi = ProgramStudi::findOrFail($id);
 
         $request->validate([
-            'kode' => 'required|string|max:10',
-            'nama' => 'required|string|max:255',
+            'kode' => 'required|string|max:10|unique:program_studi,kode,' . $prodi->id,
+            'nama' => 'required|string|max:255|unique:program_studi,nama,' . $prodi->id,
+        ], [
+            'kode.unique' => 'Kode sudah digunakan.',
+            'nama.unique' => 'Nama sudah digunakan.',
         ]);
 
-        $prodi->update($request->all());
-
-        return redirect()->route('admin.prodi.index')->with('success', 'Program Studi berhasil diperbarui.');
+        try {
+            $prodi->update($request->all());
+            return redirect()->route('admin.prodi.index')->with('success', 'Program Studi berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('error', 'Gagal memperbarui Program Studi: ' . $e->getMessage());
+        }
     }
     public function destroy($id)
     {
@@ -118,5 +136,27 @@ class ProdiController extends Controller
                 'message' => 'Gagal menghapus Program Studi: ' . $e->getMessage()
             ], 500);
         }
+    }
+
+    public function show($id)
+    {
+        $prodi = $this->getProdi($id);
+        $breadcrumb = (object) [
+            'title' => 'Detail Program Studi',
+            'list' => ['Home', 'Program Studi', 'Detail']
+        ];
+
+        $page = (object) [
+            'title' => 'Detail data Program Stdi'
+        ];
+
+        $activeMenu = 'prodi';
+
+        return view('admin.prodi.detail', compact(
+            'breadcrumb',
+            'page',
+            'activeMenu',
+            'prodi'
+        ));
     }
 }

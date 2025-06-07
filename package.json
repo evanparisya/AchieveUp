@@ -13,7 +13,9 @@
     "dependencies": {
         "@tailwindcss/vite": "^4.1.4",
         "autoprefixer": "^10.4.21",
+        "laravel-echo": "^2.1.4",
         "postcss": "^8.5.3",
+        "pusher-js": "^8.4.0",
         "sweetalert2": "^11.21.2",
         "tailwindcss": "^4.1.4"
     }

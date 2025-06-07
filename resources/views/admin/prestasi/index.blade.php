@@ -18,13 +18,7 @@
                 <span class="text-sm font-medium text-gray-700">data</span>
             </div>
             <div class="flex items-center gap-2">
-                <select id="status-filter" class="input">
-                    <option value="">Semua Status</option>
-                    <option value="pending">Pending</option>
-                    <option value="disetujui">Disetujui</option>
-                    <option value="ditolak">Ditolak</option>
-                </select>
-                <input id="search-bar" type="text" placeholder="Cari..." class="input" />
+                <input id="search-bar" type="text" placeholder="Cari..." class="search-list" />
             </div>
         </div>
 
@@ -32,19 +26,19 @@
             <table id="prestasi-table" class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Judul
+                        <th class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Judul
                         </th>
-                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal
                             Mulai</th>
-                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tempat
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tempat
                         </th>
-                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mahasiswa
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mahasiswa
                         </th>
-                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Pembimbing</th>
-                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status
                         </th>
-                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
                     </tr>
                 </thead>
                 <tbody id="prestasi-body" class="bg-white divide-y divide-gray-200 overflow-y-auto"></tbody>
@@ -75,13 +69,6 @@
                         </div>
                     `;
                 }
-                return `
-                    <div class="flex gap-2">
-                        <a href="/admin/prestasi/${id}" class="action-button detail-button" title="Detail">
-                            <i class="fas fa-eye text-[18px]"></i>
-                        </a>
-                    </div>
-                `;
             }
 
             $(document).on('click', '.approve-button', function() {
@@ -257,7 +244,7 @@
                 let paginationHtml = '';
                 for (let i = 1; i <= totalPages; i++) {
                     paginationHtml +=
-                        `<button class="px-3 py-1 rounded-md text-sm ${i === currentPage ? 'bg-[#6041CE] text-white' : 'bg-gray-200'} page-btn-prestasi" data-page="${i}">${i}</button>`;
+                        `<button class="px-3 py-1 rounded ${i === currentPage ? 'bg-primary text-white' : 'bg-gray-200'} page-btn-prestasi" data-page="${i}">${i}</button> `;
                 }
                 $("#prestasi_pagination").html(paginationHtml);
 

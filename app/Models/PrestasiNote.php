@@ -22,4 +22,8 @@ class PrestasiNote extends Model
     {
         return $this->belongsTo(Dosen::class);
     }
+    public function mahasiswaNotes()
+    {
+        return $this->hasMany(MahasiswaPrestasiNote::class, 'prestasi_notes_id');
+    }
 }
