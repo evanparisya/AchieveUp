@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Bidang;
 use App\Models\Lomba;
 use App\Models\PengajuanLombaMahasiswa;
+use App\Models\PengajuanLombaNote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -48,8 +49,8 @@ class LombaController extends Controller
                 'tanggal_daftar' => $lomba->tanggal_daftar,
                 'tanggal_daftar_terakhir' => $lomba->tanggal_daftar_terakhir,
                 'periode_pendaftaran' => Carbon::parse($lomba->tanggal_daftar)->format('d M Y') .
-                ' s.d. ' .
-                Carbon::parse($lomba->tanggal_daftar_terakhir)->format('d M Y'),
+                    ' s.d. ' .
+                    Carbon::parse($lomba->tanggal_daftar_terakhir)->format('d M Y'),
                 'link' => $lomba->url,
                 'tingkat' => $lomba->tingkat,
                 'tingkat_warna' => $warnaTingkat,
@@ -252,7 +253,7 @@ class LombaController extends Controller
 
     public function show($id)
     {
-        $lomba = $this->getLomba($id);
+        $lomba = Lomba::findOrFail($id);
         $breadcrumb = (object) [
             'title' => 'Detail Lomba',
             'list' => ['Home', 'Lomba', 'Detail'],
@@ -308,7 +309,7 @@ class LombaController extends Controller
                 'tanggal_daftar' => $lomba->tanggal_daftar,
                 'tanggal_daftar_terakhir' => $lomba->tanggal_daftar_terakhir,
                 'periode_pendaftaran' => Carbon::parse($lomba->tanggal_daftar)->format('d M Y') . ' s.d. ' .
-                Carbon::parse($lomba->tanggal_daftar_terakhir)->format('d M Y'),
+                    Carbon::parse($lomba->tanggal_daftar_terakhir)->format('d M Y'),
                 'link' => $lomba->url,
                 'tingkat' => $lomba->tingkat,
                 'tingkat_warna' => $warnaTingkat,
@@ -361,10 +362,13 @@ class LombaController extends Controller
         $lomba = $pengajuan->lomba;
         $lomba->update(['is_active' => true]);
 
-        $pengajuan->update([
+        $pengajuan->update([    
             'status' => 'approved',
             'admin_id' => Auth::guard('dosen')->id(),
             'notes' => $request->input('notes'),
+        ]);
+        PengajuanLombaNote::create([
+            'pengajuan_lomba_mahasiswa_id' => $pengajuan->id
         ]);
 
         Log::info('Pengajuan disetujui', [
@@ -399,6 +403,10 @@ class LombaController extends Controller
             'status' => 'rejected',
             'admin_id' => Auth::guard('dosen')->id(),
             'notes' => $request->input('notes'),
+        ]);
+
+        PengajuanLombaNote::create([
+            'pengajuan_lomba_mahasiswa_id' => $pengajuan->id
         ]);
 
         Log::info('Pengajuan ditolak', [
