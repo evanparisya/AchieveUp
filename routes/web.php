@@ -37,6 +37,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::post('login', [AuthController::class, 'postLogin']);
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/register', [AuthController::class, 'showRegisterMahasiswa'])->name('register');
+Route::post('/register', [AuthController::class, 'registerMahasiswa'])->name('register.post');
 
 Route::get('/landing', [LandingController::class, 'index']);
 
@@ -81,6 +83,14 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
 
     Route::prefix('periode')->name('periode.')->group(function () {
         Route::get('/', [PeriodeController::class, 'index'])->name('index');
+        Route::get('/getall', [PeriodeController::class, 'getall'])->name('getall');
+        Route::get('/create', [PeriodeController::class, 'create'])->name('create');
+        Route::post('/store', [PeriodeController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [PeriodeController::class, 'edit'])->name('edit');
+        Route::get('/detail/{id}', [PeriodeController::class, 'show'])->name('detail');
+        Route::put('/{id}/activate', [PeriodeController::class, 'activate'])->name('periode.activate');
+        Route::put('/update/{id}', [PeriodeController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [PeriodeController::class, 'destroy'])->name('delete');
     });
 
     Route::prefix('lomba')->name('lomba.')->group(function () {
