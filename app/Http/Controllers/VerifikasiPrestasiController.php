@@ -74,7 +74,7 @@ class VerifikasiPrestasiController extends Controller
             DB::table('mahasiswa_prestasi_notes')->insert([
                 'mahasiswa_id'       => $mhs->mahasiswa_id,
                 'prestasi_notes_id'  => $note->id,
-                'is_accepted'        => true,
+                'is_accepted'        => false,
                 'created_at'         => now(),
                 'updated_at'         => now(),
             ]);

@@ -2,6 +2,7 @@
     use Illuminate\Support\Facades\Auth;
     use App\Models\MahasiswaRekomendasi;
     use App\Models\MahasiswaPrestasiNote;
+    use App\Models\PengajuanLombaNote;
 
     $mahasiswaId = Auth::guard('mahasiswa')->id();
 
@@ -9,7 +10,12 @@
 
     $unreadVerif = MahasiswaPrestasiNote::where('mahasiswa_id', $mahasiswaId)->where('is_accepted', false)->count();
 
-    $notifUnread = $unreadRekom + $unreadVerif;
+    $unreadPengajuan = PengajuanLombaNote::whereHas('pengajuanLombaMahasiswa', function ($q) use ($mahasiswaId) {
+        $q->where('mahasiswa_id', $mahasiswaId);
+    })->where('is_accepted', false)->count();
+
+
+    $notifUnread = $unreadRekom + $unreadVerif + $unreadPengajuan;
 @endphp
 
 <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow px-8 py-4 flex items-center justify-between">
