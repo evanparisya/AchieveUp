@@ -12,6 +12,7 @@
         <ul class="space-y-3 text-sm">
             <li><strong>Kode:</strong> {{ $periode->kode }}</li>
             <li><strong>Nama:</strong> {{ $periode->nama }}</li>
+            <li><strong>Status:</strong> {{ $periode->is_active ? 'Aktif' : 'Tidak Aktif' }}</li>
         </ul>
 
         <div class="mt-6 flex space-x-3">

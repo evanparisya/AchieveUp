@@ -36,6 +36,7 @@ class PeriodeController extends Controller
                 'id' => $periode->id,
                 'kode' => $periode->kode,
                 'nama' => $periode->nama,
+                'is_active' => $periode->is_active,
             ];
         });
 
@@ -61,11 +62,22 @@ class PeriodeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'kode' => 'required|string|max:10',
-            'nama' => 'required|string|max:255',
+            'kode' => ['required','regex:/^\d{4}\-\d{1}$/', 'max:10'],
+            'nama' => ['required', 'regex:/^\d{4}\/\d{4}\s+(ganjil|genap)$/i', 'max:255'],
+        ], [
+            'nama.regex' => 'Format nama periode harus berupa "YYYY/YYYY ganjil/genap". Contoh: "2023/2024 genap".',
+            'kode.regex' => 'Format kode periode harus berupa "YYYY-N". Contoh: "2023-1".'
         ]);
 
-        Periode::create($request->all());
+        // Nonaktifkan semua periode yang aktif
+        Periode::where('is_active', true)->update(['is_active' => false]);
+
+        // Simpan periode baru dan langsung aktif
+        Periode::create([
+            'kode' => $request->kode,
+            'nama' => $request->nama,
+            'is_active' => true,
+        ]);
 
         return redirect()->route('admin.periode.index')->with('success', 'Periode berhasil ditambahkan.');
     }
@@ -125,13 +137,6 @@ class PeriodeController extends Controller
         try {
             $periode = Periode::findOrFail($id);
 
-            if ($periode->mahasiswa()->exists()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Periode tidak dapat dihapus karena memiliki data mahasiswa.'
-                ], 400);
-            }
-
             $periode->delete();
 
             return response()->json([
@@ -145,4 +150,22 @@ class PeriodeController extends Controller
             ], 500);
         }
     }
+
+
+    public function activate($id)
+    {
+        // Nonaktifkan semua periode
+        Periode::query()->update(['is_active' => false]);
+
+        // Aktifkan satu periode
+        $periode = Periode::findOrFail($id);
+        $periode->is_active = true;
+        $periode->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Periode berhasil diaktifkan.'
+        ]);
+    }
+
 }

@@ -34,6 +34,7 @@
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kode</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Keterangan</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
                 </tr>
             </thead>
@@ -63,6 +64,9 @@
                         <a href="/admin/periode/edit/${id}" class="action-button edit-button" title="Update">
                             <i class="fas fa-edit text-[18px]"></i>
                         </a>
+                        <button type="button" class="action-button activate-button btn-aktifkan" data-id="${id}" title="Aktifkan">
+                            <i class="fas fa-check-circle text-green-600 text-[18px]"></i>
+                        </button>
                         <button type="button" class="action-button delete-button btn-hapus" data-id="${id}" data-type="mahasiswa" title="Hapus">
                             <i class="fas fa-trash text-[18px]"></i>
                         </button>
@@ -92,6 +96,7 @@
                         <td class="px-6 py-4 text-sm text-gray-900">${item.id}</td>
                         <td class="px-6 py-4 text-sm text-gray-900">${item.kode}</td>
                         <td class="px-6 py-4 text-sm text-gray-900">${item.nama}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">${item.is_active ? 'Aktif' : 'Tidak Aktif'}</td>
                         <td class="px-6 py-4 text-sm text-gray-900">
                             ${actionButtonsPeriode(item.id)}
                         </td>
@@ -114,6 +119,36 @@
                     renderPeriodeTable();
                 });
             }
+
+            $(document).on('click', '.btn-aktifkan', function() {
+                const id = $(this).data('id');
+
+                Swal.fire({
+                    title: 'Aktifkan Periode Ini?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya, Aktifkan',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: `/admin/periode/${id}/activate`,
+                            type: 'PUT',
+                            data: {
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function(response) {
+                                Swal.fire('Berhasil', response.message, 'success');
+                                loadPeriode();
+                            },
+                            error: function() {
+                                Swal.fire('Gagal', 'Terjadi kesalahan saat mengaktifkan periode.', 'error');
+                            }
+                        });
+                    }
+                });
+            });
+
 
             function loadPeriode() {
                 $.ajax({
@@ -191,28 +226,29 @@
         });
     </script>
 
-    @if (session('success'))
-        <script>
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil',
-                text: '{{ session('success') }}',
-                timer: 3000,
-                showConfirmButton: false
-            });
-        </script>
-    @endif
+        @if (session('success'))
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: '{{ session('success') }}',
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            </script>
+        @endif
 
-    @if (session('error'))
-        <script>
-            Swal.fire({
-                icon: 'error',
-                title: 'Gagal',
-                text: '{{ session('error') }}',
-                timer: 3000,
-                showConfirmButton: false
-            });
-        </script>
+        @if (session('error'))
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: '{{ session('error') }}',
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+    </script>
+
     @endif
 
 @endsection

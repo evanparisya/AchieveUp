@@ -88,6 +88,7 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
         Route::post('/store', [PeriodeController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [PeriodeController::class, 'edit'])->name('edit');
         Route::get('/detail/{id}', [PeriodeController::class, 'show'])->name('detail');
+        Route::put('/{id}/activate', [PeriodeController::class, 'activate'])->name('periode.activate');
         Route::put('/update/{id}', [PeriodeController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [PeriodeController::class, 'destroy'])->name('delete');
     });

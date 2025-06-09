@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
 
 class Periode extends Model
@@ -14,5 +15,8 @@ class Periode extends Model
     protected $fillable = [
         'kode',
         'nama',
+        'is_active',
     ];
+
+  
 }

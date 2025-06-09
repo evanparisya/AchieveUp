@@ -27,6 +27,16 @@
                 <p class="text-red-500 text-sm mb-2">{{ $message }}</p>
             @enderror
 
+            {{-- Keterangan --}}
+            {{-- Status (Tidak Bisa Diedit) --}}
+            <label for="status" class="block mb-1 font-medium text-gray-700">Status</label>
+            <input type="text" id="status" 
+                class="w-full mb-3 p-2 border border-gray-300 rounded bg-gray-200 text-gray-600 cursor-not-allowed" 
+                value="{{ $periode->is_active ? 'Aktif' : 'Tidak Aktif' }}" disabled>
+            @error('nama')
+                <p class="text-red-500 text-sm mb-2">{{ $message }}</p>
+            @enderror
+
             {{-- Submit --}}
             <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Update</button>
         </form>
