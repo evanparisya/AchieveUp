@@ -382,14 +382,31 @@
     @push('scripts')
         <script>
             document.addEventListener('DOMContentLoaded', function() {
+                <<
+                << << < Updated upstream
                 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
                 const prestasiData = [65, 59, 80, 81, 56, 55, 40];
 
-                const primaryColor = '#6366F1'; 
-                const secondaryColor = '#8B5CF6'; 
-                const tertiaryColor = '#EC4899'; 
-                const quaternaryColor = '#F97316'; 
+                const primaryColor = '#6366F1';
+                const secondaryColor = '#8B5CF6';
+                const tertiaryColor = '#EC4899';
+                const quaternaryColor = '#F97316';
 
+                ===
+                === =
+                // Custom Chart Configuration
+                const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
+                const prestasiData = [65, 59, 80, 81, 56, 55, 40];
+
+                // Custom colors
+                const primaryColor = '#6366F1'; // Indigo
+                const secondaryColor = '#8B5CF6'; // Violet
+                const tertiaryColor = '#EC4899'; // Pink
+                const quaternaryColor = '#F97316'; // Orange
+
+                // Chart Options - Custom Theme
+                >>>
+                >>> > Stashed changes
                 const defaultOptions = {
                     responsive: true,
                     maintainAspectRatio: false,
@@ -421,6 +438,7 @@
                             boxPadding: 6,
                             usePointStyle: true,
                             callbacks: {
+                                // Custom tooltip formatting
                                 labelPointStyle: function() {
                                     return {
                                         pointStyle: 'rectRounded',
@@ -432,9 +450,19 @@
                     }
                 };
 
+                <<
+                << << < Updated upstream
                 // BAR CHART
                 const barCtx = document.getElementById('barChart').getContext('2d');
 
+                ===
+                === =
+                // BAR CHART - Completely custom with gradients
+                const barCtx = document.getElementById('barChart').getContext('2d');
+
+                // Create gradient
+                >>>
+                >>> > Stashed changes
                 const barGradient = barCtx.createLinearGradient(0, 0, 0, 400);
                 barGradient.addColorStop(0, 'rgba(99, 102, 241, 0.8)');
                 barGradient.addColorStop(1, 'rgba(99, 102, 241, 0.2)');
@@ -503,7 +531,14 @@
                     }
                 });
 
-                // DONUT CHART
+                <<
+                << << < Updated upstream
+                    // DONUT CHART
+                    ===
+                    === =
+                    // DONUT CHART - Custom with pattern fills
+                    >>>
+                    >>> > Stashed changes
                 const donutCtx = document.getElementById('donutChart').getContext('2d');
 
                 const donutChart = new Chart(donutCtx, {
@@ -544,10 +579,23 @@
                     }
                 });
 
+                <<
+                << << < Updated upstream
+                    ===
+                    === =
+                    // Method Selector for Ranking
+                    >>>
+                    >>> > Stashed changes
                 const metodeSelect = document.getElementById('metode');
                 if (metodeSelect) {
                     metodeSelect.addEventListener('change', function() {
-                        console.log(`Method changed to: ${this.value}`);
+                        console.log(`Method changed to: ${this.value}`); <<
+                        << << < Updated upstream
+                            ===
+                            === =
+                            // Here you would typically fetch new data based on the method
+                            >>>
+                            >>> > Stashed changes
                     });
                 }
             });
