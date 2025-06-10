@@ -68,6 +68,7 @@ class NotifikasiAdmin extends Controller
 
             $prestasi = $note->prestasi;
             // dd($prestasi->id);
+            // Komen Sembarang
 
             return view('admin.notifikasi.detail', [
                 'breadcrumb' => (object)['title' => 'Detail Notifikasi', 'list' => ['Notifikasi', 'Pengajuan Prestasi']],
