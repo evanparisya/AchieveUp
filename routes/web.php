@@ -39,6 +39,11 @@ Route::post('login', [AuthController::class, 'postLogin']);
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/register', [AuthController::class, 'showRegisterMahasiswa'])->name('register');
 Route::post('/register', [AuthController::class, 'registerMahasiswa'])->name('register.post');
+Route::get('/forgot_password', [AuthController::class, 'showForgotPassword'])->name('forgot_password');
+Route::post('/cek_user_input', [AuthController::class, 'cekUserInput'])->name('cek_user_input.post');
+Route::get('/ganti_password', [AuthController::class, 'showGantiPassword'])->name('ganti_password');
+Route::post('/forgot_password', [AuthController::class, 'forgotPassword'])->name('forgot_password.post');
+Route::post('/simpan_password', [AuthController::class, 'simpanPassword'])->name('simpan_password.post');
 
 Route::get('/landing', [LandingController::class, 'index']);
 
