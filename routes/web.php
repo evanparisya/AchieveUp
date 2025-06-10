@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BidangController;
 use App\Http\Controllers\BimbinganController;
 use App\Http\Controllers\DashboardAdmin;
 use App\Http\Controllers\DashboardDosen;
@@ -8,13 +9,12 @@ use App\Http\Controllers\DashboardMahasiswa;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\LombaController;
 use App\Http\Controllers\LombaDosenController;
+use App\Http\Controllers\LombaMahasiswaController;
+use App\Http\Controllers\NotifikasiDosenPembimbing;
 use App\Http\Controllers\NotifikasiMahasiswa;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\PrestasiMahasiswaController;
 use App\Http\Controllers\ProdiController;
-use App\Http\Controllers\BidangController;
-use App\Http\Controllers\LombaMahasiswaController;
-use App\Http\Controllers\NotifikasiDosenPembimbing;
 use App\Http\Controllers\ProfilAdminController;
 use App\Http\Controllers\ProfilDosenPembimbingController;
 use App\Http\Controllers\ProfilMahasiswaController;
@@ -67,7 +67,8 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
         Route::get('/dosen/{id}/update', [UserController::class, 'showUpdateDosenForm'])->name('admin.users.dosen.update.form');
         Route::put('/dosen/{id}/update', [UserController::class, 'updateDosen'])->name('admin.users.dosen.update');
 
-        Route::get('/{id}', [UserController::class, 'show'])->name('admin.users.show');
+        Route::get('/mahasiswa/{id}', [UserController::class, 'showMahasiswa'])->name('admin.users.mahasiswa.detail');
+        Route::get('/dosen/{id}', [UserController::class, 'showDosen'])->name('admin.users.dosen.detail');
     });
 
     Route::prefix('prestasi')->name('prestasi.')->group(function () {
@@ -92,14 +93,15 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
         Route::post('/pengajuan/approve/{id}', [LombaController::class, 'approvePengajuan'])->name('approve');
         Route::post('/pengajuan/reject/{id}', [LombaController::class, 'rejectPengajuan'])->name('reject');
 
-        Route::get('/{id}', [LombaController::class, 'show'])->name('detail');        
+        Route::get('/{id}', [LombaController::class, 'show'])->name('detail');
+        Route::get('/pengajuan/{id}', [LombaController::class, 'showPengajuan'])->name('pengajuan.show');
 
         Route::get('/create', [LombaController::class, 'create'])->name('create');
         Route::post('/store', [LombaController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [LombaController::class, 'edit'])->name('edit');
         Route::put('/update/{id}', [LombaController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [LombaController::class, 'destroy'])->name('delete');
-        Route::get('/{id}', [LombaController::class, 'show'])->name('detail');
+
     });
 
     Route::prefix('prodi')->name('prodi.')->group(function () {
@@ -118,7 +120,6 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
         Route::get('/create', [BidangController::class, 'create'])->name('create');
         Route::get('/getall', [BidangController::class, 'getall'])->name('getall');
         Route::get('/{id}', [BidangController::class, 'show'])->name('detail');
-
 
         Route::post('/store', [BidangController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [BidangController::class, 'edit'])->name('edit');
@@ -152,7 +153,7 @@ Route::middleware(['dosen:dosen pembimbing'])->prefix('dosen_pembimbing')->name(
         Route::get('/{id}', [BimbinganController::class, 'detail'])->name('detail');
     });
 
-    Route::prefix('profil')->name('profil.')->group(function(){
+    Route::prefix('profil')->name('profil.')->group(function () {
         Route::get('/', [ProfilDosenPembimbingController::class, 'index'])->name('index');
         Route::get('/edit', [ProfilDosenPembimbingController::class, 'edit'])->name('edit');
         Route::put('/update/{id}', [ProfilDosenPembimbingController::class, 'update'])->name('update');
@@ -208,6 +209,9 @@ Route::middleware(['mahasiswa'])->prefix('mahasiswa')->name('mahasiswa.')->group
         Route::put('/update/{id}', [LombaMahasiswaController::class, 'update'])->name('update');
 
         Route::delete('/{id}', [LombaMahasiswaController::class, 'destroyPengajuan'])->name('destroy');
+
+        Route::get('/pengajuan/{id}', [LombaMahasiswaController::class, 'showPengajuan'])->name('pengajuan.show');
+        Route::get('/{id}', [LombaMahasiswaController::class, 'show'])->name('show');
     });
 
     Route::prefix('profil')->name('profil.')->group(function () {

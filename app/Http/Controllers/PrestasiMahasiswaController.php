@@ -308,7 +308,6 @@ class PrestasiMahasiswaController extends Controller
         $prestasi->nomor_surat_tugas = $request->nomor_surat_tugas;
         $prestasi->tanggal_surat_tugas = $request->tanggal_surat_tugas;
 
-        // File update 
         if ($request->hasFile('file_surat_tugas')) {
             if ($prestasi->file_surat_tugas) {
                 Storage::disk('public')->delete($prestasi->file_surat_tugas);

@@ -7,6 +7,7 @@ use App\Models\Lomba;
 use App\Models\PengajuanLombaMahasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class LombaMahasiswaController extends Controller
 {
@@ -114,7 +115,7 @@ class LombaMahasiswaController extends Controller
                 'notes' => $pengajuan->notes,
                 'admin' => $pengajuan->admin ? [
                     'id' => $pengajuan->admin->id,
-                    'nama' => $pengajuan->admin->nama, // Asumsi tabel dosen memiliki kolom nama
+                    'nama' => $pengajuan->admin->nama,
                 ] : null,
                 'bidang' => $lomba->bidang->map(function ($b) {
                     return [
@@ -161,7 +162,6 @@ class LombaMahasiswaController extends Controller
 
         $activeMenu = 'lomba';
 
-        // Ambil data bidang untuk dropdown
         $bidangs = Bidang::all();
 
         return view('mahasiswa.lomba.create', compact('breadcrumb', 'page', 'activeMenu', 'bidangs'));
@@ -169,7 +169,7 @@ class LombaMahasiswaController extends Controller
 
     public function store(Request $request)
     {
-        // Validasi input
+       
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
             'tempat' => 'required|string|max:255',
@@ -179,7 +179,7 @@ class LombaMahasiswaController extends Controller
             'tingkat' => 'required|in:nasional,internasional,regional,provinsi',
             'is_individu' => 'required|boolean',
             'is_akademik' => 'required|boolean',
-            'file_poster' => 'nullable|image|mimes:jpg,jpeg,png|max:5120', // Maks 5MB
+            'file_poster' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
             'bidang' => 'required|array|min:1',
             'bidang.*' => 'exists:bidang,id',
         ], [
@@ -200,13 +200,11 @@ class LombaMahasiswaController extends Controller
             'bidang.*.exists' => 'Bidang yang dipilih tidak valid.',
         ]);
 
-        // Simpan file poster jika ada
         $filePosterPath = null;
         if ($request->hasFile('file_poster')) {
             $filePosterPath = $request->file('file_poster')->store('posters', 'public');
         }
 
-        // Buat entri lomba dengan is_active = false (menunggu persetujuan admin)
         $lomba = Lomba::create([
             'judul' => $validated['judul'],
             'tempat' => $validated['tempat'],
@@ -215,15 +213,13 @@ class LombaMahasiswaController extends Controller
             'url' => $validated['url'],
             'tingkat' => $validated['tingkat'],
             'is_individu' => $validated['is_individu'],
-            'is_active' => false, // Menunggu persetujuan admin
+            'is_active' => false,
             'file_poster' => $filePosterPath,
             'is_akademik' => $validated['is_akademik'],
         ]);
 
-        // Simpan bidang yang dipilih
         $lomba->bidang()->sync($validated['bidang']);
 
-        // Buat entri pengajuan dengan status pending
         PengajuanLombaMahasiswa::create([
             'lomba_id' => $lomba->id,
             'mahasiswa_id' => auth()->guard('mahasiswa')->id(),
@@ -231,5 +227,82 @@ class LombaMahasiswaController extends Controller
         ]);
 
         return redirect()->route('mahasiswa.lomba.index')->with('success', 'Pengajuan lomba berhasil dikirim dan menunggu persetujuan admin.');
+    }
+
+    public function show($id)
+    {
+        if (!Auth::guard('mahasiswa')->check()) {
+            abort(403, 'Akses ditolak. Silakan login sebagai mahasiswa.');
+        }
+
+        $lomba = Lomba::with(['bidang'])->find($id);
+
+        if (!$lomba) {
+            abort(404, 'Lomba tidak ditemukan');
+        }
+
+        $mahasiswa = Auth::guard('mahasiswa')->user();
+
+        $pengajuan = PengajuanLombaMahasiswa::where('lomba_id', $id)
+            ->where('mahasiswa_id', $mahasiswa->id)
+            ->first();
+
+        $breadcrumb = (object) [
+            'title' => 'Detail Lomba',
+            'list' => ['Home', 'Lomba', 'Detail'],
+        ];
+
+        $page = (object) [
+            'title' => 'Detail Informasi Lomba',
+        ];
+
+        $activeMenu = 'lomba';
+
+        return view('mahasiswa.lomba.detaillomba', compact(
+            'breadcrumb',
+            'page',
+            'activeMenu',
+            'lomba',
+            'pengajuan',
+            'mahasiswa'
+        ));
+    }
+
+    public function showPengajuan($id)
+    {
+        
+        if (!Auth::guard('mahasiswa')->check()) {
+            abort(403, 'Akses ditolak. Silakan login sebagai mahasiswa.');
+        }
+
+        $mahasiswa = Auth::guard('mahasiswa')->user();
+
+        $pengajuan = PengajuanLombaMahasiswa::with(['lomba.bidang', 'admin'])
+            ->where('id', $id)
+            ->where('mahasiswa_id', $mahasiswa->id)
+            ->first();
+
+        if (!$pengajuan) {
+            abort(404, 'Pengajuan lomba tidak ditemukan atau bukan milik Anda');
+        }
+
+        $breadcrumb = (object) [
+            'title' => 'Detail Pengajuan Lomba',
+            'list' => ['Home', 'Lomba', 'Pengajuan', 'Detail'],
+        ];
+
+        $page = (object) [
+            'title' => 'Detail Pengajuan Lomba Anda',
+        ];
+
+        $activeMenu = 'lomba';
+
+        return view('mahasiswa.lomba.detailpengajuan', compact(
+            'breadcrumb',
+            'page',
+            'activeMenu',
+            'pengajuan',
+            'mahasiswa'
+        ));
     }
 }

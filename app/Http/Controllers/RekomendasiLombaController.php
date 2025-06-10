@@ -90,7 +90,6 @@ class RekomendasiLombaController extends Controller
         ]);
 
         foreach ($validated['mahasiswa_id'] as $mhs_id) {
-            // Tambahan Note
             MahasiswaRekomendasi::create([
                 'rekomendasi_lomba_id' => $rekomendasi->id,
                 'mahasiswa_id' => $mhs_id,
@@ -248,5 +247,27 @@ class RekomendasiLombaController extends Controller
                 'message' => 'Gagal menghapus rekomendasi lomba: ' . $e->getMessage()
             ], 500);
         }
+    }
+
+    public function showlomba($id)
+    {
+        $lomba = $this->getLomba($id);
+        $breadcrumb = (object) [
+            'title' => 'Detail Lomba',
+            'list' => ['Home', 'Lomba', 'Detail'],
+        ];
+
+        $page = (object) [
+            'title' => 'Detail data Lomba',
+        ];
+
+        $activeMenu = 'lomba';
+
+        return view('admin.rekomendasi.detaillomba', compact(
+            'breadcrumb',
+            'page',
+            'activeMenu',
+            'lomba'
+        ));
     }
 }

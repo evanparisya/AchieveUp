@@ -194,7 +194,6 @@
     </div>
 
     <script>
-        // Simpan instance TomSelect dalam variabel global
         const mahasiswaSelect = new TomSelect('#mahasiswa_select', {
             plugins: ['remove_button'],
             maxItems: null,

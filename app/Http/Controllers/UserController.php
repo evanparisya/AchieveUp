@@ -3,15 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dosen;
-use App\Models\DosenModel;
 use App\Models\Mahasiswa;
-use App\Models\MahasiswaModel;
 use App\Models\ProgramStudi;
-use App\Models\ProgramStudiModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -27,13 +22,13 @@ class UserController extends Controller
             }
         }
 
-        $breadcrumb = (object)[
+        $breadcrumb = (object) [
             'title' => 'Manajemen Pengguna',
-            'list' => ['Home', 'Manajemen Pengguna']
+            'list' => ['Home', 'Manajemen Pengguna'],
         ];
 
-        $page = (object)[
-            'title' => 'Daftar user yang terdaftar dalam sistem'
+        $page = (object) [
+            'title' => 'Daftar user yang terdaftar dalam sistem',
         ];
 
         $activeMenu = 'users';
@@ -103,13 +98,13 @@ class UserController extends Controller
     {
         $type = $request->query('type', 'mahasiswa');
 
-        $breadcrumb = (object)[
+        $breadcrumb = (object) [
             'title' => 'Tambah User',
-            'list' => ['Home', 'User', 'Tambah User']
+            'list' => ['Home', 'User', 'Tambah User'],
         ];
 
-        $page = (object)[
-            'title' => 'Tambah user baru'
+        $page = (object) [
+            'title' => 'Tambah user baru',
         ];
 
         $programStudis = ProgramStudi::all();
@@ -212,13 +207,13 @@ class UserController extends Controller
         $mahasiswa = Mahasiswa::findOrFail($id);
         $programStudis = ProgramStudi::all();
 
-        $breadcrumb = (object)[
+        $breadcrumb = (object) [
             'title' => 'Update Mahasiswa',
-            'list' => ['Home', 'User', 'Update']
+            'list' => ['Home', 'User', 'Update'],
         ];
 
-        $page = (object)[
-            'title' => 'Update data mahasiswa'
+        $page = (object) [
+            'title' => 'Update data mahasiswa',
         ];
 
         $activeMenu = 'users';
@@ -276,13 +271,13 @@ class UserController extends Controller
     {
         $dosen = Dosen::findOrFail($id);
 
-        $breadcrumb = (object)[
+        $breadcrumb = (object) [
             'title' => 'Update Dosen',
-            'list' => ['Home', 'User', 'Update']
+            'list' => ['Home', 'User', 'Update'],
         ];
 
-        $page = (object)[
-            'title' => 'Update data dosen'
+        $page = (object) [
+            'title' => 'Update data dosen',
         ];
 
         $activeMenu = 'users';
@@ -335,50 +330,49 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')->with('success', 'Data dosen berhasil di-update!');
     }
 
-    public function show($id)
+    public function showMahasiswa($id)
     {
-        $mahasiswa = Mahasiswa::find($id);
-        if ($mahasiswa) {
-            $breadcrumb = (object) [
-                'title' => 'Detail Mahasiswa',
-                'list' => ['Home', 'User', 'Detail']
-            ];
+        $mahasiswa = Mahasiswa::findOrFail($id);
 
-            $page = (object) [
-                'title' => 'Detail data mahasiswa'
-            ];
+        $breadcrumb = (object) [
+            'title' => 'Detail Mahasiswa',
+            'list' => ['Home', 'User', 'Detail'],
+        ];
 
-            $activeMenu = 'users';
+        $page = (object) [
+            'title' => 'Detail data mahasiswa',
+        ];
 
-            return view('admin.users.detailmahasiswa', compact(
-                'breadcrumb',
-                'page',
-                'activeMenu',
-                'mahasiswa'
-            ));
-        }
+        $activeMenu = 'users';
 
-        $dosen = Dosen::find($id);
-        if ($dosen) {
-            $breadcrumb = (object) [
-                'title' => 'Detail Dosen',
-                'list' => ['Home', 'User', 'Detail']
-            ];
+        return view('admin.users.detailmahasiswa', compact(
+            'breadcrumb',
+            'page',
+            'activeMenu',
+            'mahasiswa'
+        ));
+    }
 
-            $page = (object) [
-                'title' => 'Detail data dosen'
-            ];
+    public function showDosen($id)
+    {
+        $dosen = Dosen::findOrFail($id);
 
-            $activeMenu = 'users';
+        $breadcrumb = (object) [
+            'title' => 'Detail Dosen',
+            'list' => ['Home', 'User', 'Detail'],
+        ];
 
-            return view('admin.users.detaildosen', compact(
-                'breadcrumb',
-                'page',
-                'activeMenu',
-                'dosen'
-            ));
-        }
+        $page = (object) [
+            'title' => 'Detail data dosen',
+        ];
 
-        abort(404, 'Data tidak ditemukan');
+        $activeMenu = 'users';
+
+        return view('admin.users.detaildosen', compact(
+            'breadcrumb',
+            'page',
+            'activeMenu',
+            'dosen'
+        ));
     }
 }

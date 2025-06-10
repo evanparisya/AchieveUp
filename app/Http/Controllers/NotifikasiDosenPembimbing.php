@@ -42,7 +42,6 @@ class NotifikasiDosenPembimbing extends Controller
             ->where('id', $dosenRekom->rekomendasi_lomba_id)
             ->first();
 
-        // Jika rekomendasi tidak ditemukan, tampilkan 404
         if (!$rekomendasi) {
             abort(404, 'Rekomendasi lomba tidak ditemukan atau lomba tidak aktif.');
         }
@@ -84,7 +83,7 @@ class NotifikasiDosenPembimbing extends Controller
     {
         $dosenId = auth('dosen')->id();
 
-        // Ambil semua rekomendasi untuk dosen ini
+        // Ambil semua rekomendasi untuk dosen
         $rekomendasi = DosenPembimbingRekomendasi::with(['rekomendasiLomba.lomba.bidang'])
             ->where('dosen_id', $dosenId)
             ->latest()

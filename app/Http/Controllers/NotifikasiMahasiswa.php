@@ -206,7 +206,6 @@ class NotifikasiMahasiswa extends Controller
             })
             ->values()
             ->map(function ($item) {
-                // Format created_at ke diffForHumans setelah diurutkan
                 $item['created_at'] = Carbon::parse($item['created_at'])->diffForHumans();
                 return $item;
             });

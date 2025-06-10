@@ -2,17 +2,15 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class BidangSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
+        DB::table('bidang')->delete();
+
         $bidangs = [
             ['kode' => 'UIUX', 'nama' => 'UI/UX Designer'],
             ['kode' => 'CYBER', 'nama' => 'Cyber Security'],

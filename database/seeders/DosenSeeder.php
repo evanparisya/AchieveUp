@@ -2,39 +2,48 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class DosenSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
+        DB::table('dosen')->delete();
+
         $names = [
-            'Agus Prasetyo', // admin
-            'Suryani Lestari',
-            'Budi Santosa',
-            'Lina Hartati',
-            'Ivan Nikolaev',
-            'Greta Schneider',
-            'Anton Rahman',
-            'Nina Kartika',
-            'Sergei Petrov',
-            'Helga Bauer'
+            'Dr. Adriano Reginald, M.T.', // admin - ID 1
+            'Seraphina Calista, S.Kom., M.Kom.',
+            'Maximilian Pradipta, S.T., M.T.',
+            'Evangeline Adhisty, S.Kom., M.Sc.',
+            'Theodorus Mahardika, S.T., M.Eng.',
+            'Anastasia Sekaringtyas, S.Kom., M.Kom.',
+            'Bramantio Satriawan, S.T., M.T.',
+            'Gabriella Vallerie, S.Kom., M.Sc.',
+            'Alessandro Brahmantyo, S.T., M.Eng.',
+            'Serenity Adeline, S.Kom., M.Kom.',
         ];
 
         $nidnStart = 1001000001;
 
         foreach ($names as $index => $name) {
             $nidn = (string) ($nidnStart + $index);
-            $firstName = strtolower(Str::before($name, ' '));
+
+            // Extract first name dari nama lengkap (skip gelar Dr./title)
+            $nameParts = explode(' ', $name);
+            $firstName = '';
+
+            foreach ($nameParts as $part) {
+                // Skip gelar dan tanda baca
+                if (!str_contains($part, '.') && !str_contains($part, ',')) {
+                    $firstName = strtolower($part);
+                    break;
+                }
+            }
+
             $email = $firstName . '@achieveup.ac.id';
-            $role = $index === 0 ? 'admin' : 'dosen pembimbing';
+            $role = $index === 0 ? 'admin' : 'dosen pembimbing'; // ID 1 = admin
 
             DB::table('dosen')->insert([
                 'nidn' => $nidn,

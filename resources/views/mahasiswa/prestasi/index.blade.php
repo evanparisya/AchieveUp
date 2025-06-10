@@ -4,90 +4,131 @@
 
 @section('content')
     <div class="mx-auto max-w-full h-full flex flex-col">
-
-        <div class="flex items-center justify-between mb-4">
-            <div class="flex items-center space-x-2">
-                <label for="show-entry" class="text-sm font-medium text-gray-700">Tampilkan</label>
-                <select id="show-entry"
-                    class="appearance-none bg-white border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#6041CE] focus:border-transparent transition-shadow">
-                    <option value="5">5</option>
-                    <option value="10" selected>10</option>
-                    <option value="20">20</option>
-                    <option value="40">40</option>
-                </select>
-                <span class="text-sm font-medium text-gray-700">data</span>
+        <!-- Tab-like header + content container -->
+        <div>
+            <!-- Header styled as a tab -->
+            <div
+                class="inline-block px-5 py-2.5 text-sm font-medium bg-white border-t border-l border-r border-gray-200 rounded-t-lg text-[#6041CE] font-semibold">
+                Data Prestasi
             </div>
-            <div class="flex items-center gap-2">
-                <input id="search-bar" type="text" placeholder="Cari..." class="input" />
-                <a href="{{ route('mahasiswa.prestasi.create') }}" id="btn-add-prestasi" class="button-primary-medium">
-                    <i class="fas fa-plus mr-2"></i>
-                    <span>Tambah</span>
-                </a>
+
+            <!-- Controls section -->
+            <div class="bg-white border-t border-l border-r border-gray-200 px-6 py-4">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div class="flex items-center space-x-3">
+                        <label for="show-entry" class="text-sm font-medium text-gray-700">Tampilkan</label>
+                        <select id="show-entry"
+                            class="appearance-none bg-white border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#6041CE] focus:border-transparent transition-all">
+                            <option value="5">5</option>
+                            <option value="10" selected>10</option>
+                            <option value="20">20</option>
+                            <option value="40">40</option>
+                        </select>
+                        <span class="text-sm font-medium text-gray-700">data</span>
+                    </div>
+
+                    <div class="flex items-center gap-3 w-full md:w-auto">
+                        <div class="relative flex-1 md:flex-none md:min-w-[240px]">
+                            <input id="search-bar" type="text" placeholder="Cari..."
+                                class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#6041CE] focus:border-transparent transition-all" />
+                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                <i class="fas fa-search text-gray-400"></i>
+                            </div>
+                        </div>
+                        <a href="{{ route('mahasiswa.prestasi.create') }}" id="btn-add-prestasi"
+                            class="flex items-center justify-center px-4 py-2 bg-[#6041CE] hover:bg-[#4e35a5] text-white rounded-lg transition-colors duration-200 text-sm font-medium">
+                            <i class="fas fa-plus mr-2"></i>
+                            <span>Tambah</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table container -->
+            <div class="overflow-hidden bg-white shadow-md border border-gray-200 rounded-b-lg">
+                <div class="overflow-x-auto">
+                    <table id="prestasi-table" class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Judul</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Tanggal Mulai</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Tempat</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Pembimbing</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="prestasi-body" class="bg-white divide-y divide-gray-200 overflow-y-auto">
+                            <!-- Data will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination controls -->
+                <div class="px-6 py-4 border-t border-gray-200">
+                    <div class="flex items-center justify-between flex-wrap gap-4">
+                        <p id="prestasi_info" class="text-sm text-gray-600"></p>
+                        <div id="prestasi_pagination" class="flex flex-wrap gap-2"></div>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <div class="flex-1 overflow-x-auto bg-white shadow rounded border border-gray-200">
-            <table id="prestasi-table" class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Judul
-                        </th>
-                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal
-                            Mulai</th>
-                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tempat
-                        </th>
-                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Pembimbing</th>
-                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status
-                        </th>
-                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="prestasi-body" class="bg-white divide-y divide-gray-200 overflow-y-auto">
-
-                </tbody>
-            </table>
-            <p id="prestasi_info" class="text-sm text-gray-500 mt-2 px-4"></p>
-            <div id="prestasi_pagination" class="mt-2 flex flex-wrap gap-2 px-4 pb-4"></div>
-        </div>
-
     </div>
-    
+
     <script>
         $(document).ready(function() {
             let prestasiData = [];
             let currentPage = 1;
 
+            function getStatusConfig(status) {
+                const config = {
+                    'disetujui': {
+                        bgClass: 'bg-green-100',
+                        textClass: 'text-green-800',
+                        icon: 'fas fa-check-circle text-green-500'
+                    },
+                    'ditolak': {
+                        bgClass: 'bg-red-100',
+                        textClass: 'text-red-800',
+                        icon: 'fas fa-times-circle text-red-500'
+                    },
+                    'pending': {
+                        bgClass: 'bg-gray-200',
+                        textClass: 'text-gray-800',
+                        icon: 'fas fa-hourglass-half text-gray-500'
+                    }
+                };
+
+                return config[status] || config.pending;
+            }
+
             function actionButtonsPrestasi(id, status) {
-                if (status === 'disetujui') {
-                    return `
-                        <div class="flex gap-2">
-                            <a href="/mahasiswa/prestasi/${id}" class="action-button detail-button" title="Detail">
-                                <i class="fas fa-eye text-[18px]"></i>
-                            </a>
-                        </div>
-                    `;
-                }
-                if (status === 'pending') {
-                    return `
-                        <div class="flex gap-2">
-                            <a href="/mahasiswa/prestasi/${id}" class="action-button detail-button" title="Detail">
-                                <i class="fas fa-eye text-[18px]"></i>
-                            </a>
-                        </div>
-                    `;
-                }
+                const commonButtons = `
+                    <a href="/mahasiswa/prestasi/${id}" class="action-btn text-blue-600 hover:text-blue-800" title="Detail">
+                        <i class="fas fa-eye"></i>
+                    </a>
+                `;
+
+                const editDeleteButtons = `
+                    <a href="/mahasiswa/prestasi/${id}/edit" class="action-btn text-amber-600 hover:text-amber-800" title="Edit">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <button type="button" class="action-btn text-red-600 hover:text-red-800 btn-hapus" 
+                        data-id="${id}" data-type="prestasi" title="Hapus">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                `;
+
                 return `
-                    <div class="flex gap-2">
-                        <a href="/mahasiswa/prestasi/${id}" class="action-button detail-button" title="Detail">
-                            <i class="fas fa-eye text-[18px]"></i>
-                        </a>
-                        <a href="/mahasiswa/prestasi/${id}/edit" class="action-button edit-button" title="Edit">
-                            <i class="fas fa-edit text-[18px]"></i>
-                        </a>
-                        <button type="button" class="action-button delete-button btn-hapus" data-id="${id}" data-type="prestasi" title="Hapus">
-                            <i class="fas fa-trash text-[18px]"></i>
-                        </button>
+                    <div class="flex items-center gap-4">
+                        ${commonButtons}
+                        ${status === 'disetujui' || status === 'pending' ? '' : editDeleteButtons}
                     </div>
                 `;
             }
@@ -152,6 +193,7 @@
                     'ditolak': 2,
                     'disetujui': 3
                 };
+
                 let sorted = prestasiData.slice().sort((a, b) => {
                     return (statusOrder[a.status] || 99) - (statusOrder[b.status] || 99);
                 });
@@ -170,41 +212,38 @@
 
                 if (paginated.length === 0) {
                     tbody.append(`
-                <tr>
-                    <td colspan="5" class="px-4 py-6 text-center text-gray-500">Tidak ada data ditemukan</td>
-                </tr>
-            `);
+                        <tr>
+                            <td colspan="6" class="px-6 py-8 text-center text-gray-500">
+                                <div class="flex flex-col items-center justify-center">
+                                    <i class="fas fa-search text-gray-300 text-3xl mb-2"></i>
+                                    <p>Tidak ada data ditemukan</p>
+                                </div>
+                            </td>
+                        </tr>
+                    `);
                 } else {
                     $.each(paginated, function(index, item) {
                         let pembimbing = item.dosens.map(d => d.nama).join(', ') || '-';
-                        let statusClass = item.status === 'disetujui' ? 'bg-green-100 text-green-800' :
-                            item.status === 'ditolak' ? 'bg-red-100 text-red-800' :
-                            'bg-gray-200 text-gray-900';
+                        const statusConfig = getStatusConfig(item.status);
 
                         let row = `
-                    <tr class="h-12 hover:bg-gray-50">
-                        <td class="px-4 py-3 whitespace-nowrap text-sm">${item.judul}</td>
-                        <td class="px-4 py-3 whitespace-nowrap text-sm">${item.tanggal_mulai}</td>
-                        <td class="px-4 py-3 whitespace-nowrap text-sm">${item.tempat}</td>
-                        <td class="px-4 py-3 whitespace-nowrap text-sm">${pembimbing}</td>
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <span class="inline-flex items-center gap-2.5 px-2 py-1 rounded text-xs font-semibold capitalize
-                                ${item.status === 'disetujui' ? 'bg-green-100 text-green-800' : 
-                                item.status === 'ditolak' ? 'bg-red-100 text-red-800' : 
-                                'bg-gray-200 text-gray-900'}">
-                                <i class="${
-                                    item.status === 'disetujui' ? 'fas fa-check-circle text-green-500' :
-                                    item.status === 'ditolak' ? 'fas fa-times-circle text-red-500' :
-                                    'fas fa-hourglass-half text-gray-500'
-                                }"></i>
-                                ${item.status}
-                            </span>
-                        </td>
-                        <td class="px-6 py-4 text-sm text-gray-900">
-                            ${actionButtonsPrestasi(item.id, item.status)}
-                        </td>
-                    </tr>
-                `;
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 text-sm font-medium text-gray-900">${item.judul}</td>
+                                <td class="px-6 py-4 text-sm text-gray-600">${item.tanggal_mulai}</td>
+                                <td class="px-6 py-4 text-sm text-gray-600">${item.tempat}</td>
+                                <td class="px-6 py-4 text-sm text-gray-600">${pembimbing}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium capitalize
+                                        ${statusConfig.bgClass} ${statusConfig.textClass}">
+                                        <i class="${statusConfig.icon}"></i>
+                                        ${item.status}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    ${actionButtonsPrestasi(item.id, item.status)}
+                                </td>
+                            </tr>
+                        `;
                         tbody.append(row);
                     });
                 }
@@ -212,10 +251,70 @@
                 $("#prestasi_info").text(`Menampilkan ${paginated.length} dari ${totalData} data`);
 
                 let paginationHtml = '';
-                for (let i = 1; i <= totalPages; i++) {
-                    paginationHtml +=
-                        `<button class="px-3 py-2 rounded-md text-sm ${i === currentPage ? 'bg-[#6041CE] text-white' : 'bg-gray-200'} page-btn-prestasi" data-page="${i}">${i}</button>`;
+                if (totalPages > 1) {
+                    
+                    if (lombaCurrentPage > 1) {
+                        paginationHtml += `
+                            <button class="px-3 py-1.5 rounded text-sm font-medium bg-gray-200 hover:bg-gray-300 text-gray-700 page-btn-lomba" 
+                                data-page="${lombaCurrentPage - 1}" aria-label="Previous page">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                        `;
+                    }
+
+                    if (totalPages <= 5) {
+                        for (let i = 1; i <= totalPages; i++) {
+                            paginationHtml += `
+                                <button class="px-3 py-1.5 rounded text-sm font-medium transition-colors duration-200
+                                    ${i === lombaCurrentPage ? 'bg-[#6041CE] text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-700'} 
+                                    page-btn-lomba" data-page="${i}">${i}
+                                </button>
+                            `;
+                        }
+                    } else {
+                        if (lombaCurrentPage > 2) {
+                            paginationHtml += `
+                                <button class="px-3 py-1.5 rounded text-sm font-medium bg-gray-200 hover:bg-gray-300 text-gray-700 page-btn-lomba" 
+                                    data-page="1">1</button>
+                            `;
+
+                            if (lombaCurrentPage > 3) {
+                                paginationHtml += `<span class="px-2 py-1.5 text-gray-500">...</span>`;
+                            }
+                        }
+
+                        for (let i = Math.max(1, lombaCurrentPage - 1); i <= Math.min(totalPages, lombaCurrentPage +
+                                1); i++) {
+                            paginationHtml += `
+                                <button class="px-3 py-1.5 rounded text-sm font-medium transition-colors duration-200
+                                    ${i === lombaCurrentPage ? 'bg-[#6041CE] text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-700'} 
+                                    page-btn-lomba" data-page="${i}">${i}
+                                </button>
+                            `;
+                        }
+
+                        if (lombaCurrentPage < totalPages - 1) {
+                            if (lombaCurrentPage < totalPages - 2) {
+                                paginationHtml += `<span class="px-2 py-1.5 text-gray-500">...</span>`;
+                            }
+
+                            paginationHtml += `
+                                <button class="px-3 py-1.5 rounded text-sm font-medium bg-gray-200 hover:bg-gray-300 text-gray-700 page-btn-lomba" 
+                                    data-page="${totalPages}">${totalPages}</button>
+                            `;
+                        }
+                    }
+
+                    if (lombaCurrentPage < totalPages) {
+                        paginationHtml += `
+                            <button class="px-3 py-1.5 rounded text-sm font-medium bg-gray-200 hover:bg-gray-300 text-gray-700 page-btn-lomba" 
+                                data-page="${lombaCurrentPage + 1}" aria-label="Next page">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        `;
+                    }
                 }
+
                 $("#prestasi_pagination").html(paginationHtml);
 
                 $(".page-btn-prestasi").off("click").on("click", function() {
@@ -237,12 +336,21 @@
                         renderPrestasiTable();
                     },
                     error: function() {
-                        alert('Gagal memuat data prestasi.');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal!',
+                            text: 'Gagal memuat data prestasi.',
+                        });
                     }
                 });
             }
 
-            $('#search-bar, #show-entry').on('input change', function() {
+            $('#search-bar').on('input', function() {
+                currentPage = 1;
+                renderPrestasiTable();
+            });
+
+            $('#show-entry').on('change', function() {
                 currentPage = 1;
                 renderPrestasiTable();
             });
@@ -250,6 +358,12 @@
             loadPrestasi();
         });
     </script>
+
+    <style>
+        .action-btn {
+            @apply inline-flex items-center justify-center h-8 w-8 rounded-full transition-colors duration-200;
+        }
+    </style>
 
     @if (session('success'))
         <script>
