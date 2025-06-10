@@ -924,7 +924,6 @@
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
-            // Fungsi untuk mengupdate chart berdasarkan metode yang dipilih
             function updateChart(metode) {
                 const ctx = document.getElementById('chartPrestasi').getContext('2d');
                 const data = {
@@ -955,12 +954,10 @@
                 });
             }
 
-            // Event listener untuk dropdown
             document.getElementById('metode').addEventListener('change', function() {
                 updateChart(this.value);
             });
 
-            // Inisialisasi chart dengan metode default
             updateChart('entropy');
         </script>
         <script>

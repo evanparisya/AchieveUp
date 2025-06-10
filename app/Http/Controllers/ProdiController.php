@@ -9,13 +9,13 @@ class ProdiController extends Controller
 {
     public function index()
     {
-        $breadcrumb = (object)[
+        $breadcrumb = (object) [
             'title' => 'Daftar Program Studi',
-            'list' => ['Home', 'Manajemen Program Studi']
+            'list' => ['Home', 'Manajemen Program Studi'],
         ];
 
-        $page = (object)[
-            'title' => 'Daftar Program Studi'
+        $page = (object) [
+            'title' => 'Daftar Program Studi',
         ];
 
         $activeMenu = 'prodi';
@@ -46,13 +46,13 @@ class ProdiController extends Controller
 
     public function create()
     {
-        $breadcrumb = (object)[
+        $breadcrumb = (object) [
             'title' => 'Tambah Prodi',
-            'list' => ['Home', 'Prodi', 'Tambah Prodi']
+            'list' => ['Home', 'Prodi', 'Tambah Prodi'],
         ];
 
-        $page = (object)[
-            'title' => 'Tambah Program Studi'
+        $page = (object) [
+            'title' => 'Tambah Program Studi',
         ];
 
         $activeMenu = 'prodi';
@@ -80,13 +80,13 @@ class ProdiController extends Controller
     {
         $prodi = ProgramStudi::findOrFail($id);
 
-        $breadcrumb = (object)[
+        $breadcrumb = (object) [
             'title' => 'Edit Prodi',
-            'list' => ['Home', 'Prodi', 'Edit Prodi']
+            'list' => ['Home', 'Prodi', 'Edit Prodi'],
         ];
 
-        $page = (object)[
-            'title' => 'Edit Program Studi'
+        $page = (object) [
+            'title' => 'Edit Program Studi',
         ];
 
         $activeMenu = 'prodi';
@@ -120,7 +120,7 @@ class ProdiController extends Controller
             if ($prodi->mahasiswa()->exists()) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Program Studi tidak dapat dihapus karena memiliki data mahasiswa.'
+                    'message' => 'Program Studi tidak dapat dihapus karena memiliki data mahasiswa.',
                 ], 400);
             }
 
@@ -128,26 +128,26 @@ class ProdiController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Program Studi berhasil dihapus.'
+                'message' => 'Program Studi berhasil dihapus.',
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal menghapus Program Studi: ' . $e->getMessage()
+                'message' => 'Gagal menghapus Program Studi: ' . $e->getMessage(),
             ], 500);
         }
     }
 
     public function show($id)
     {
-        $prodi = $this->getProdi($id);
+        $prodi = ProgramStudi::with('mahasiswa')->findOrFail($id);
         $breadcrumb = (object) [
             'title' => 'Detail Program Studi',
-            'list' => ['Home', 'Program Studi', 'Detail']
+            'list' => ['Home', 'Program Studi', 'Detail'],
         ];
 
         $page = (object) [
-            'title' => 'Detail data Program Stdi'
+            'title' => 'Detail data Program Stdi',
         ];
 
         $activeMenu = 'prodi';

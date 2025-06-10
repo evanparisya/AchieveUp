@@ -20,4 +20,5 @@ class ProgramStudi extends Model
     {
         return $this->hasMany(Mahasiswa::class, 'program_studi_id');
     }
+    
 }

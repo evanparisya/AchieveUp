@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Prestasi;
 use App\Models\PrestasiNote;
-use App\Models\PrestasiVerification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -14,13 +13,13 @@ class VerifikasiPrestasiController extends Controller
 {
     public function index(Request $request)
     {
-        $breadcrumb = (object)[
+        $breadcrumb = (object) [
             'title' => 'Verifikasi Prestasi',
-            'list' => ['Home', 'Verifikasi Prestasi']
+            'list' => ['Home', 'Verifikasi Prestasi'],
         ];
 
-        $page = (object)[
-            'title' => 'Daftar prestasi yang diajukan'
+        $page = (object) [
+            'title' => 'Daftar prestasi yang diajukan',
         ];
 
         $activeMenu = 'prestasi';
@@ -40,116 +39,108 @@ class VerifikasiPrestasiController extends Controller
             ->get();
 
         return response()->json([
-            'data' => $prestasis
+            'data' => $prestasis,
         ]);
     }
     public function approve(Request $request, $id)
-{
-    if (!Auth::guard('dosen')->check() || Auth::guard('dosen')->user()->role !== 'admin') {
-        Log::warning('Unauthorized access attempt', [
-            'user_id' => Auth::guard('dosen')->check() ? Auth::guard('dosen')->id() : null,
-            'role'    => Auth::guard('dosen')->check() ? Auth::guard('dosen')->user()->role : 'not authenticated',
-        ]);
-        return response()->json([
-            'success' => false,
-            'message' => 'Tidak diizinkan menyetujui prestasi.'
-        ], 403);
+    {
+        if (!Auth::guard('dosen')->check() || Auth::guard('dosen')->user()->role !== 'admin') {
+            Log::warning('Unauthorized access attempt', [
+                'user_id' => Auth::guard('dosen')->check() ? Auth::guard('dosen')->id() : null,
+                'role' => Auth::guard('dosen')->check() ? Auth::guard('dosen')->user()->role : 'not authenticated',
+            ]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Tidak diizinkan menyetujui prestasi.',
+            ], 403);
+        }
+
+        try {
+            $prestasi = Prestasi::findOrFail($id);
+            $prestasi->update(['status' => 'disetujui']);
+
+            $note = PrestasiNote::create([
+                'prestasi_id' => $prestasi->id,
+                'dosen_id' => Auth::guard('dosen')->id(),
+                'status' => 'disetujui',
+                'note' => null,
+            ]);
+
+            $mahasiswaList = DB::table('prestasi_mahasiswa')->where('prestasi_id', $prestasi->id)->get();
+
+            foreach ($mahasiswaList as $mhs) {
+                DB::table('mahasiswa_prestasi_notes')->insert([
+                    'mahasiswa_id' => $mhs->mahasiswa_id,
+                    'prestasi_notes_id' => $note->id,
+                    'is_accepted' => true,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+
+            Log::info('Prestasi approved', ['prestasi_id' => $prestasi->id]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Prestasi berhasil disetujui.',
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error approving prestasi', ['error' => $e->getMessage()]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan.',
+            ], 500);
+        }
     }
 
-    try {
+    public function reject(Request $request, $id)
+    {
+        if (!Auth::guard('dosen')->check() || Auth::guard('dosen')->user()->role !== 'admin') {
+            abort(403, 'Tidak diizinkan menolak prestasi.');
+        }
+
+        $request->validate([
+            'note' => 'required|string|max:1000',
+        ]);
+
         $prestasi = Prestasi::findOrFail($id);
-        $prestasi->update(['status' => 'disetujui']);
+        $prestasi->update(['status' => 'ditolak']);
 
         $note = PrestasiNote::create([
             'prestasi_id' => $prestasi->id,
-            'dosen_id'    => Auth::guard('dosen')->id(),
-            'status'      => 'disetujui',
-            'note'        => null,
+            'dosen_id' => Auth::guard('dosen')->id(),
+            'status' => 'ditolak',
+            'note' => $request->input('note'),
         ]);
 
-        // Ambil semua mahasiswa yang terkait
         $mahasiswaList = DB::table('prestasi_mahasiswa')->where('prestasi_id', $prestasi->id)->get();
 
         foreach ($mahasiswaList as $mhs) {
             DB::table('mahasiswa_prestasi_notes')->insert([
                 'mahasiswa_id'       => $mhs->mahasiswa_id,
                 'prestasi_notes_id'  => $note->id,
-                'is_accepted'        => true,
+                'is_accepted'        => false,
                 'created_at'         => now(),
                 'updated_at'         => now(),
             ]);
 
-            // TODO: Gantikan ini dengan sistem notifikasi yang kamu pakai
-            // Contoh broadcast, email, atau notification model
-            // event(new MahasiswaPrestasiApproved($mhs->mahasiswa_id, $prestasi->id));
         }
-
-        Log::info('Prestasi approved', ['prestasi_id' => $prestasi->id]);
 
         return response()->json([
             'success' => true,
-            'message' => 'Prestasi berhasil disetujui.'
+            'message' => 'Prestasi berhasil ditolak.',
         ]);
-    } catch (\Exception $e) {
-        Log::error('Error approving prestasi', ['error' => $e->getMessage()]);
-        return response()->json([
-            'success' => false,
-            'message' => 'Terjadi kesalahan.'
-        ], 500);
     }
-}
-
-public function reject(Request $request, $id)
-{
-    if (!Auth::guard('dosen')->check() || Auth::guard('dosen')->user()->role !== 'admin') {
-        abort(403, 'Tidak diizinkan menolak prestasi.');
-    }
-
-    $request->validate([
-        'note' => 'required|string|max:1000'
-    ]);
-
-    $prestasi = Prestasi::findOrFail($id);
-    $prestasi->update(['status' => 'ditolak']);
-
-    $note = PrestasiNote::create([
-        'prestasi_id' => $prestasi->id,
-        'dosen_id'    => Auth::guard('dosen')->id(),
-        'status'      => 'ditolak',
-        'note'        => $request->input('note'),
-    ]);
-
-    $mahasiswaList = DB::table('prestasi_mahasiswa')->where('prestasi_id', $prestasi->id)->get();
-
-    foreach ($mahasiswaList as $mhs) {
-        DB::table('mahasiswa_prestasi_notes')->insert([
-            'mahasiswa_id'       => $mhs->mahasiswa_id,
-            'prestasi_notes_id'  => $note->id,
-            'is_accepted'        => false,
-            'created_at'         => now(),
-            'updated_at'         => now(),
-        ]);
-
-        // TODO: Kirim notifikasi penolakan ke mahasiswa
-        // event(new MahasiswaPrestasiRejected($mhs->mahasiswa_id, $prestasi->id, $request->input('note')));
-    }
-
-    return response()->json([
-        'success' => true,
-        'message' => 'Prestasi berhasil ditolak.'
-    ]);
-}
-
 
     public function show($id)
     {
-        $breadcrumb = (object)[
+        $breadcrumb = (object) [
             'title' => 'Detail Prestasi',
-            'list' => ['Home', 'Prestasi', 'Detail']
+            'list' => ['Home', 'Prestasi', 'Detail'],
         ];
 
-        $page = (object)[
-            'title' => 'Detail Prestasi'
+        $page = (object) [
+            'title' => 'Detail Prestasi',
         ];
 
         $activeMenu = 'prestasi';

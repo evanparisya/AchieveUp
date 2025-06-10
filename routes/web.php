@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BidangController;
 use App\Http\Controllers\BimbinganController;
 use App\Http\Controllers\DashboardAdmin;
 use App\Http\Controllers\DashboardDosen;
@@ -8,13 +9,13 @@ use App\Http\Controllers\DashboardMahasiswa;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\LombaController;
 use App\Http\Controllers\LombaDosenController;
+use App\Http\Controllers\LombaMahasiswaController;
+use App\Http\Controllers\NotifikasiAdmin;
+use App\Http\Controllers\NotifikasiDosenPembimbing;
 use App\Http\Controllers\NotifikasiMahasiswa;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\PrestasiMahasiswaController;
 use App\Http\Controllers\ProdiController;
-use App\Http\Controllers\BidangController;
-use App\Http\Controllers\LombaMahasiswaController;
-use App\Http\Controllers\NotifikasiDosenPembimbing;
 use App\Http\Controllers\ProfilAdminController;
 use App\Http\Controllers\ProfilDosenPembimbingController;
 use App\Http\Controllers\ProfilMahasiswaController;
@@ -37,6 +38,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::post('login', [AuthController::class, 'postLogin']);
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/register', [AuthController::class, 'showRegisterMahasiswa'])->name('register');
+Route::post('/register', [AuthController::class, 'registerMahasiswa'])->name('register.post');
+Route::get('/forgot_password', [AuthController::class, 'showForgotPassword'])->name('forgot_password');
+Route::post('/cek_user_input', [AuthController::class, 'cekUserInput'])->name('cek_user_input.post');
+Route::get('/ganti_password', [AuthController::class, 'showGantiPassword'])->name('ganti_password');
+Route::post('/forgot_password', [AuthController::class, 'forgotPassword'])->name('forgot_password.post');
+Route::post('/simpan_password', [AuthController::class, 'simpanPassword'])->name('simpan_password.post');
 
 Route::get('/landing', [LandingController::class, 'index']);
 
@@ -67,7 +75,8 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
         Route::get('/dosen/{id}/update', [UserController::class, 'showUpdateDosenForm'])->name('admin.users.dosen.update.form');
         Route::put('/dosen/{id}/update', [UserController::class, 'updateDosen'])->name('admin.users.dosen.update');
 
-        Route::get('/{id}', [UserController::class, 'show'])->name('admin.users.show');
+        Route::get('/mahasiswa/{id}', [UserController::class, 'showMahasiswa'])->name('admin.users.mahasiswa.detail');
+        Route::get('/dosen/{id}', [UserController::class, 'showDosen'])->name('admin.users.dosen.detail');
     });
 
     Route::prefix('prestasi')->name('prestasi.')->group(function () {
@@ -81,6 +90,14 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
 
     Route::prefix('periode')->name('periode.')->group(function () {
         Route::get('/', [PeriodeController::class, 'index'])->name('index');
+        Route::get('/getall', [PeriodeController::class, 'getall'])->name('getall');
+        Route::get('/create', [PeriodeController::class, 'create'])->name('create');
+        Route::post('/store', [PeriodeController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [PeriodeController::class, 'edit'])->name('edit');
+        Route::get('/detail/{id}', [PeriodeController::class, 'show'])->name('detail');
+        Route::put('/{id}/activate', [PeriodeController::class, 'activate'])->name('periode.activate');
+        Route::put('/update/{id}', [PeriodeController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [PeriodeController::class, 'destroy'])->name('delete');
     });
 
     Route::prefix('lomba')->name('lomba.')->group(function () {
@@ -92,14 +109,15 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
         Route::post('/pengajuan/approve/{id}', [LombaController::class, 'approvePengajuan'])->name('approve');
         Route::post('/pengajuan/reject/{id}', [LombaController::class, 'rejectPengajuan'])->name('reject');
 
-        Route::get('/{id}', [LombaController::class, 'show'])->name('detail');        
+        Route::get('/{id}', [LombaController::class, 'show'])->name('detail');
+        Route::get('/pengajuan/{id}', [LombaController::class, 'showPengajuan'])->name('pengajuan.show');
 
         Route::get('/create', [LombaController::class, 'create'])->name('create');
         Route::post('/store', [LombaController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [LombaController::class, 'edit'])->name('edit');
         Route::put('/update/{id}', [LombaController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [LombaController::class, 'destroy'])->name('delete');
-        Route::get('/{id}', [LombaController::class, 'show'])->name('detail');
+
     });
 
     Route::prefix('prodi')->name('prodi.')->group(function () {
@@ -118,7 +136,6 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
         Route::get('/create', [BidangController::class, 'create'])->name('create');
         Route::get('/getall', [BidangController::class, 'getall'])->name('getall');
         Route::get('/{id}', [BidangController::class, 'show'])->name('detail');
-
 
         Route::post('/store', [BidangController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [BidangController::class, 'edit'])->name('edit');
@@ -141,6 +158,19 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
         Route::get('/{id}', [RekomendasiLombaController::class, 'show'])->name('detail');
         Route::delete('/delete/{id}', [RekomendasiLombaController::class, 'destroy'])->name('delete');
     });
+
+    Route::prefix('notifikasi')->name('notifikasi.')->group(function () {
+        Route::get('/', [NotifikasiAdmin::class, 'index'])->name('index');
+        Route::get('getAll', [NotifikasiAdmin::class, 'getAllNotifikasi'])->name('getAll');
+        Route::post('/markAsRead', [NotifikasiAdmin::class, 'markAsRead'])->name('markAsRead');
+        Route::post('/markAllAsRead', [NotifikasiAdmin::class, 'markAllAsRead'])->name('markAllAsRead');
+        Route::post('/destroyIsAccpeptedMessege', [NotifikasiAdmin::class, 'destroyIsAccpeptedMessege'])->name('destroyIsAccpeptedMessege');
+
+        // Dynamic routes based on type
+        Route::get('{type}/{id}', [NotifikasiAdmin::class, 'show'])->name('detail');
+        Route::delete('{type}/{id}', [NotifikasiAdmin::class, 'destroy'])->name('delete');
+
+    });
 });
 
 Route::middleware(['dosen:dosen pembimbing'])->prefix('dosen_pembimbing')->name('dosen.')->group(function () {
@@ -152,7 +182,7 @@ Route::middleware(['dosen:dosen pembimbing'])->prefix('dosen_pembimbing')->name(
         Route::get('/{id}', [BimbinganController::class, 'detail'])->name('detail');
     });
 
-    Route::prefix('profil')->name('profil.')->group(function(){
+    Route::prefix('profil')->name('profil.')->group(function () {
         Route::get('/', [ProfilDosenPembimbingController::class, 'index'])->name('index');
         Route::get('/edit', [ProfilDosenPembimbingController::class, 'edit'])->name('edit');
         Route::put('/update/{id}', [ProfilDosenPembimbingController::class, 'update'])->name('update');
@@ -208,6 +238,9 @@ Route::middleware(['mahasiswa'])->prefix('mahasiswa')->name('mahasiswa.')->group
         Route::put('/update/{id}', [LombaMahasiswaController::class, 'update'])->name('update');
 
         Route::delete('/{id}', [LombaMahasiswaController::class, 'destroyPengajuan'])->name('destroy');
+
+        Route::get('/pengajuan/{id}', [LombaMahasiswaController::class, 'showPengajuan'])->name('pengajuan.show');
+        Route::get('/{id}', [LombaMahasiswaController::class, 'show'])->name('show');
     });
 
     Route::prefix('profil')->name('profil.')->group(function () {

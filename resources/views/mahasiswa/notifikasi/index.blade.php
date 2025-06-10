@@ -5,14 +5,16 @@
 @section('content')
     <div class="container mx-auto max-w-2xl p-4">
         <h2 class="text-xl font-bold mb-4">Notifikasi</h2>
-        <div class="flex justify-end mb-4 gap-2">
-            <button id="mark-all" class="px-3 py-1 bg-green-600 text-white rounded text-sm hover:bg-green-700">
-                Tandai Semua Sudah Dibaca
+        <div class="flex justify-end gap-2 mb-4 animate-fade-in">
+            <button id="mark-all"
+                class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg shadow transition">
+                Tandai Semua
             </button>
-            <button id="delete-read" class="px-3 py-1 bg-red-600 text-white rounded text-sm hover:bg-red-700">
-                Hapus Pesan yang Sudah Dibaca
+            <button id="delete-read" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg shadow transition">
+                Hapus Semua
             </button>
         </div>
+
 
         <div id="notif-list">
             <div class="text-gray-500 text-center py-8" id="notif-loading">Memuat notifikasi...</div>
@@ -27,20 +29,92 @@
                     .then(res => {
                         let html = '';
                         if (res.data && res.data.length > 0) {
-                            html += '<ul class="space-y-4">';
+                            html += '<ul class="space-y-4 animate-fade-in">';
                             res.data.forEach(item => {
+                                let statusText = '';
+                                let pesanText = '';
+                                if (item.type === 'pengajuan_lomba') {
+                                    jenis = `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                            Pengajuan Lomba
+                                        </span>`;
+                                    let icon = '';
+                                    let statusLabel = '';
+                                    let statusClass = '';
+                                    if (item.status === 'approved') {
+                                        icon =
+                                            `<i class="fas fa-check-circle text-green-500 mr-1 text-sm"></i>`;
+                                        statusLabel = 'Disetujui';
+                                        statusClass =
+                                            'bg-green-100 text-green-800 border border-green-300';
+                                    } else if (item.status === 'rejected') {
+                                        icon =
+                                            `<i class="fas fa-times-circle text-red-500 mr-1 text-sm"></i>`;
+                                        statusLabel = 'Ditolak';
+                                        statusClass = 'bg-red-100 text-red-800 border border-red-300';
+                                    } else {
+                                        icon =
+                                            `<i class="fas fa-hourglass-half text-gray-500 mr-1 text-sm"></i>`;
+                                        statusLabel = 'Diproses';
+                                        statusClass =
+                                            'bg-gray-100 text-gray-700 border border-gray-300';
+                                    }
+                                    statusText =
+                                        `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${statusClass}">
+                                            ${icon}${statusLabel}
+                                        </span>`;
+                                    pesanText =
+                                        `<div class="text-xs text-blue-600">${item.catatan ?? ''}</div>`;
+                                } else if (item.type === 'verifikasi') {
+                                    jenis = `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                            Verifikasi Prestasi
+                                        </span>`;
+                                    let icon = '';
+                                    let statusLabel = '';
+                                    let statusClass = '';
+                                    if (item.status === 'disetujui') {
+                                        icon =
+                                            `<i class="fas fa-check-circle text-green-500 mr-1 text-sm"></i>`;
+                                        statusLabel = 'Disetujui';
+                                        statusClass =
+                                            'bg-green-100 text-green-700 border border-green-300';
+                                    } else if (item.status === 'ditolak') {
+                                        icon =
+                                            `<i class="fas fa-times-circle text-red-500 mr-1 text-sm"></i>`;
+                                        statusLabel = 'Ditolak';
+                                        statusClass = 'bg-red-100 text-red-700 border border-red-300';
+                                    } else {
+                                        icon =
+                                            `<i class="fas fa-hourglass-half text-gray-500 mr-1 text-sm"></i>`;
+                                        statusLabel = 'Diproses';
+                                        statusClass =
+                                            'bg-gray-100 text-gray-700 border border-gray-300';
+                                    }
+                                    statusText =
+                                        `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${statusClass}">
+                                            ${icon}${statusLabel}
+                                        </span>`;
+                                } else {
+                                    jenis = `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                            Rekomendasi Lomba
+                                        </span>`;;
+                                }
+
                                 html += `
-                                <li class="notif-item bg-white rounded shadow p-4 flex flex-col md:flex-row md:items-center md:justify-between ${item.is_accepted ? '' : 'border-l-4 border-blue-500'} relative"
-                                    data-id="${item.id}" data-type="${item.type}" data-read="${item.is_accepted}" style="cursor:pointer;">
-                                    <div>
-                                        <div class="font-semibold">${item.judul}</div>
-                                        <div class="text-sm text-gray-600 mb-1">${item.periode_pendaftaran ?? item.created_at}</div>
-                                        <div class="text-xs ${item.is_accepted ? 'text-green-600' : 'text-blue-600'}">
-                                            ${item.pesan ?? ''}
+                                    <li class="notif-item bg-white rounded-xl border border-gray-200 hover:bg-gray-50 transition p-4 flex flex-row items-center justify-between gap-4 ${item.is_accepted ? '' : 'border-l-4 border-blue-500'} relative"
+                                        data-id="${item.id}" data-type="${item.type}" data-read="${item.is_accepted}" style="cursor:pointer;">
+                                        <div class="flex-1 min-w-0">
+                                            <div class="flex items-center gap-2 mb-1">
+                                                <div class="font-semibold truncate">${item.judul}</div>
+                                                ${jenis}
+                                            </div>
+                                            <div class="flex items-center gap-3 flex-wrap">
+                                                <div class="text-sm text-gray-600">${item.created_at}</div>
+                                                ${statusText}
+                                            </div>
+                                            ${pesanText}
                                         </div>
-                                    </div>
-                                    ${!item.is_accepted ? `<span class="absolute top-2 right-2 block w-4 h-4 rounded-full bg-red-600 border-2 border-white"></span>` : ''}
-                                </li>`;
+                                        ${!item.is_accepted ? `<span class="ml-2 block w-4 h-4 rounded-full bg-red-600 border-2 border-white"></span>` : ''}
+                                    </li>`;
                             });
                             html += '</ul>';
                         } else {
@@ -153,4 +227,22 @@
             });
         });
     </script>
+    <style>
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fade-in 0.4s ease-out;
+        }
+    </style>
+
 @endsection
