@@ -385,10 +385,10 @@
                 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
                 const prestasiData = [65, 59, 80, 81, 56, 55, 40];
 
-                const primaryColor = '#6366F1'; 
-                const secondaryColor = '#8B5CF6'; 
-                const tertiaryColor = '#EC4899'; 
-                const quaternaryColor = '#F97316'; 
+                const primaryColor = '#6366F1';
+                const secondaryColor = '#8B5CF6';
+                const tertiaryColor = '#EC4899';
+                const quaternaryColor = '#F97316';
 
                 const defaultOptions = {
                     responsive: true,
@@ -421,6 +421,7 @@
                             boxPadding: 6,
                             usePointStyle: true,
                             callbacks: {
+                                // Custom tooltip formatting
                                 labelPointStyle: function() {
                                     return {
                                         pointStyle: 'rectRounded',
