@@ -42,4 +42,9 @@ class Periode extends Model
     {
         return static::where('is_active', true)->first();
     }
+
+    public function prestasi()
+    {
+        return $this->hasMany(Prestasi::class); // atau sesuaikan nama modelnya
+    }
 }
