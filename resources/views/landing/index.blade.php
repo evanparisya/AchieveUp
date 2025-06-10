@@ -28,11 +28,15 @@
 
     @include('landing.categories')
 
+    @include('landing.leaderboard')
+
     @include('landing.cta')
 
     @include('landing.footer')
 
     @vite('resources/js/app.js')
+
+    @stack('scripts')
 </body>
 
 </html>
