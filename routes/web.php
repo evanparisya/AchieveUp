@@ -10,6 +10,7 @@ use App\Http\Controllers\LandingController;
 use App\Http\Controllers\LombaController;
 use App\Http\Controllers\LombaDosenController;
 use App\Http\Controllers\LombaMahasiswaController;
+use App\Http\Controllers\NotifikasiAdmin;
 use App\Http\Controllers\NotifikasiDosenPembimbing;
 use App\Http\Controllers\NotifikasiMahasiswa;
 use App\Http\Controllers\PeriodeController;
@@ -156,6 +157,19 @@ Route::middleware(['dosen:admin'])->prefix('admin')->name('admin.')->group(funct
         Route::get('/getAll', [RekomendasiLombaController::class, 'getAll'])->name('getAll');
         Route::get('/{id}', [RekomendasiLombaController::class, 'show'])->name('detail');
         Route::delete('/delete/{id}', [RekomendasiLombaController::class, 'destroy'])->name('delete');
+    });
+
+    Route::prefix('notifikasi')->name('notifikasi.')->group(function () {
+        Route::get('/', [NotifikasiAdmin::class, 'index'])->name('index');
+        Route::get('getAll', [NotifikasiAdmin::class, 'getAllNotifikasi'])->name('getAll');
+        Route::post('/markAsRead', [NotifikasiAdmin::class, 'markAsRead'])->name('markAsRead');
+        Route::post('/markAllAsRead', [NotifikasiAdmin::class, 'markAllAsRead'])->name('markAllAsRead');
+        Route::post('/destroyIsAccpeptedMessege', [NotifikasiAdmin::class, 'destroyIsAccpeptedMessege'])->name('destroyIsAccpeptedMessege');
+
+        // Dynamic routes based on type
+        Route::get('{type}/{id}', [NotifikasiAdmin::class, 'show'])->name('detail');
+        Route::delete('{type}/{id}', [NotifikasiAdmin::class, 'destroy'])->name('delete');
+
     });
 });
 
